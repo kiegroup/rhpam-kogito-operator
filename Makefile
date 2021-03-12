@@ -10,6 +10,9 @@ BUNDLE_CHANNELS := --channels=$(CHANNELS)
 DEFAULT_CHANNEL=7.x
 BUNDLE_DEFAULT_CHANNEL := --default-channel=$(DEFAULT_CHANNEL)
 BUNDLE_METADATA_OPTS ?= $(BUNDLE_CHANNELS) $(BUNDLE_DEFAULT_CHANNEL)
+# Container runtime engine used for building the images
+BUILDER ?= podman
+CEKIT_CMD := cekit -v --redhat ${cekit_option}
 
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/kiegroup/rhpam-kogito-operator:$(VERSION)
@@ -19,9 +22,6 @@ CRD_OPTIONS ?= "crd:crdVersions=v1"
 # Image tag to build the image with
 IMAGE ?= $(IMG)
 
-# Container runtime engine used for building the images
-BUILDER ?= podman
-
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
@@ -29,7 +29,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-all: generate manifests docker-build
+all: generate manifests container-build
 
 # Run tests
 ENVTEST_ASSETS_DIR = $(shell pwd)/testbin
@@ -75,14 +75,17 @@ generate: controller-gen
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 	./hack/openapi.sh
 
-# Build the docker image
-docker-build:
+# Build the container image
+container-build:
 	cekit -v build $(BUILDER)
-	$(BUILDER) tag operator-runtime ${IMAGE}
-# Push the docker image
-docker-push:
+	$(BUILDER) tag rhpam-7/rhpam-kogito-operator ${IMAGE}
+# Push the container image
+container-push:
 	$(BUILDER) push ${IMAGE}
 
+# prod build
+container-prod-build:
+	$(CEKIT_CMD) build $(BUILDER)
 
 # find or download controller-gen
 # download controller-gen if necessary
@@ -129,6 +132,10 @@ bundle: manifests kustomize
 bundle-build:
 	$(BUILDER) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
+.PHONY: bundle-prod-build
+bundle-prod-build: bundle
+	 $(CEKIT_CMD) --descriptor=image-bundle.yaml build $(BUILDER)
+
 # Push the bundle image.
 .PHONY: bundle-push
 bundle-push:
@@ -146,7 +153,7 @@ catalog-push:
 
 generate-installer: generate manifests kustomize
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
-	$(KUSTOMIZE) build config/default > kogito-operator.yaml
+	$(KUSTOMIZE) build config/default > rhpam-kogito-operator.yaml
 
 # Generate CSV
 csv:

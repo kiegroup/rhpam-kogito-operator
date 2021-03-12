@@ -54,9 +54,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -74,9 +73,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -94,9 +92,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -114,9 +111,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -134,9 +130,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -154,9 +149,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -174,9 +168,8 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
+										Type:   []string{"string"},
+										Format: "",
 									},
 								},
 							},
@@ -198,7 +191,6 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_GitSource(ref common.Reference
 					"uri": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Git URI for the s2i source.",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -247,20 +239,17 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuild(ref common.Referen
 					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
 						},
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildSpec"),
+							Ref: ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildStatus"),
+							Ref: ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildStatus"),
 						},
 					},
 				},
@@ -290,8 +279,7 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref common.R
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.Condition"),
+										Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.Condition"),
 									},
 								},
 							},
@@ -306,7 +294,6 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref common.R
 					"builds": {
 						SchemaProps: spec.SchemaProps{
 							Description: "History of builds",
-							Default:     map[string]interface{}{},
 							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.Builds"),
 						},
 					},
@@ -342,20 +329,17 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntime(ref common.Refer
 					},
 					"metadata": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
 						},
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeSpec"),
+							Ref: ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeStatus"),
+							Ref: ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeStatus"),
 						},
 					},
 				},

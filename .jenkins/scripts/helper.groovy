@@ -75,7 +75,7 @@ void releaseCLI() {
     def darwinFileName = "${cliBaseName}-darwin-amd64.tar.gz"
     def linuxFileName = "${cliBaseName}-linux-amd64.tar.gz"
     def windowsFileName = "${cliBaseName}-windows-amd64.zip"
-    def yamlInstaller = 'kogito-operator.yaml'
+    def yamlInstaller = 'rhpam-kogito-operator.yaml'
     withCredentials([string(credentialsId: env.GITHUB_TOKEN_CREDS_ID, variable: 'GITHUB_TOKEN')]) {
         sh """
             export GITHUB_USER=${getGitAuthor()}

@@ -27,8 +27,8 @@ mkdir -p $TMP_FOLDER
 rm -rf $TMP_FOLDER/*
 
 # Apply all
-sed "s|image: quay.io/kiegroup/.*|image: $IMAGE|g" kogito-operator.yaml > $TMP_FOLDER/kogito-operator.yaml
-kubectl apply -f $TMP_FOLDER/kogito-operator.yaml
+sed "s|image: quay.io/kiegroup/.*|image: $IMAGE|g" rhpam-kogito-operator.yaml > $TMP_FOLDER/rhpam-kogito-operator.yaml
+kubectl apply -f $TMP_FOLDER/rhpam-kogito-operator.yaml
 
 # Clean Up
 rm -rf $TMP_FOLDER/*

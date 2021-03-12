@@ -265,7 +265,7 @@ spec:
                 - --metrics-addr=127.0.0.1:8080
                 - --enable-leader-election
                 command:
-                - /manager
+                - rhpam-kogito-operator-manager
                 env:
                 - name: WATCH_NAMESPACE
                   valueFrom:
