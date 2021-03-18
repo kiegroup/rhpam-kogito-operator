@@ -19,7 +19,7 @@ import (
 	"github.com/kiegroup/kogito-operator/core/client/kubernetes"
 	"github.com/kiegroup/kogito-operator/core/manager"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
+	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -35,7 +35,7 @@ func NewKogitoBuildHandler(context *operator.Context) manager.KogitoBuildHandler
 }
 
 func (k *kogitoBuildHandler) FetchKogitoBuildInstance(key types.NamespacedName) (api.KogitoBuildInterface, error) {
-	instance := &v1.KogitoBuild{}
+	instance := &rhpamv1.KogitoBuild{}
 	if exists, err := kubernetes.ResourceC(k.Client).FetchWithKey(key, instance); err != nil {
 		return nil, err
 	} else if !exists {

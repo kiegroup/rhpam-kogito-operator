@@ -22,7 +22,7 @@ import (
 	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
+	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
 	buildv1 "github.com/openshift/api/build/v1"
 	imagev1 "github.com/openshift/api/image/v1"
@@ -112,7 +112,7 @@ func (r *KogitoBuildReconciler) Reconcile(req ctrl.Request) (result ctrl.Result,
 // SetupWithManager registers the controller with manager
 func (r *KogitoBuildReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	r.Log.Debug("Adding watched objects for KogitoBuild controller")
-	b := ctrl.NewControllerManagedBy(mgr).For(&v1.KogitoBuild{})
+	b := ctrl.NewControllerManagedBy(mgr).For(&rhpamv1.KogitoBuild{})
 	if r.IsOpenshift() {
 		b.Owns(&buildv1.BuildConfig{}).Owns(&imagev1.ImageStream{})
 	}

@@ -21,7 +21,7 @@ import (
 	"github.com/kiegroup/kogito-operator/core/kogitoservice"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
+	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
 	imagev1 "github.com/openshift/api/image/v1"
 	routev1 "github.com/openshift/api/route/v1"
@@ -123,7 +123,7 @@ func (r *KogitoRuntimeReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		},
 	}
 	b := ctrl.NewControllerManagedBy(mgr).
-		For(&v1.KogitoRuntime{}, builder.WithPredicates(pred)).
+		For(&rhpamv1.KogitoRuntime{}, builder.WithPredicates(pred)).
 		Owns(&corev1.Service{}).Owns(&appsv1.Deployment{}).Owns(&corev1.ConfigMap{})
 
 	if r.IsOpenshift() {
