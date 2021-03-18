@@ -1,47 +1,28 @@
-module github.com/kiegroup/kogito-cloud-operator
+module github.com/kiegroup/rhpam-kogito-operator
+
+go 1.14
 
 require (
 	github.com/RHsyseng/operator-utils v0.0.0-20200304191317-2425bf382482
 	github.com/coreos/prometheus-operator v0.40.0
-	github.com/cucumber/gherkin-go/v11 v11.0.0
-	github.com/cucumber/godog v0.11.0
-	github.com/cucumber/messages-go/v10 v10.0.3
-	github.com/go-logr/logr v0.1.0
-	github.com/go-logr/zapr v0.1.1
 	github.com/go-openapi/spec v0.19.7
-	github.com/google/uuid v1.1.1
-	github.com/imdario/mergo v0.3.9
 	github.com/infinispan/infinispan-operator v0.0.0-20210106103300-03aa6d76d1b2
 	github.com/integr8ly/grafana-operator/v3 v3.4.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/machinebox/graphql v0.2.2
-	github.com/matryer/is v1.4.0 // indirect
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210316163042-b2f90df9984d
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.12.1
 	github.com/onsi/gomega v1.10.1
 	github.com/openshift/api v3.9.1-0.20190924102528-32369d4db2ad+incompatible
-	github.com/openshift/client-go v0.0.0-20200116152001-92a2713fa240
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200321030439-57b580e57e88
 	github.com/operator-framework/operator-marketplace v0.0.0-20190919183128-4ef67b2f50e9
-	github.com/sirupsen/logrus v1.7.0 // indirect
-	github.com/spf13/cobra v1.1.1
-	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.6.1
-	go.uber.org/zap v1.15.0
-	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897 // indirect
-	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
-	golang.org/x/tools v0.0.0-20200916195026-c9a70fc28ce3 // indirect
-	gopkg.in/src-d/go-git.v4 v4.13.1
-	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.18.8
 	k8s.io/apiextensions-apiserver v0.18.6
 	k8s.io/apimachinery v0.18.8
 	k8s.io/client-go v12.0.0+incompatible
 	k8s.io/kube-openapi v0.0.0-20200410145947-bcb3869e6f29
 	knative.dev/eventing v0.18.0
-	knative.dev/pkg v0.0.0-20200922164940-4bf40ad82aab
 	sigs.k8s.io/controller-runtime v0.6.3
-	software.sslmate.com/src/go-pkcs12 v0.0.0-20201103104416-57fc603b7f52
 )
 
 replace (
@@ -78,5 +59,3 @@ replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+inc
 
 // Required by Helm
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-
-go 1.14

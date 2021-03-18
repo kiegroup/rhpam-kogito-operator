@@ -15,11 +15,11 @@
 package internal
 
 import (
-	"github.com/kiegroup/kogito-cloud-operator/api"
-	"github.com/kiegroup/kogito-cloud-operator/api/v1beta1"
-	"github.com/kiegroup/kogito-cloud-operator/core/client/kubernetes"
-	"github.com/kiegroup/kogito-cloud-operator/core/manager"
-	"github.com/kiegroup/kogito-cloud-operator/core/operator"
+	"github.com/kiegroup/kogito-operator/api"
+	"github.com/kiegroup/kogito-operator/core/client/kubernetes"
+	"github.com/kiegroup/kogito-operator/core/manager"
+	"github.com/kiegroup/kogito-operator/core/operator"
+	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -37,7 +37,7 @@ func NewKogitoRuntimeHandler(context *operator.Context) manager.KogitoRuntimeHan
 // FetchKogitoRuntimeService provide KogitoRuntime instance for given name and namespace
 func (k *kogitoRuntimeHandler) FetchKogitoRuntimeInstance(key types.NamespacedName) (api.KogitoRuntimeInterface, error) {
 	k.Log.Debug("going to fetch deployed kogito runtime service")
-	instance := &v1beta1.KogitoRuntime{}
+	instance := &v1.KogitoRuntime{}
 	if exists, resultErr := kubernetes.ResourceC(k.Client).FetchWithKey(key, instance); resultErr != nil {
 		k.Log.Error(resultErr, "Error occurs while fetching deployed kogito runtime service instance")
 		return nil, resultErr
@@ -50,7 +50,7 @@ func (k *kogitoRuntimeHandler) FetchKogitoRuntimeInstance(key types.NamespacedNa
 }
 
 func (k *kogitoRuntimeHandler) FetchAllKogitoRuntimeInstances(namespace string) (api.KogitoRuntimeListInterface, error) {
-	kogitoRuntimeServices := &v1beta1.KogitoRuntimeList{}
+	kogitoRuntimeServices := &v1.KogitoRuntimeList{}
 	if err := kubernetes.ResourceC(k.Client).ListWithNamespace(namespace, kogitoRuntimeServices); err != nil {
 		return nil, err
 	}

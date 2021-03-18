@@ -1,10 +1,8 @@
 review:
   - paths:
-      - cmd/**
       - api/**
       - controllers/**
       - internal/**
-      - core/**
     reviewers:
       - ricardozanini
       - spolti

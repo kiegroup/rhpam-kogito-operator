@@ -31,4 +31,4 @@ echo "\n=======> Pretest script path set to ${OP_TEST_PRETEST_CUSTOM_SCRIPT}"
 
 cd "${tempfolder}"
 
-bash <(curl -sL "${SCRIPT_URL}") all  community-operators/kogito-operator/"${version}"
+bash <(curl -sL "${SCRIPT_URL}") all  community-operators/rhpam-kogito-operator/"${version}"

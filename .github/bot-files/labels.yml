@@ -5,14 +5,9 @@
 
 labels:
   - paths:
-      - cmd/**
-    labels:
-      - 'cli 💻'
-  - paths:
       - api/**
       - controllers/**
       - internal/**
-      - core/**
     labels:
       - 'operator :cloud:'
   - paths:
