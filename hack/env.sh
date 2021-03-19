@@ -24,10 +24,10 @@ getOperatorVersion() {
 getLatestOlmReleaseVersion() {
   local tempfolder=$(mktemp -d)
   git clone https://github.com/operator-framework/community-operators/ "${tempfolder}" > /dev/null 2>&1
-  local version=$(cd ${tempfolder}/community-operators/kogito-operator && for i in $(ls -d */); do echo ${i%%/}; done | sort -V | tail -1)
+  local version=$(cd ${tempfolder}/community-operators/rhpam-kogito-operator && for i in $(ls -d */); do echo ${i%%/}; done | sort -V | tail -1)
   echo ${version}
 }
 
 getCsvFile() {
-  echo "${CSV_DIR}/kogito-operator.clusterserviceversion.yaml"
+  echo "${CSV_DIR}/rhpam-kogito-operator.clusterserviceversion.yaml"
 }

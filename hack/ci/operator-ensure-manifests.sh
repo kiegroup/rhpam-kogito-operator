@@ -22,27 +22,31 @@ tempfolder=$(mktemp -d)
 echo "Temporary folder is ${tempfolder}"
 
 version=$(getOperatorVersion)
-latest_released_version=$(getLatestOlmReleaseVersion)
 
 git clone https://github.com/operator-framework/community-operators.git "${tempfolder}"
-mkdir  "${tempfolder}/community-operators/kogito-operator/${version}/"
+mkdir -p "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
 ## copy the latest manifests
-cp -r bundle/manifests/ "${tempfolder}/community-operators/kogito-operator/${version}/"
-cp -r bundle/metadata/ "${tempfolder}/community-operators/kogito-operator/${version}/"
-cp -r bundle/tests/ "${tempfolder}/community-operators/kogito-operator/${version}/"
-cp bundle.Dockerfile "${tempfolder}/community-operators/kogito-operator/${version}/Dockerfile"
+cp -r bundle/manifests/ "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
+cp -r bundle/metadata/ "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
+cp -r bundle/tests/ "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
+cp bundle.Dockerfile "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/Dockerfile"
 
 #Edit dockerfile with correct relative path
-sed -i "s|bundle/manifests|manifests|g" "${tempfolder}/community-operators/kogito-operator/${version}/Dockerfile"
-sed -i "s|bundle/metadata|metadata|g" "${tempfolder}/community-operators/kogito-operator/${version}/Dockerfile"
-sed -i "s|bundle/tests|tests|g" "${tempfolder}/community-operators/kogito-operator/${version}/Dockerfile"
+sed -i "s|bundle/manifests|manifests|g" "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/Dockerfile"
+sed -i "s|bundle/metadata|metadata|g" "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/Dockerfile"
+sed -i "s|bundle/tests|tests|g" "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/Dockerfile"
 #replace image in target CSV
-sed -i  "s|${OPERATOR_IMAGE}|${KIND_IMAGE}|g"  "${tempfolder}/community-operators/kogito-operator/${version}/manifests/kogito-operator.clusterserviceversion.yaml"
-#
-##ensure correct replace field is there
-sed -i "s|replace.*|replaces: kogito-operator.v${latest_released_version}|g" "${tempfolder}/community-operators/kogito-operator/${version}/manifests/kogito-operator.clusterserviceversion.yaml"
+sed -i  "s|${OPERATOR_IMAGE}|${KIND_IMAGE}|g"  "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/manifests/rhpam-kogito-operator.clusterserviceversion.yaml"
 #
 
+
 echo "---> verify CSV updates"
-cat "${tempfolder}/community-operators/kogito-operator/${version}/manifests/kogito-operator.clusterserviceversion.yaml" | grep "${KIND_IMAGE}"
-cat "${tempfolder}/community-operators/kogito-operator/${version}/manifests/kogito-operator.clusterserviceversion.yaml" | grep replaces
+cat "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/manifests/rhpam-kogito-operator.clusterserviceversion.yaml" | grep "${KIND_IMAGE}"
+if grep replaces "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/manifests/rhpam-kogito-operator.clusterserviceversion.yaml"
+then
+  latest_released_version=$(getLatestOlmReleaseVersion)
+  ##ensure correct replace field is there
+  sed -i "s|replace.*|replaces: rhpam-kogito-operator.v${latest_released_version}|g" "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/manifests/rhpam-kogito-operator.clusterserviceversion.yaml"
+  #
+  cat "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/manifests/rhpam-kogito-operator.clusterserviceversion.yaml" | grep "replaces: rhpam-kogito-operator.v${latest_released_version}"
+fi

@@ -16,24 +16,23 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/kiegroup/kogito-cloud-operator/api"
-	"github.com/kiegroup/kogito-cloud-operator/core/framework"
-	"github.com/kiegroup/kogito-cloud-operator/core/infrastructure"
-	"github.com/kiegroup/kogito-cloud-operator/core/kogitobuild"
-	"github.com/kiegroup/kogito-cloud-operator/core/logger"
-	"github.com/kiegroup/kogito-cloud-operator/core/operator"
-	"github.com/kiegroup/kogito-cloud-operator/internal"
+	"github.com/kiegroup/kogito-operator/api"
+	"github.com/kiegroup/kogito-operator/core/framework"
+	"github.com/kiegroup/kogito-operator/core/infrastructure"
+	"github.com/kiegroup/kogito-operator/core/kogitobuild"
+	"github.com/kiegroup/kogito-operator/core/logger"
+	"github.com/kiegroup/kogito-operator/core/operator"
+	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
+	"github.com/kiegroup/rhpam-kogito-operator/internal"
 	buildv1 "github.com/openshift/api/build/v1"
 	imagev1 "github.com/openshift/api/image/v1"
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"time"
 
-	"github.com/kiegroup/kogito-cloud-operator/core/client"
+	"github.com/kiegroup/kogito-operator/core/client"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
-
-	appv1beta1 "github.com/kiegroup/kogito-cloud-operator/api/v1beta1"
 )
 
 const (
@@ -47,9 +46,9 @@ type KogitoBuildReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=app.kiegroup.org,resources=kogitobuilds,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=app.kiegroup.org,resources=kogitobuilds/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=app.kiegroup.org,resources=kogitobuilds/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitobuilds,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitobuilds/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitobuilds/finalizers,verbs=get;update;patch
 // +kubebuilder:rbac:groups=apps,resources=deployments;replicasets,verbs=get;create;list;watch;create;delete;update
 // +kubebuilder:rbac:groups=apps,resources=deployments/finalizers,verbs=update
 // +kubebuilder:rbac:groups=build.openshift.io,resources=*,verbs=get;create;list;watch;create;delete;update
@@ -113,7 +112,7 @@ func (r *KogitoBuildReconciler) Reconcile(req ctrl.Request) (result ctrl.Result,
 // SetupWithManager registers the controller with manager
 func (r *KogitoBuildReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	r.Log.Debug("Adding watched objects for KogitoBuild controller")
-	b := ctrl.NewControllerManagedBy(mgr).For(&appv1beta1.KogitoBuild{})
+	b := ctrl.NewControllerManagedBy(mgr).For(&rhpamv1.KogitoBuild{})
 	if r.IsOpenshift() {
 		b.Owns(&buildv1.BuildConfig{}).Owns(&imagev1.ImageStream{})
 	}

@@ -5,8 +5,6 @@ on:
       - 'api/**.go'
       - 'controllers/**.go'
       - 'internal/**.go'
-      - 'core/**.go'
-      - 'cmd/**.go'
 env:
   GO_VERSION: 1.14
 jobs:
@@ -46,20 +44,6 @@ jobs:
       - name: Run unit tests
         run: |
           ./hack/go-test.sh
-      - name: Upload results of cmd to codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: ./cmd-cover.out
-          flags: cli
-          name: cli-test
-          fail_ci_if_error: true
-      - name: Upload results of operator to codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: ./core-cover.out
-          flags: operator
-          name: operator-test
-          fail_ci_if_error: true
       - name: Upload results of operator to codecov
         uses: codecov/codecov-action@v1
         with:

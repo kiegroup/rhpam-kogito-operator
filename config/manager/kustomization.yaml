@@ -4,5 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-  newName: quay.io/kiegroup/kogito-cloud-operator
-  newTag: 2.0.0-snapshot
+  newName: quay.io/kiegroup/rhpam-kogito-operator
+  newTag: 7.11.0

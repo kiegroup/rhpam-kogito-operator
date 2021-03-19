@@ -18,8 +18,8 @@ import (
 	infinispanv1 "github.com/infinispan/infinispan-operator/pkg/apis/infinispan/v1"
 	grafana "github.com/integr8ly/grafana-operator/v3/pkg/apis/integreatly/v1alpha1"
 	keycloakv1alpha1 "github.com/keycloak/keycloak-operator/pkg/apis/keycloak/v1alpha1"
-	"github.com/kiegroup/kogito-cloud-operator/api/v1beta1"
-	kafkabetav1 "github.com/kiegroup/kogito-cloud-operator/core/infrastructure/kafka/v1beta1"
+	kafkabetav1 "github.com/kiegroup/kogito-operator/core/infrastructure/kafka/v1beta1"
+	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	mongodb "github.com/mongodb/mongodb-kubernetes-operator/pkg/apis/mongodb/v1"
 	appsv1 "github.com/openshift/api/apps/v1"
 	buildv1 "github.com/openshift/api/build/v1"
@@ -54,7 +54,7 @@ func GetRegisteredSchema() *runtime.Scheme {
 	}
 
 	// After upgrading to Operator SDK 0.11.0 we need to add CreateOptions to our own schema. See: https://issues.jboss.org/browse/KOGITO-493
-	metav1.AddToGroupVersion(s, v1beta1.GroupVersion)
+	metav1.AddToGroupVersion(s, rhpamv1.GroupVersion)
 	// https://issues.jboss.org/browse/KOGITO-617
 	metav1.AddToGroupVersion(s, apiextensionsv1beta1.SchemeGroupVersion)
 	metav1.AddToGroupVersion(s, operatormkt.SchemeGroupVersion)
@@ -75,7 +75,7 @@ func GetRegisteredSchema() *runtime.Scheme {
 // getRegisteredSchemeBuilder gets the SchemeBuilder with all the desired APIs registered
 func getRegisteredSchemeBuilder() runtime.SchemeBuilder {
 	return runtime.NewSchemeBuilder(
-		v1beta1.SchemeBuilder.AddToScheme,
+		rhpamv1.AddToScheme,
 		clientgoscheme.AddToScheme,
 		corev1.AddToScheme,
 		coreappsv1.AddToScheme,

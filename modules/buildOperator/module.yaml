@@ -16,10 +16,6 @@ artifacts:
       path: "../../../../controllers"
       dest: /workspace/controllers
 
-    - name: core
-      path: "../../../../core"
-      dest: /workspace/core
-
     - name: internal
       path: "../../../../internal"
       dest: /workspace/internal

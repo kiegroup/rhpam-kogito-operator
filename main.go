@@ -1,34 +1,31 @@
-/*
-
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright 2021 Red Hat, Inc. and/or its affiliates
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 package main
 
 import (
 	"flag"
-	"github.com/kiegroup/kogito-cloud-operator/core/client"
-	"github.com/kiegroup/kogito-cloud-operator/core/logger"
-	"github.com/kiegroup/kogito-cloud-operator/meta"
+	"github.com/kiegroup/kogito-operator/core/client"
+	"github.com/kiegroup/kogito-operator/core/logger"
+	"github.com/kiegroup/rhpam-kogito-operator/controllers"
+	"github.com/kiegroup/rhpam-kogito-operator/meta"
 	"k8s.io/apimachinery/pkg/runtime"
 	"os"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
-
-	"github.com/kiegroup/kogito-cloud-operator/controllers"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -75,44 +72,12 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "KogitoRuntime")
 		os.Exit(1)
 	}
-	if err = (&controllers.KogitoSupportingServiceReconciler{
-		Client: kubeCli,
-		Log:    logger.GetLogger("kogitoSupportingService-controller"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KogitoSupportingService")
-		os.Exit(1)
-	}
 	if err = (&controllers.KogitoBuildReconciler{
 		Client: kubeCli,
 		Log:    logger.GetLogger("kogitoBuild-controller"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "KogitoBuild")
-		os.Exit(1)
-	}
-	if err = (&controllers.KogitoInfraReconciler{
-		Client: kubeCli,
-		Log:    logger.GetLogger("KogitoInfra-controller"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KogitoInfra")
-		os.Exit(1)
-	}
-	if err = (&controllers.FinalizeKogitoSupportingService{
-		Client: kubeCli,
-		Log:    logger.GetLogger("KogitoSupportingService-finalizer"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KogitoSupportingService-finalizer")
-		os.Exit(1)
-	}
-	if err = (&controllers.FinalizeKogitoRuntime{
-		Client: kubeCli,
-		Log:    logger.GetLogger("KogitoRuntime-finalizer"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KogitoRuntime-finalizer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
