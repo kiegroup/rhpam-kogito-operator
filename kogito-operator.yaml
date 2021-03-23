@@ -1105,6 +1105,12 @@ status:
   conditions: []
   storedVersions: []
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rhpam-kogito-operator-controller-manager
+  namespace: rhpam-kogito-operator-system
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -1346,7 +1352,7 @@ roleRef:
   name: rhpam-kogito-operator-leader-election-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: rhpam-kogito-operator-controller-manager
   namespace: rhpam-kogito-operator-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1359,7 +1365,7 @@ roleRef:
   name: rhpam-kogito-operator-manager-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: rhpam-kogito-operator-controller-manager
   namespace: rhpam-kogito-operator-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1372,7 +1378,7 @@ roleRef:
   name: rhpam-kogito-operator-proxy-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: rhpam-kogito-operator-controller-manager
   namespace: rhpam-kogito-operator-system
 ---
 apiVersion: v1
@@ -1430,4 +1436,5 @@ spec:
               fieldPath: metadata.annotations['olm.targetNamespaces']
         image: quay.io/kiegroup/rhpam-kogito-operator:7.11.0
         name: manager
+      serviceAccountName: rhpam-kogito-operator-controller-manager
       terminationGracePeriodSeconds: 10

@@ -235,7 +235,7 @@ spec:
           - subjectaccessreviews
           verbs:
           - create
-        serviceAccountName: default
+        serviceAccountName: rhpam-kogito-operator-controller-manager
       deployments:
       - name: rhpam-kogito-operator-controller-manager
         spec:
@@ -274,6 +274,7 @@ spec:
                 image: quay.io/kiegroup/rhpam-kogito-operator:7.11.0
                 name: manager
                 resources: {}
+              serviceAccountName: rhpam-kogito-operator-controller-manager
               terminationGracePeriodSeconds: 10
       permissions:
       - rules:
@@ -304,7 +305,7 @@ spec:
           verbs:
           - create
           - patch
-        serviceAccountName: default
+        serviceAccountName: rhpam-kogito-operator-controller-manager
     strategy: deployment
   installModes:
   - supported: true
