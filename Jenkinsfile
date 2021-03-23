@@ -31,7 +31,7 @@ pipeline {
                }
             }
         }
-        stage('Test Kogito Operator & CLI') {
+        stage('Test Kogito Operator') {
             steps {
                 sh 'make test'
             }
@@ -39,11 +39,6 @@ pipeline {
         stage('Build Kogito Operator') {
             steps {
                 sh "make BUILDER=${CONTAINER_ENGINE}"
-            }
-        }
-        stage('Build Kogito CLI') {
-            steps {
-                sh 'make build-cli'
             }
         }
         stage('Push Operator Image to Openshift Registry') {
