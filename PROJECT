@@ -1,3 +1,4 @@
+---
 domain: kiegroup.org
 layout: go.kubebuilder.io/v2
 projectName: rhpam-kogito-operator
