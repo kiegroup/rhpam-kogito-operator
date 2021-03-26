@@ -16,9 +16,9 @@ package framework
 
 import (
 	"fmt"
+	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 
 	"github.com/kiegroup/kogito-operator/api"
-	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 
 	"github.com/kiegroup/kogito-operator/core/framework"
@@ -77,7 +77,7 @@ func getKogitoBuildS2IImage() string {
 		return config.GetBuildS2IImageStreamTag()
 	}
 
-	return getKogitoBuildImage(infrastructure.KogitoBuilderImage)
+	return getKogitoBuildImage(kogitobuild.GetDefaultBuilderImage())
 }
 
 func getKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
@@ -86,9 +86,9 @@ func getKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
 		return config.GetBuildRuntimeImageStreamTag()
 	}
 	if kogitoBuild.Spec.Native {
-		imageName = infrastructure.KogitoRuntimeNative
+		imageName = kogitobuild.GetDefaultRuntimeNativeImage()
 	} else {
-		imageName = infrastructure.KogitoRuntimeJVM
+		imageName = kogitobuild.GetDefaultRuntimeJVMImage()
 	}
 	return getKogitoBuildImage(imageName)
 }
