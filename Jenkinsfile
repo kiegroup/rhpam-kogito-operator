@@ -57,11 +57,19 @@ pipeline {
                 lock("BDD tests ${OPENSHIFT_API}")
             }
             stages {
+                stage("Checkout kogito-operator repo"){
+                    steps {
+                        script{
+                            dir('kogito-operator') {
+                                githubscm.checkoutIfExists('kogito-operator', changeAuthor, changeBranch, 'kiegroup', changeTarget, true, ['token' : 'GITHUB_TOKEN', 'usernamePassword' : 'user-kie-ci10'])
+                            }
+                        }
+                    }
+                }
                 stage("Build examples' images for testing"){
                     steps {
                         // Do not build native images for the PR checks
-                        // setting operator_namespaced=true so the operator won't be deployed for building of example images
-                        sh "make build-examples-images tags='~@native' concurrent=3 operator_namespaced=true ${getBDDParameters('never', false)}"
+                        sh "make run-tests tags='~@native && @rhpam' concurrent=3 feature=${env.WORKSPACE}/kogito-operator/test/scripts/examples ${getBDDParameters('never', false)}"
                     }
                     post {
                         always {
@@ -74,15 +82,13 @@ pipeline {
                     steps {
                         // Run just smoke tests to verify basic operator functionality
                         sh """
-                            make run-smoke-tests concurrent=5 ${getBDDParameters('always', true)}
+                            make run-smoke-tests tags='@rhpam' concurrent=5 feature=${env.WORKSPACE}/kogito-operator/test/features ${getBDDParameters('always', true)}
                         """
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: 'test/logs/*/error */*.log', allowEmptyArchive: true
-                            archiveArtifacts artifacts: 'test/logs/*/openshift-operators/*.log', allowEmptyArchive: true
+                            archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
                             junit testResults: 'test/logs/**/junit.xml', allowEmptyResults: true
-                            sh "cd test && go run scripts/prune_namespaces.go"
                         }
                     }
                 }
@@ -107,6 +113,9 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
     testParamsMap["operator_image"] = "${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator"
     testParamsMap["operator_tag"] = "pr-\$(echo \${GIT_COMMIT} | cut -c1-7)"
     
+    // Product operator doesn't have CLI
+    testParamsMap["cr_deployment_only"] = true
+
     if(env.MAVEN_MIRROR_REPOSITORY){
         testParamsMap["maven_mirror"] = env.MAVEN_MIRROR_REPOSITORY
         testParamsMap["maven_ignore_self_signed_certificate"] = true
