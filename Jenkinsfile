@@ -57,19 +57,10 @@ pipeline {
                 lock("BDD tests ${OPENSHIFT_API}")
             }
             stages {
-                stage("Checkout kogito-operator repo"){
-                    steps {
-                        script{
-                            dir('kogito-operator') {
-                                githubscm.checkoutIfExists('kogito-operator', changeAuthor, changeBranch, 'kiegroup', changeTarget, true, ['token' : 'GITHUB_TOKEN', 'usernamePassword' : 'user-kie-ci10'])
-                            }
-                        }
-                    }
-                }
                 stage("Build examples' images for testing"){
                     steps {
                         // Do not build native images for the PR checks
-                        sh "make run-tests tags='~@native && @rhpam' concurrent=3 feature=${env.WORKSPACE}/kogito-operator/test/scripts/examples ${getBDDParameters('never', false)}"
+                        sh "make build-examples-images tags='~@native && @rhpam' concurrent=3 ${getBDDParameters('never', false)}"
                     }
                     post {
                         always {
@@ -82,7 +73,7 @@ pipeline {
                     steps {
                         // Run just smoke tests to verify basic operator functionality
                         sh """
-                            make run-smoke-tests tags='@rhpam' concurrent=5 feature=${env.WORKSPACE}/kogito-operator/test/features ${getBDDParameters('always', true)}
+                            make run-smoke-tests tags='@rhpam' concurrent=5 ${getBDDParameters('always', true)}
                         """
                     }
                     post {
