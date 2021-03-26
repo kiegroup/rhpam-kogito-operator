@@ -22,6 +22,7 @@ import (
 	"github.com/kiegroup/rhpam-kogito-operator/meta"
 	"k8s.io/apimachinery/pkg/runtime"
 	"os"
+	"strings"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -47,7 +48,7 @@ func main() {
 			"Enabling this will ensure there is only one active controller manager.")
 	flag.Parse()
 
-	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
+	ctrl.SetLogger(zap.New(zap.UseDevMode(isDebugMode())))
 	watchNamespace := getWatchNamespace()
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
@@ -105,4 +106,16 @@ func getWatchNamespace() string {
 			"Env Var lookup", watchNamespaceEnvVar)
 	}
 	return ns
+}
+
+func isDebugMode() bool {
+	var debug = "DEBUG"
+	devMode, _ := os.LookupEnv(debug)
+
+	if strings.ToUpper(devMode) == "TRUE" {
+		setupLog.Info("Running in Debug Mode")
+		return true
+	}
+	return false
+
 }
