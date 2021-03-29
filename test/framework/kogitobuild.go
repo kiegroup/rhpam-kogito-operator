@@ -16,6 +16,7 @@ package framework
 
 import (
 	"fmt"
+
 	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 
 	"github.com/kiegroup/kogito-operator/api"
