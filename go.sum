@@ -1118,8 +1118,10 @@ github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd h1:Coekwdh0v
 github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf h1:Sfwm3zLvNUHqG8VO96dpAf+MvB4/XkzDhrVtCX+xvwo=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf/go.mod h1:8eqyE5GxbqaKEqEy1BgPAo3UaZoJDZ0O9mHv+hBN+F8=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210413131523-a9546c7fbe99 h1:Ntnc7E6tNsNajH1zyqiWjkhQa/J5WgVSH1ofFJe3VRQ=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210413131523-a9546c7fbe99/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210416173152-abf330f71728 h1:zaa9jN+fNzEHtEWs5hDuCtAHSvqwMpJJKApxEKec998=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210416173152-abf330f71728/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210420152303-20e4442bc170 h1:5tKd9HcUA/Xrv9ViQ3xwxCShzOhTsmo31rF6pmH6mKE=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210420152303-20e4442bc170/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
