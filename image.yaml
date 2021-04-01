@@ -8,7 +8,6 @@
     repositories:
       - path: modules
     install:
-      - name: org.kie.kogito.gomoddownloader
       - name: org.kie.kogito.builder
 
   osbs:
@@ -45,6 +44,11 @@
     configuration:
       container:
         image_build_method: imagebuilder
+        remote_source:
+          repo: https://github.com/kiegroup/rhpam-kogito-operator
+          ref: db4a5d18f5f52a64083d8f1bd1776ad60a46904c
+          pkg_managers:
+            - gomod
         platforms:
           only:
             - x86_64
