@@ -60,3 +60,6 @@ replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+inc
 
 // Required by Helm
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+
+// TODO remove once dependent PR is merged
+replace github.com/kiegroup/kogito-operator => github.com/radtriste/kogito-operator v0.0.0-20210406191637-0c6a48be5404

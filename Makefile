@@ -197,16 +197,24 @@ TEST_DIR=test
 run-tests: download-kogito-operator-test-makefile
 	@(cd $(TEST_DIR) && $(MAKE) $@)
 
+.PHONY: build-examples-images
+build-examples-images: download-kogito-operator-test-makefile
+	@(cd $(TEST_DIR) && $(MAKE) $@)
+
 .PHONY: run-smoke-tests
 run-smoke-tests: download-kogito-operator-test-makefile
+	@(cd $(TEST_DIR) && $(MAKE) $@)
+
+.PHONY: build-smoke-examples-images
+build-smoke-examples-images: download-kogito-operator-test-makefile
 	@(cd $(TEST_DIR) && $(MAKE) $@)
 
 .PHONY: run-performance-tests
 run-performance-tests: download-kogito-operator-test-makefile
 	@(cd $(TEST_DIR) && $(MAKE) $@)
 
-.PHONY: build-examples-images
-build-examples-images: download-kogito-operator-test-makefile
+.PHONY: build-performance-examples-images
+build-performance-examples-images: download-kogito-operator-test-makefile
 	@(cd $(TEST_DIR) && $(MAKE) $@)
 
 download-kogito-operator-test-makefile:

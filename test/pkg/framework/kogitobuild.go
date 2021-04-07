@@ -23,9 +23,9 @@ import (
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 
 	"github.com/kiegroup/kogito-operator/core/framework"
-	"github.com/kiegroup/kogito-operator/test/config"
-	kogitoFramework "github.com/kiegroup/kogito-operator/test/framework"
-	bddtypes "github.com/kiegroup/kogito-operator/test/types"
+	"github.com/kiegroup/kogito-operator/test/pkg/config"
+	kogitoFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
+	bddtypes "github.com/kiegroup/kogito-operator/test/pkg/types"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

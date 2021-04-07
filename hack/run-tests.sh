@@ -37,6 +37,7 @@ cd ${current_dir}
 
 cp -r ${kogito_operator_dir}/hack ../hack-kogito-operator
 cp -r ${kogito_operator_dir}/test/features features
+cp -r ${kogito_operator_dir}/test/examples examples
 cp -r ${kogito_operator_dir}/test/scripts scripts
 
 echo '---- Running tests ----'
@@ -46,4 +47,5 @@ echo '---- Removing files ----'
 rm -rf ../hack-kogito-operator
 rm -rf features
 rm -rf scripts
+rm -rf examples
 rm -rf ${tmp_dir}

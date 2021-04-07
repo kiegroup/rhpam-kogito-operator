@@ -25,8 +25,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/kiegroup/kogito-operator/test/framework"
-	bddtypes "github.com/kiegroup/kogito-operator/test/types"
+	"github.com/kiegroup/kogito-operator/test/pkg/framework"
+	bddtypes "github.com/kiegroup/kogito-operator/test/pkg/types"
 )
 
 // DeployRuntimeService deploy a Kogito service

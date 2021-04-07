@@ -21,8 +21,8 @@ import (
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/test/steps/mappers"
-	"github.com/kiegroup/kogito-operator/test/types"
+	"github.com/kiegroup/kogito-operator/test/pkg/steps/mappers"
+	"github.com/kiegroup/kogito-operator/test/pkg/types"
 )
 
 // *** Whenever you add new parsing functionality here please add corresponding DataTable example to every file in steps which can use the functionality ***

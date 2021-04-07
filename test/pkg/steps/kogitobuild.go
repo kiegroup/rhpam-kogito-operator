@@ -18,12 +18,12 @@ import (
 	"path/filepath"
 
 	"github.com/kiegroup/kogito-operator/api"
-	"github.com/kiegroup/rhpam-kogito-operator/test/framework"
+	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
 
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/test/config"
-	bddtypes "github.com/kiegroup/kogito-operator/test/types"
-	"github.com/kiegroup/rhpam-kogito-operator/test/steps/mappers"
+	"github.com/kiegroup/kogito-operator/test/pkg/config"
+	bddtypes "github.com/kiegroup/kogito-operator/test/pkg/types"
+	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/steps/mappers"
 )
 
 /*
