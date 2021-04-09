@@ -64,8 +64,8 @@ pipeline {
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: 'test/**/logs/*/error */*.log', allowEmptyArchive: true
-                            junit testResults: 'test/**/logs/**/junit.xml', allowEmptyResults: true
+                            archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
+                            junit testResults: 'test/logs/junit.xml', allowEmptyResults: true
                         }
                     }
                 }
@@ -78,8 +78,8 @@ pipeline {
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: 'test/**/logs/**/*.log', allowEmptyArchive: true
-                            junit testResults: 'test/**/logs/**/junit.xml', allowEmptyResults: true
+                            archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
+                            junit testResults: 'test/logs/junit.xml', allowEmptyResults: true
                         }
                     }
                 }
