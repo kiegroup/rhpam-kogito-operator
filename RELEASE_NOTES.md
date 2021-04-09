@@ -5,6 +5,6 @@ Please, see the upstream [RELEASE NOTES](https://github.com/kiegroup/kogito-oper
 ## Enhancements  
 
 ## Bug Fixes
-
+- [KOGITO-4894](https://issues.redhat.com/browse/KOGITO-4894) - Remove `image` default value in KogitoRuntime CR (problem in OCP console)
 ## Known Issues
 -->
