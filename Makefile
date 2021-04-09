@@ -195,33 +195,57 @@ TEST_DIR=test
 
 .PHONY: run-tests
 run-tests: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
 .PHONY: build-examples-images
 build-examples-images: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
 .PHONY: run-smoke-tests
 run-smoke-tests: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
 .PHONY: build-smoke-examples-images
 build-smoke-examples-images: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	@(current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret)
 
 .PHONY: run-performance-tests
 run-performance-tests: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
 .PHONY: build-performance-examples-images
 build-performance-examples-images: tests-prepare
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-	$(MAKE) test-clean
+	@(current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret)
 
 .PHONY: tests-prepare
 tests-prepare:
