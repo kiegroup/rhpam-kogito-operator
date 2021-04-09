@@ -60,12 +60,12 @@ pipeline {
                 stage("Build examples' images for testing"){
                     steps {
                         // Do not build native images for the PR checks
-                        sh "make build-examples-images tags='~@native && @rhpam' concurrent=3 ${getBDDParameters('never', false)}"
+                        sh "make build-smoke-examples-images tags='@rhpam' concurrent=3 ${getBDDParameters('never', false)}"
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: 'test/logs/*/error */*.log', allowEmptyArchive: true
-                            junit testResults: 'test/logs/**/junit.xml', allowEmptyResults: true
+                            archiveArtifacts artifacts: 'test/**/logs/*/error */*.log', allowEmptyArchive: true
+                            junit testResults: 'test/**/logs/**/junit.xml', allowEmptyResults: true
                         }
                     }
                 }
@@ -78,8 +78,8 @@ pipeline {
                     }
                     post {
                         always {
-                            archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
-                            junit testResults: 'test/logs/**/junit.xml', allowEmptyResults: true
+                            archiveArtifacts artifacts: 'test/**/logs/**/*.log', allowEmptyArchive: true
+                            junit testResults: 'test/**/logs/**/junit.xml', allowEmptyResults: true
                         }
                     }
                 }

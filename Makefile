@@ -194,28 +194,39 @@ olm-manifests: bundle
 TEST_DIR=test
 
 .PHONY: run-tests
-run-tests: download-kogito-operator-test-makefile
+run-tests: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
 .PHONY: build-examples-images
-build-examples-images: download-kogito-operator-test-makefile
+build-examples-images: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
 .PHONY: run-smoke-tests
-run-smoke-tests: download-kogito-operator-test-makefile
+run-smoke-tests: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
 .PHONY: build-smoke-examples-images
-build-smoke-examples-images: download-kogito-operator-test-makefile
+build-smoke-examples-images: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
 .PHONY: run-performance-tests
-run-performance-tests: download-kogito-operator-test-makefile
+run-performance-tests: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
 .PHONY: build-performance-examples-images
-build-performance-examples-images: download-kogito-operator-test-makefile
+build-performance-examples-images: tests-prepare
 	@(cd $(TEST_DIR) && $(MAKE) $@)
+	$(MAKE) test-clean
 
-download-kogito-operator-test-makefile:
-	$(shell wget https://raw.githubusercontent.com/kiegroup/kogito-operator/$$(cat go.mod | grep 'github.com/kiegroup/kogito-operator' | awk -F'-' '{print $$4}')/test/Makefile -O test/Makefile)
+.PHONY: tests-prepare
+tests-prepare:
+	$(shell wget https://raw.githubusercontent.com/kiegroup/kogito-operator/$$(cat go.mod | grep 'github.com/kiegroup/kogito-operator' | awk -F'-' '{print $$4}')/test/Makefile -O $(TEST_DIR)/Makefile &> /dev/null)
+
+.PHONY: tests-clean
+tests-clean:
+  $(shell rm -rf $(TEST_DIR)/Makefile)

@@ -43,6 +43,12 @@ cp -r ${kogito_operator_dir}/test/scripts scripts
 echo '---- Running tests ----'
 ../hack-kogito-operator/run-tests.sh "$@"
 
+if [[ -d examples/logs ]]
+then
+  echo '---- Copying examples logs ----'
+  cp -r examples/logs logs
+fi
+
 echo '---- Removing files ----'
 rm -rf ../hack-kogito-operator
 rm -rf features
