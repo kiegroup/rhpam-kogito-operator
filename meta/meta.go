@@ -18,7 +18,7 @@ import (
 	infinispanv1 "github.com/infinispan/infinispan-operator/pkg/apis/infinispan/v1"
 	grafana "github.com/integr8ly/grafana-operator/v3/pkg/apis/integreatly/v1alpha1"
 	keycloakv1alpha1 "github.com/keycloak/keycloak-operator/pkg/apis/keycloak/v1alpha1"
-	kafkabetav1 "github.com/kiegroup/kogito-operator/core/infrastructure/kafka/v1beta1"
+	kafkabetav2 "github.com/kiegroup/kogito-operator/core/infrastructure/kafka/v1beta2"
 	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	mongodb "github.com/mongodb/mongodb-kubernetes-operator/pkg/apis/mongodb/v1"
 	appsv1 "github.com/openshift/api/apps/v1"
@@ -65,7 +65,7 @@ func GetRegisteredSchema() *runtime.Scheme {
 	metav1.AddToGroupVersion(s, routev1.GroupVersion)
 	metav1.AddToGroupVersion(s, infinispanv1.SchemeGroupVersion)
 	metav1.AddToGroupVersion(s, mongodb.SchemeGroupVersion)
-	metav1.AddToGroupVersion(s, kafkabetav1.SchemeGroupVersion)
+	metav1.AddToGroupVersion(s, kafkabetav2.SchemeGroupVersion)
 	metav1.AddToGroupVersion(s, grafana.SchemeGroupVersion)
 	metav1.AddToGroupVersion(s, olmv1.SchemeGroupVersion)
 
@@ -86,7 +86,7 @@ func getRegisteredSchemeBuilder() runtime.SchemeBuilder {
 		routev1.Install,
 		imgv1.Install,
 		apiextensionsv1beta1.AddToScheme,
-		kafkabetav1.SchemeBuilder.AddToScheme,
+		kafkabetav2.SchemeBuilder.AddToScheme,
 		mongodb.SchemeBuilder.AddToScheme,
 		infinispanv1.AddToScheme,
 		keycloakv1alpha1.SchemeBuilder.AddToScheme,
