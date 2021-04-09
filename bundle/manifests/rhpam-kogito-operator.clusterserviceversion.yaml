@@ -8,7 +8,7 @@ metadata:
           "apiVersion": "rhpam.kiegroup.org/v1",
           "kind": "KogitoBuild",
           "metadata": {
-            "name": "example-quarkus"
+            "name": "process-quarkus-example"
           },
           "spec": {
             "gitSource": {
@@ -25,7 +25,6 @@ metadata:
             "name": "process-quarkus-example"
           },
           "spec": {
-            "image": "quay.io/kiegroup/process-quarkus-example",
             "replicas": 1
           }
         }
