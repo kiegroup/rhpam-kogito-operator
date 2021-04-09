@@ -42,6 +42,7 @@ cp -r ${kogito_operator_dir}/test/scripts scripts
 
 echo '---- Running tests ----'
 ../hack-kogito-operator/run-tests.sh "$@"
+testsStatus=$?
 
 if [[ -d examples/logs ]]
 then
@@ -55,3 +56,5 @@ rm -rf features
 rm -rf scripts
 rm -rf examples
 rm -rf ${tmp_dir}
+
+exit ${testsStatus}
