@@ -4,7 +4,6 @@ go 1.14
 
 require (
 	github.com/RHsyseng/operator-utils v0.0.0-20200304191317-2425bf382482
-	github.com/coreos/prometheus-operator v0.40.0
 	github.com/cucumber/godog v0.11.0
 	github.com/go-openapi/spec v0.19.14
 	github.com/infinispan/infinispan-operator v0.0.0-20210106103300-03aa6d76d1b2
@@ -17,6 +16,7 @@ require (
 	github.com/openshift/api v3.9.1-0.20190924102528-32369d4db2ad+incompatible
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200321030439-57b580e57e88
 	github.com/operator-framework/operator-marketplace v0.0.0-20190919183128-4ef67b2f50e9
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.46.0
 	k8s.io/api v0.20.4
 	k8s.io/apiextensions-apiserver v0.20.1
 	k8s.io/apimachinery v0.20.4
