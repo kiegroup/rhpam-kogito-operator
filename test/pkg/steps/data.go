@@ -29,6 +29,7 @@ type Data struct {
 // RegisterAllSteps register all steps available to the test suite
 func (data *Data) RegisterAllSteps(ctx *godog.ScenarioContext) {
 	registerKogitoBuildSteps(ctx, data)
+	registerKogitoDeployFilesSteps(ctx, data)
 	registerKogitoRuntimeSteps(ctx, data)
 	registerOpenShiftSteps(ctx, data)
 	registerOperatorSteps(ctx, data)
