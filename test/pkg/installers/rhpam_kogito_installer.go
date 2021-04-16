@@ -27,6 +27,11 @@ import (
 	"github.com/kiegroup/rhpam-kogito-operator/version"
 )
 
+const (
+	openShiftInternalRegistryURL             = "image-registry.openshift-image-registry.svc:5000"
+	rhpmaKogitoOperatorPullImageSecretPrefix = "rhpam-kogito-operator-controller-manager-dockercfg"
+)
+
 var (
 	// rhpamKogitoYamlClusterInstaller installs RHPAM Kogito operator cluster wide using YAMLs
 	rhpamKogitoYamlClusterInstaller = installers.YamlClusterWideServiceInstaller{
@@ -62,6 +67,7 @@ var (
 	rhpamKogitoNamespace            = "rhpam-kogito-operator-system"
 	rhpamKogitoServiceName          = "RHPAM Kogito operator"
 	rhpamKogitoOperatorTimeoutInMin = 5
+	rhpamKogitoImageStreamName      = "rhpam-kogito-operator"
 
 	rhpamKogitoOperatorSubscriptionName    = "rhpam-kogito-operator"
 	rhpamKogitoOperatorSubscriptionChannel = "7.x"
@@ -89,13 +95,28 @@ func GetRhpamKogitoInstaller() (installers.ServiceInstaller, error) {
 func installRhpamKogitoUsingYaml() error {
 	framework.GetMainLogger().Info("Installing RHPAM Kogito operator")
 
+	// Create namespace first so ImageStream can be placed there
+	if err := framework.CreateNamespace(rhpamKogitoNamespace); err != nil {
+		return err
+	}
+
 	yamlContent, err := framework.ReadFromURI(config.GetOperatorYamlURI())
 	if err != nil {
 		framework.GetMainLogger().Error(err, "Error while reading kogito-operator.yaml file")
 		return err
 	}
 
-	yamlContent = strings.ReplaceAll(yamlContent, "quay.io/kiegroup/rhpam-kogito-operator:"+version.Version, framework.GetOperatorImageNameAndTag())
+	// Use insecure ImageStream when deploying on OpenShift to support using insecure registries, unless the operator tag already points to internal registry
+	if framework.IsOpenshift() && !strings.Contains(framework.GetOperatorImageNameAndTag(), openShiftInternalRegistryURL) {
+		if err := framework.CreateInsecureImageStream(rhpamKogitoNamespace, rhpamKogitoImageStreamName, config.GetOperatorImageTag(), framework.GetOperatorImageNameAndTag()); err != nil {
+			return err
+		}
+
+		rhpamKogitoInternalImageTagName := fmt.Sprintf("%s/%s/%s:%s", openShiftInternalRegistryURL, rhpamKogitoNamespace, rhpamKogitoImageStreamName, config.GetOperatorImageTag())
+		yamlContent = strings.ReplaceAll(yamlContent, "quay.io/kiegroup/rhpam-kogito-operator:"+version.Version, rhpamKogitoInternalImageTagName)
+	} else {
+		yamlContent = strings.ReplaceAll(yamlContent, "quay.io/kiegroup/rhpam-kogito-operator:"+version.Version, framework.GetOperatorImageNameAndTag())
+	}
 
 	tempFilePath, err := framework.CreateTemporaryFile("kogito-operator*.yaml", yamlContent)
 	if err != nil {
@@ -113,7 +134,37 @@ func installRhpamKogitoUsingYaml() error {
 }
 
 func waitForRhpamKogitoOperatorUsingYamlRunning() error {
-	return framework.WaitForPodsInNamespace(rhpamKogitoNamespace, 1, rhpamKogitoOperatorTimeoutInMin)
+	return framework.WaitForOnOpenshift(rhpamKogitoNamespace, "RHPAM Kogito operator running", rhpamKogitoOperatorTimeoutInMin,
+		func() (bool, error) {
+			podList, err := framework.GetPods(rhpamKogitoNamespace)
+			if err != nil {
+				framework.GetLogger(rhpamKogitoNamespace).Error(err, "Error while trying to retrieve RHPAM Kogito Operator pods")
+				return false, nil
+			}
+			if len(podList.Items) != 1 {
+				return false, nil
+			}
+
+			running := framework.CheckPodsAreReady(podList)
+
+			// If not running, make sure the image pull secret is present in pod
+			// If not present, delete the pod to allow its reconstruction with correct pull secret
+			// Note that this is specific to Openshift
+			if !running && framework.IsOpenshift() {
+				for _, pod := range podList.Items {
+					if !framework.CheckPodHasImagePullSecretWithPrefix(&pod, rhpmaKogitoOperatorPullImageSecretPrefix) {
+						// Delete pod as it has been misconfigured (missing pull secret)
+						framework.GetLogger(rhpamKogitoNamespace).Info("RHPAM Kogito Operator pod does not have the image pull secret needed. Deleting it to renew it.")
+						err := framework.DeleteObject(&pod)
+						if err != nil {
+							framework.GetLogger(rhpamKogitoNamespace).Error(err, "Error while trying to delete RHPAM Kogito Operator pod")
+							return false, nil
+						}
+					}
+				}
+			}
+			return running, nil
+		})
 }
 
 func uninstallRhpamKogitoUsingYaml() error {
