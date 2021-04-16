@@ -16,7 +16,7 @@ package steps
 
 import (
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/rhpam-kogito-operator/test/installers"
+	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/installers"
 )
 
 func registerOperatorSteps(ctx *godog.ScenarioContext, data *Data) {

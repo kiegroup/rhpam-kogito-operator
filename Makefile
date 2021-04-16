@@ -194,20 +194,63 @@ olm-manifests: bundle
 TEST_DIR=test
 
 .PHONY: run-tests
-run-tests: download-kogito-operator-test-makefile
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-
-.PHONY: run-smoke-tests
-run-smoke-tests: download-kogito-operator-test-makefile
-	@(cd $(TEST_DIR) && $(MAKE) $@)
-
-.PHONY: run-performance-tests
-run-performance-tests: download-kogito-operator-test-makefile
-	@(cd $(TEST_DIR) && $(MAKE) $@)
+run-tests: tests-prepare
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
 .PHONY: build-examples-images
-build-examples-images: download-kogito-operator-test-makefile
-	@(cd $(TEST_DIR) && $(MAKE) $@)
+build-examples-images: tests-prepare
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
 
-download-kogito-operator-test-makefile:
-	$(shell wget https://raw.githubusercontent.com/kiegroup/kogito-operator/$$(cat go.mod | grep 'github.com/kiegroup/kogito-operator' | awk -F'-' '{print $$4}')/test/Makefile -O test/Makefile)
+.PHONY: run-smoke-tests
+run-smoke-tests: tests-prepare
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
+
+.PHONY: build-smoke-examples-images
+build-smoke-examples-images: tests-prepare
+	@(current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret)
+
+.PHONY: run-performance-tests
+run-performance-tests: tests-prepare
+	current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret
+
+.PHONY: build-performance-examples-images
+build-performance-examples-images: tests-prepare
+	@(current_dir=$(shell pwd); \
+	cd $(TEST_DIR) && $(MAKE) $@; \
+	ret=$$?; \
+	cd $$current_dir; \
+	make tests-clean; \
+	exit $$ret)
+
+.PHONY: tests-prepare
+tests-prepare:
+	$(shell wget https://raw.githubusercontent.com/kiegroup/kogito-operator/$$(cat go.mod | grep 'github.com/kiegroup/kogito-operator' | awk -F'-' '{print $$4}')/test/Makefile -O $(TEST_DIR)/Makefile &> /dev/null)
+
+.PHONY: tests-clean
+tests-clean:
+  $(shell rm -rf $(TEST_DIR)/Makefile)

@@ -20,9 +20,9 @@ import (
 	"strings"
 
 	"github.com/kiegroup/kogito-operator/core/client/kubernetes"
-	"github.com/kiegroup/kogito-operator/test/config"
-	"github.com/kiegroup/kogito-operator/test/framework"
-	"github.com/kiegroup/kogito-operator/test/installers"
+	"github.com/kiegroup/kogito-operator/test/pkg/config"
+	"github.com/kiegroup/kogito-operator/test/pkg/framework"
+	"github.com/kiegroup/kogito-operator/test/pkg/installers"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/version"
 )

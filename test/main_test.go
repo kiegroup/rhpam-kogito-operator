@@ -18,11 +18,11 @@ import (
 	"testing"
 
 	"github.com/cucumber/godog"
-	kogitoTest "github.com/kiegroup/kogito-operator/test"
-	kogitoFramework "github.com/kiegroup/kogito-operator/test/framework"
-	kogitoSteps "github.com/kiegroup/kogito-operator/test/steps"
+	kogitoExecutor "github.com/kiegroup/kogito-operator/test/pkg/executor"
+	kogitoFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
+	kogitoSteps "github.com/kiegroup/kogito-operator/test/pkg/steps"
 	"github.com/kiegroup/rhpam-kogito-operator/meta"
-	"github.com/kiegroup/rhpam-kogito-operator/test/steps"
+	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/steps"
 )
 
 func TestMain(m *testing.M) {
@@ -30,15 +30,15 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
-	kogitoTest.PreRegisterStepsHook = func(ctx *godog.ScenarioContext, d *kogitoSteps.Data) {
+	kogitoExecutor.PreRegisterStepsHook = func(ctx *godog.ScenarioContext, d *kogitoSteps.Data) {
 		data := &steps.Data{Data: d}
 		data.RegisterAllSteps(ctx)
 	}
 
-	kogitoTest.AfterScenarioHook = func(scenario *godog.Scenario, d *kogitoSteps.Data) error {
+	kogitoExecutor.AfterScenarioHook = func(scenario *godog.Scenario, d *kogitoSteps.Data) error {
 		data := &steps.Data{Data: d}
 		return data.AfterScenario(scenario)
 	}
 
-	kogitoTest.ExecuteTests()
+	kogitoExecutor.ExecuteBDDTests(nil)
 }

@@ -18,7 +18,7 @@ import (
 	"fmt"
 
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/test/framework"
+	"github.com/kiegroup/kogito-operator/test/pkg/framework"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"k8s.io/apimachinery/pkg/types"
 )

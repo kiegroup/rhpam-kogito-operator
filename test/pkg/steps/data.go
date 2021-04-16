@@ -16,8 +16,8 @@ package steps
 
 import (
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/test/framework"
-	"github.com/kiegroup/kogito-operator/test/steps"
+	"github.com/kiegroup/kogito-operator/test/pkg/framework"
+	"github.com/kiegroup/kogito-operator/test/pkg/steps"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 )
 
@@ -29,6 +29,7 @@ type Data struct {
 // RegisterAllSteps register all steps available to the test suite
 func (data *Data) RegisterAllSteps(ctx *godog.ScenarioContext) {
 	registerKogitoBuildSteps(ctx, data)
+	registerKogitoDeployFilesSteps(ctx, data)
 	registerKogitoRuntimeSteps(ctx, data)
 	registerOpenShiftSteps(ctx, data)
 	registerOperatorSteps(ctx, data)
