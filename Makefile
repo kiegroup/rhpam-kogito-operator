@@ -254,8 +254,8 @@ build-performance-examples-images: tests-prepare
 
 .PHONY: tests-prepare
 tests-prepare:
-	$(shell wget https://raw.githubusercontent.com/kiegroup/kogito-operator/$$(cat go.mod | grep 'github.com/kiegroup/kogito-operator' | awk -F'-' '{print $$4}')/test/Makefile -O $(TEST_DIR)/Makefile &> /dev/null)
+	./hack/tests-download-files.sh
 
 .PHONY: tests-clean
 tests-clean:
-  $(shell rm -rf $(TEST_DIR)/Makefile)
+	./hack/tests-clean-files.sh

@@ -1,0 +1,47 @@
+#!/bin/bash
+# Copyright 2021 Red Hat, Inc. and/or its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+current_dir=$(pwd)
+tmp_dir=$(mktemp -d)
+kogito_operator_repo="github.com/kiegroup/kogito-operator"
+
+echo '---- Retrieving kogito-operator repo/hash from `go.mod` file ----'
+cat go.mod | grep "replace ${kogito_operator_repo}" &> /dev/null
+if [ $? = 0 ]; then
+  kogito_operator_repo=$(cat go.mod | grep "replace ${kogito_operator_repo}" | awk -F' ' '{print $4}')
+  kogito_operator_hash=$(cat go.mod | grep "replace ${kogito_operator_repo}" | awk -F'-' '{print $5}')
+else
+  kogito_operator_hash=$(cat go.mod | grep -m 1 "${kogito_operator_repo}" | awk -F'-' '{print $4}')
+fi
+echo "Got kogito-operator ${kogito_operator_repo}@${kogito_operator_hash}"
+
+echo '---- Retrieving kogito-operator testing file ----'
+cd ${tmp_dir}
+git clone https://${kogito_operator_repo}.git &> /dev/null
+
+kogito_operator_dir=${tmp_dir}/kogito-operator
+echo ${kogito_operator_dir}
+
+cd ${kogito_operator_dir}
+git reset --hard ${kogito_operator_hash}
+
+cd ${current_dir}
+
+cp -r ${kogito_operator_dir}/hack/run-tests.sh hack/run-tests.sh
+cp -r ${kogito_operator_dir}/hack/clean-stuck-namespaces.sh hack/clean-stuck-namespaces.sh
+cp -r ${kogito_operator_dir}/test/Makefile test/Makefile
+cp -r ${kogito_operator_dir}/test/features test/features
+cp -r ${kogito_operator_dir}/test/examples test/examples
+cp -r ${kogito_operator_dir}/test/scripts test/scripts
