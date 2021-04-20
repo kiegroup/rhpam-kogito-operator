@@ -1,0 +1,164 @@
+@Library('jenkins-pipeline-shared-libraries')_
+
+boolean goModModified = false
+operatorTagVersion = "upstream-sync"
+
+pipeline {
+    agent {
+        label 'kogito-operator-slave && !master'
+    }
+    // Needed for local build
+    tools {
+        jdk 'kie-jdk11'
+    }
+    options {
+        timeout(time: 90, unit: 'MINUTES')
+    }
+    environment {
+        KOGITO_CI_EMAIL_TO = credentials("${JENKINS_EMAIL_CREDS_ID}")
+        OPENSHIFT_INTERNAL_REGISTRY = 'image-registry.openshift-image-registry.svc:5000'
+    }
+    stages {
+        stage('Initialize') {
+            steps {
+                script{
+                    checkout(githubscm.resolveRepository("${env.REPO_NAME}", "${env.GIT_AUTHOR}", "${BUILD_BRANCH_NAME}", false))
+                }
+            }
+        }
+        stage('Check if Kogito operator has changed') {
+            steps {
+                script {
+                    sh 'make update-dependencies'
+                    goModModified = githubscm.isThereAnyChanges()
+                    echo "Are dependencies updated?: ${goModModified}"
+                }
+            }
+        }
+        stage('Test Kogito Operator') {
+            when {
+                expression {
+                    return goModModified
+                }
+            }
+            steps {
+                sh 'make test'
+            }
+        }
+        stage('Build Kogito Operator') {
+            when {
+                expression {
+                    return goModModified
+                }
+            }
+            steps {
+                sh "make BUILDER=${CONTAINER_ENGINE}"
+            }
+        }
+        stage('Push Operator Image to Openshift Registry') {
+            when {
+                expression {
+                    return goModModified
+                }
+            }
+            steps {
+                withCredentials([string(credentialsId: "${env.OPENSHIFT_API_KEY}" , variable: 'OPENSHIFT_API')]) {
+                    withCredentials([usernamePassword(credentialsId: "${env.OPENSHIFT_CREDS_KEY}", usernameVariable: 'OC_USER', passwordVariable: 'OC_PWD')]) {
+                        sh "oc login --username=${OC_USER} --password=${OC_PWD} --server=${OPENSHIFT_API} --insecure-skip-tls-verify"
+                    }
+                }
+                withCredentials([string(credentialsId: "${env.OPENSHIFT_REGISTRY_KEY}" , variable: 'OPENSHIFT_REGISTRY')]) {
+                    sh """
+                        set +x && ${CONTAINER_ENGINE} login -u jenkins -p \$(oc whoami -t) ${CONTAINER_TLS_OPTIONS} ${OPENSHIFT_REGISTRY}
+                        source ./hack/env.sh && TAG_OPERATOR=\$(getOperatorVersion)
+                        ${CONTAINER_ENGINE} tag quay.io/kiegroup/${env.OPERATOR_IMAGE_NAME}:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}:${getOperatorVersion()}
+                        ${CONTAINER_ENGINE} push ${CONTAINER_TLS_OPTIONS} ${OPENSHIFT_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}:${getOperatorVersion()}
+                    """
+                }
+            }
+        }
+
+        stage('Run BDD tests') {
+            when {
+                expression {
+                    return goModModified
+                }
+            }
+            options {
+                // Lock on OCP API as we want only one run at a time
+                lock("BDD tests on OCP API ${getLockOpenshiftApi()}")
+            }
+            steps {
+                withCredentials([string(credentialsId: "${env.OPENSHIFT_REGISTRY_KEY}" , variable: 'OPENSHIFT_REGISTRY')]) {
+                    // Run just smoke tests to verify basic operator functionality
+                    // Using community example images for now
+                    sh """
+                        make run-tests tags='${env.BDD_TEST_TAGS}' concurrent=5 ${getBDDParameters('always', true)}
+                    """
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
+                    junit testResults: 'test/logs/**/junit.xml', allowEmptyResults: true
+                }
+            }
+        }
+    }
+    post {
+        unsuccessful {
+            sendNotification()
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
+
+// Special method to get the Openshift API in the lock because env is not accessible yet
+void getLockOpenshiftApi() {
+    withCredentials([string(credentialsId: 'OPENSHIFT_API', variable: 'OPENSHIFT_API')]) {
+        return env.OPENSHIFT_API
+    }
+}
+
+String getOperatorVersion() {
+    return "${operatorTagVersion}-${env.BUILD_BRANCH_NAME}"
+}
+
+void sendNotification() {
+    emailext body: "Kogito upstream operator sync #${BUILD_NUMBER} was: ${currentBuild.currentResult}\nPlease look here: ${BUILD_URL}",
+             subject: "[${params.BUILD_BRANCH_NAME}][d] RHPAM Kogito operator upstream sync",
+             to: env.KOGITO_CI_EMAIL_TO
+}
+
+String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_internal=false) {
+    testParamsMap = [:]
+
+    testParamsMap["load_default_config"] = true
+    testParamsMap["ci"] = "jenkins"
+    testParamsMap["load_factor"] = 3
+    testParamsMap['disable_maven_native_build_container'] = true
+
+    testParamsMap["operator_image"] = "${env.OPENSHIFT_INTERNAL_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}"
+    testParamsMap["operator_tag"] = getOperatorVersion()
+    
+    // Product operator doesn't have CLI
+    testParamsMap["cr_deployment_only"] = true
+
+    if(env.MAVEN_MIRROR_REPOSITORY){
+        testParamsMap["maven_mirror"] = env.MAVEN_MIRROR_REPOSITORY
+        testParamsMap["maven_ignore_self_signed_certificate"] = true
+    }
+    
+    // runtime_application_image are already provided by nightly jobs and published to the quay
+    testParamsMap["image_cache_mode"] = image_cache_mode
+    testParamsMap['runtime_application_image_registry'] = "quay.io"
+    testParamsMap['runtime_application_image_namespace'] = "kiegroup"
+    
+    testParamsMap['container_engine'] = env.CONTAINER_ENGINE
+
+    String testParams = testParamsMap.collect{ entry -> "${entry.getKey()}=\"${entry.getValue()}\"" }.join(" ")
+    echo "BDD parameters = ${testParams}"
+    return testParams
+}
