@@ -1,5 +1,7 @@
 # Current Operator version
 VERSION ?= 7.11.0
+# Current upstream version
+UPSTREAM_VERSION ?= master
 # Default bundle image tag
 BUNDLE_IMG ?= quay.io/kiegroup/rhpam-kogito-operator-bundle:$(VERSION)
 # Default catalog image tag
@@ -181,8 +183,11 @@ deploy-operator-on-ocp:
 olm-tests:
 	./hack/ci/run-olm-tests.sh
 
+update-dependencies:
+	go get github.com/kiegroup/kogito-operator@${UPSTREAM_VERSION}
+
 # Run this before any PR to make sure everything is updated, so CI won't fail
-before-pr: vet test
+before-pr: update-dependencies vet test
 
 #Run this to create a bundle dir structure in which OLM accepts. The bundle will be available in `build/_output/olm/<current-version>`
 olm-manifests: bundle
