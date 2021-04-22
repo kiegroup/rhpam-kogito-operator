@@ -21,8 +21,12 @@ import (
 	kogitoExecutor "github.com/kiegroup/kogito-operator/test/pkg/executor"
 	kogitoFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	kogitoSteps "github.com/kiegroup/kogito-operator/test/pkg/steps"
+	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/meta"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/steps"
+
+	imgv1 "github.com/openshift/api/image/v1"
+	olmapiv1alpha1 "github.com/operator-framework/operator-lifecycle-manager/pkg/api/apis/operators/v1alpha1"
 )
 
 func TestMain(m *testing.M) {
@@ -33,11 +37,7 @@ func TestMain(m *testing.M) {
 	kogitoExecutor.PreRegisterStepsHook = func(ctx *godog.ScenarioContext, d *kogitoSteps.Data) {
 		data := &steps.Data{Data: d}
 		data.RegisterAllSteps(ctx)
-	}
-
-	kogitoExecutor.AfterScenarioHook = func(scenario *godog.Scenario, d *kogitoSteps.Data) error {
-		data := &steps.Data{Data: d}
-		return data.AfterScenario(scenario)
+		data.RegisterLogsKubernetesObjects(&imgv1.ImageStreamList{}, &v1.KogitoRuntimeList{}, &v1.KogitoBuildList{}, &olmapiv1alpha1.ClusterServiceVersionList{})
 	}
 
 	kogitoExecutor.ExecuteBDDTests(nil)
