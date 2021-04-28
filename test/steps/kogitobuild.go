@@ -15,6 +15,7 @@
 package steps
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/kiegroup/kogito-operator/api"
@@ -22,6 +23,7 @@ import (
 
 	"github.com/cucumber/godog"
 	"github.com/kiegroup/kogito-operator/test/config"
+	communityFramework "github.com/kiegroup/kogito-operator/test/framework"
 	bddtypes "github.com/kiegroup/kogito-operator/test/types"
 	"github.com/kiegroup/rhpam-kogito-operator/test/steps/mappers"
 )
@@ -33,10 +35,13 @@ import (
 	| build-limit   | cpu/memory | value            |
 */
 
+const defaultTimeoutToStartBuildInMin = 5
+
 func registerKogitoBuildSteps(ctx *godog.ScenarioContext, data *Data) {
 	// Deploy steps
 	ctx.Step(`^Build (quarkus|springboot) example service "([^"]*)" with configuration:$`, data.buildExampleServiceWithConfiguration)
 	ctx.Step(`^Build binary (quarkus|springboot) service "([^"]*)" with configuration:$`, data.buildBinaryServiceWithConfiguration)
+	ctx.Step(`^Build binary (quarkus|springboot) local example service "([^"]*)" from target folder with configuration:$`, data.buildBinaryLocalExampleServiceFromTargetFolderWithConfiguration)
 }
 
 // Build service steps
@@ -66,6 +71,28 @@ func (data *Data) buildBinaryServiceWithConfiguration(runtimeType, serviceName s
 	buildHolder.KogitoBuild.GetSpec().SetType(api.BinaryBuildType)
 
 	return framework.DeployKogitoBuild(data.Namespace, buildHolder)
+}
+
+func (data *Data) buildBinaryLocalExampleServiceFromTargetFolderWithConfiguration(runtimeType, serviceName string, table *godog.Table) error {
+	buildHolder, err := getKogitoBuildConfiguredStub(data.Namespace, runtimeType, serviceName, table)
+	if err != nil {
+		return err
+	}
+
+	buildHolder.KogitoBuild.GetSpec().SetType(api.BinaryBuildType)
+	buildHolder.BuiltBinaryFolder = fmt.Sprintf(`%s/%s/target`, data.KogitoExamplesLocation, serviceName)
+
+	err = framework.DeployKogitoBuild(data.Namespace, buildHolder)
+	if err != nil {
+		return err
+	}
+
+	// If we don't use Kogito CLI then upload target folder using OC client
+	return communityFramework.WaitForOnOpenshift(data.Namespace, fmt.Sprintf("Build '%s' to start", serviceName), defaultTimeoutToStartBuildInMin,
+		func() (bool, error) {
+			_, err := communityFramework.CreateCommand("oc", "start-build", serviceName, "--from-dir="+buildHolder.BuiltBinaryFolder, "-n", data.Namespace).WithLoggerContext(data.Namespace).Execute()
+			return err == nil, err
+		})
 }
 
 // Misc methods
