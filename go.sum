@@ -1100,6 +1100,8 @@ github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf h1:Sfwm
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf/go.mod h1:8eqyE5GxbqaKEqEy1BgPAo3UaZoJDZ0O9mHv+hBN+F8=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210326171407-f60a3ec78fcb h1:dI+04xKcUTNzguTz7psztmsCOMztr7/0Ns6jQDevcXY=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210326171407-f60a3ec78fcb/go.mod h1:s7IgEpGfN6Blwbsm1nEkGcnQxmSeMWJJeeilfU8cDW8=
+github.com/kiegroup/kogito-operator v1.5.1-0.20210420084847-612617585273 h1:iGDQIW5/fvgzXIgeVsdRf8E8gJPZBr1G/XI/fu/e5Rw=
+github.com/kiegroup/kogito-operator v1.5.1-0.20210420084847-612617585273/go.mod h1:s7IgEpGfN6Blwbsm1nEkGcnQxmSeMWJJeeilfU8cDW8=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
