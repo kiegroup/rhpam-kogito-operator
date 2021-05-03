@@ -15,11 +15,12 @@
 package controllers
 
 import (
+	"reflect"
+
 	"github.com/kiegroup/kogito-operator/api"
 	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	"github.com/kiegroup/kogito-operator/core/manager"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	"reflect"
 
 	"github.com/RHsyseng/operator-utils/pkg/resource/compare"
 	"github.com/kiegroup/kogito-operator/core/framework"
@@ -40,13 +41,13 @@ type RuntimeDeployerHandler interface {
 }
 
 type runtimeDeployerHandler struct {
-	*operator.Context
+	operator.Context
 	instance       api.KogitoRuntimeInterface
 	runtimeHandler manager.KogitoRuntimeHandler
 }
 
 // NewRuntimeDeployerHandler ...
-func NewRuntimeDeployerHandler(context *operator.Context, instance api.KogitoRuntimeInterface, runtimeHandler manager.KogitoRuntimeHandler) RuntimeDeployerHandler {
+func NewRuntimeDeployerHandler(context operator.Context, instance api.KogitoRuntimeInterface, runtimeHandler manager.KogitoRuntimeHandler) RuntimeDeployerHandler {
 	return &runtimeDeployerHandler{
 		Context:        context,
 		instance:       instance,

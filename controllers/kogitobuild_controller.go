@@ -16,6 +16,8 @@ package controllers
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/kiegroup/kogito-operator/api"
 	"github.com/kiegroup/kogito-operator/core/framework"
 	"github.com/kiegroup/kogito-operator/core/infrastructure"
@@ -28,7 +30,6 @@ import (
 	imagev1 "github.com/openshift/api/image/v1"
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"time"
 
 	"github.com/kiegroup/kogito-operator/core/client"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -61,7 +62,7 @@ func (r *KogitoBuildReconciler) Reconcile(req ctrl.Request) (result ctrl.Result,
 	log.Info("Reconciling for KogitoBuild")
 
 	// create context
-	context := &operator.Context{
+	context := operator.Context{
 		Client: r.Client,
 		Log:    log,
 		Scheme: r.Scheme,
