@@ -1124,6 +1124,8 @@ github.com/kiegroup/kogito-operator v0.12.1-0.20210430185306-7cffeb00c4c4 h1:Fzp
 github.com/kiegroup/kogito-operator v0.12.1-0.20210430185306-7cffeb00c4c4/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210504144018-af4977af228e h1:UsvSaBe+leECAeuR8mLbPVhBqiCIe9Y/lSBosNy7JIw=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210504144018-af4977af228e/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210505132653-a91efd6779c7 h1:G0EO2wxa8BK1oX7H5FEyxrZ+fgbpwBolu6AYq8j1Ruw=
+github.com/kiegroup/kogito-operator v0.12.1-0.20210505132653-a91efd6779c7/go.mod h1:mfS0QhYLGgs+9ih1izF5Q2agXMpOx17Kc9Nvq0Upms8=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
