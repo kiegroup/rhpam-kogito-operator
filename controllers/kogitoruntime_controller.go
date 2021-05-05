@@ -15,7 +15,6 @@
 package controllers
 
 import (
-	"github.com/kiegroup/kogito-operator/api"
 	"github.com/kiegroup/kogito-operator/core/client"
 	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	"github.com/kiegroup/kogito-operator/core/kogitoservice"
@@ -82,10 +81,6 @@ func (r *KogitoRuntimeReconciler) Reconcile(req ctrl.Request) (result ctrl.Resul
 		return
 	}
 
-	healthCheckProbeType := kogitoservice.TCPHealthCheckProbe
-	if instance.GetSpec().GetRuntime() == api.QuarkusRuntimeType {
-		healthCheckProbeType = kogitoservice.QuarkusHealthCheckProbe
-	}
 	deploymentHandler := NewRuntimeDeployerHandler(context, instance, runtimeHandler)
 	definition := kogitoservice.ServiceDefinition{
 		Request:            req,
@@ -94,7 +89,6 @@ func (r *KogitoRuntimeReconciler) Reconcile(req ctrl.Request) (result ctrl.Resul
 		OnDeploymentCreate: deploymentHandler.OnDeploymentCreate,
 		OnGetComparators:   deploymentHandler.OnGetComparators,
 		CustomService:      true,
-		HealthCheckProbe:   healthCheckProbeType,
 	}
 	requeueAfter, err := kogitoservice.NewServiceDeployer(context, definition, instance, nil).Deploy()
 	if err != nil {
