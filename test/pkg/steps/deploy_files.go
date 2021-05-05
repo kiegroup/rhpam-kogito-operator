@@ -21,6 +21,7 @@ import (
 
 	"github.com/cucumber/godog"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
+	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
 )
 
@@ -58,6 +59,16 @@ func deploySourceFilesFromPath(namespace, runtimeType, serviceName, path string)
 	err = framework.DeployKogitoBuild(namespace, buildHolder)
 	if err != nil {
 		return err
+	}
+
+	// In case of OpenShift the ImageStream needs to be patched to allow insecure registries
+	if communityFramework.IsOpenshift() {
+		if err := makeImageStreamInsecure(namespace, framework.GetKogitoBuildS2IImage()); err != nil {
+			return err
+		}
+		if err := makeImageStreamInsecure(namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.(*v1.KogitoBuild))); err != nil {
+			return err
+		}
 	}
 
 	// If we don't use Kogito CLI then upload target folder using OC client

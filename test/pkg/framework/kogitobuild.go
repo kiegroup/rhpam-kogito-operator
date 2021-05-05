@@ -69,11 +69,12 @@ func GetKogitoBuildStub(namespace, runtimeType, name string) *v1.KogitoBuild {
 
 // SetupKogitoBuildImageStreams sets the correct images for the KogitoBuild
 func SetupKogitoBuildImageStreams(kogitoBuild *v1.KogitoBuild) {
-	kogitoBuild.Spec.BuildImage = getKogitoBuildS2IImage()
-	kogitoBuild.Spec.RuntimeImage = getKogitoBuildRuntimeImage(kogitoBuild)
+	kogitoBuild.Spec.BuildImage = GetKogitoBuildS2IImage()
+	kogitoBuild.Spec.RuntimeImage = GetKogitoBuildRuntimeImage(kogitoBuild)
 }
 
-func getKogitoBuildS2IImage() string {
+// GetKogitoBuildS2IImage returns build S2I image
+func GetKogitoBuildS2IImage() string {
 	if len(config.GetBuildS2IImageStreamTag()) > 0 {
 		return config.GetBuildS2IImageStreamTag()
 	}
@@ -81,7 +82,8 @@ func getKogitoBuildS2IImage() string {
 	return getKogitoBuildImage(kogitobuild.GetDefaultBuilderImage())
 }
 
-func getKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
+// GetKogitoBuildRuntimeImage returns build runtime image
+func GetKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
 	var imageName string
 	if len(config.GetBuildRuntimeImageStreamTag()) > 0 {
 		return config.GetBuildRuntimeImageStreamTag()
