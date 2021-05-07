@@ -20,15 +20,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kiegroup/kogito-operator/api"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
-	"github.com/kiegroup/rhpam-kogito-operator/test/framework"
-
 	"github.com/cucumber/godog"
+	"github.com/kiegroup/kogito-operator/api"
 	"github.com/kiegroup/kogito-operator/test/config"
 	communityFramework "github.com/kiegroup/kogito-operator/test/framework"
 	bddtypes "github.com/kiegroup/kogito-operator/test/types"
+	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
+	"github.com/kiegroup/rhpam-kogito-operator/test/framework"
 	"github.com/kiegroup/rhpam-kogito-operator/test/steps/mappers"
+	corev1 "k8s.io/api/core/v1"
 )
 
 /*
@@ -61,6 +61,8 @@ func (data *Data) buildExampleServiceWithConfiguration(runtimeType, contextDir s
 	if ref := config.GetExamplesRepositoryRef(); len(ref) > 0 {
 		buildHolder.KogitoBuild.GetSpec().GetGitSource().SetReference(ref)
 	}
+	// Disable GIT SSL verification to allow using repositories with invalid certificate
+	buildHolder.KogitoBuild.GetSpec().SetEnv(append(buildHolder.KogitoBuild.GetSpec().GetEnv(), corev1.EnvVar{Name: "GIT_SSL_NO_VERIFY", Value: "true"}))
 
 	if err := framework.DeployKogitoBuild(data.Namespace, buildHolder); err != nil {
 		return err
