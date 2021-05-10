@@ -5,6 +5,7 @@ Please, see the upstream [RELEASE NOTES](https://github.com/kiegroup/kogito-oper
 ## Enhancements  
 
 ## Bug Fixes
+- [KOGITO-5104](https://issues.redhat.com/browse/KOGITO-5104) - Kogito operator creates wrong default image tags
 
 ## Known Issues
 -->
