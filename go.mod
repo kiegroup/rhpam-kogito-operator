@@ -60,3 +60,5 @@ replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+inc
 
 // Required by Helm
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+
+replace github.com/kiegroup/kogito-operator => /home/vaibhavjain/RedHatRepo/kogito-operator
