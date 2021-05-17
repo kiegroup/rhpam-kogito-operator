@@ -1098,6 +1098,9 @@ github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd h1:Coekwdh0v
 github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf h1:Sfwm3zLvNUHqG8VO96dpAf+MvB4/XkzDhrVtCX+xvwo=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf/go.mod h1:8eqyE5GxbqaKEqEy1BgPAo3UaZoJDZ0O9mHv+hBN+F8=
+github.com/kiegroup/kogito-operator v1.5.1-0.20210505141304-2bdd032a3a4d/go.mod h1:s7IgEpGfN6Blwbsm1nEkGcnQxmSeMWJJeeilfU8cDW8=
+github.com/kiegroup/kogito-operator v1.5.1-0.20210517171620-2bbf675f8fc8 h1:qqHjxv88HeLF4Vt406A6GwRFiCfq6KAiZbmda5PXp3g=
+github.com/kiegroup/kogito-operator v1.5.1-0.20210517171620-2bbf675f8fc8/go.mod h1:s7IgEpGfN6Blwbsm1nEkGcnQxmSeMWJJeeilfU8cDW8=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
