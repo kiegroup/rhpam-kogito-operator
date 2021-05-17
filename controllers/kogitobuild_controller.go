@@ -16,6 +16,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/kiegroup/rhpam-kogito-operator/version"
 	"time"
 
 	"github.com/kiegroup/kogito-operator/api"
@@ -63,9 +64,10 @@ func (r *KogitoBuildReconciler) Reconcile(req ctrl.Request) (result ctrl.Result,
 
 	// create context
 	context := operator.Context{
-		Client: r.Client,
-		Log:    log,
-		Scheme: r.Scheme,
+		Client:  r.Client,
+		Log:     log,
+		Scheme:  r.Scheme,
+		Version: version.Version,
 	}
 
 	// fetch the requested instance
