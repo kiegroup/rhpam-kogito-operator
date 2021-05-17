@@ -9,7 +9,7 @@ require (
 	github.com/infinispan/infinispan-operator v0.0.0-20210106103300-03aa6d76d1b2
 	github.com/integr8ly/grafana-operator/v3 v3.4.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v0.12.1-0.20210505132653-a91efd6779c7
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210517171655-49ced8a730fa
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
@@ -60,5 +60,3 @@ replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+inc
 
 // Required by Helm
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
-
-replace github.com/kiegroup/kogito-operator => github.com/vaibhavjainwiz/kogito-operator v0.12.1-0.20210511072754-91d899359bcc
