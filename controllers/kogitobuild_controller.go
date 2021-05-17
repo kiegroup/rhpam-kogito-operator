@@ -24,6 +24,7 @@ import (
 	"github.com/kiegroup/kogito-operator/core/operator"
 	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
+	"github.com/kiegroup/rhpam-kogito-operator/version"
 	buildv1 "github.com/openshift/api/build/v1"
 	imagev1 "github.com/openshift/api/image/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -62,9 +63,10 @@ func (r *KogitoBuildReconciler) Reconcile(req ctrl.Request) (result ctrl.Result,
 
 	// create context
 	context := &operator.Context{
-		Client: r.Client,
-		Log:    log,
-		Scheme: r.Scheme,
+		Client:  r.Client,
+		Log:     log,
+		Scheme:  r.Scheme,
+		Version: version.Version,
 	}
 
 	// fetch the requested instance
