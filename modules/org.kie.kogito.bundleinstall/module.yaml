@@ -5,7 +5,7 @@ description: Copy the bund files to the target image
 artifacts:
   - name: manifests
     path: "../../../../bundle/manifests"
-    dest: /manifests/
+    dest: manifests/
   - name: metadata
     path: "../../../../bundle/metadata"
     dest: /metadata/

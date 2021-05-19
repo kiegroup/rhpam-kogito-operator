@@ -8,7 +8,7 @@ labels:
   - name: maintainer
     value: bsig-cloud@redhat.com
   - name: com.redhat.component
-    value: rhpam-operator-bundle-container
+    value: rhpam-7-kogito-rhel8-operator-bundle-container
   - name: io.k8s.description
     value: Operator Bundle for deploying RHPAM & RHDM
   - name: io.k8s.display-name
@@ -53,7 +53,7 @@ osbs:
         enable_digest_pinning: false
         enable_repo_replacements: false
         enable_registry_replacements: false
-        manifests_dir: "/manifests"
+        manifests_dir: "manifests"
       platforms:
         only:
           - x86_64
