@@ -18,6 +18,10 @@ CEKIT_CMD := cekit -v --redhat ${cekit_option}
 
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/kiegroup/rhpam-kogito-operator:$(VERSION)
+
+# Image URL for kube rbac proxy
+PROD_RBAC_PROXY_IMG ?= registry.redhat.io/openshift4/ose-kube-rbac-proxy:4.7.0
+
 # Produce CRDs with v1 extension which is required by kubernetes v1.22+, The CRDs will stop working in kubernets <= v1.15
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
@@ -123,9 +127,9 @@ endif
 
 # Generate bundle manifests and metadata, then validate generated files.
 .PHONY: bundle
-bundle: manifests kustomize
-	operator-sdk generate kustomize manifests -q
+bundle: manifests csv kustomize
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
+	sed -i "s|containerImage.*|containerImage: $(IMG)|g" "config/manifests/bases/rhpam-kogito-operator.clusterserviceversion.yaml"
 	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	operator-sdk bundle validate ./bundle
 
@@ -135,8 +139,12 @@ bundle-build:
 	$(BUILDER) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
 .PHONY: bundle-prod-build
-bundle-prod-build: bundle
+bundle-prod-build: prod-config bundle
 	 $(CEKIT_CMD) --descriptor=image-bundle.yaml build $(BUILDER)
+
+.PHONY: prod-config
+prod-config:
+	sed -i "s|image.*|image: $(PROD_RBAC_PROXY_IMG)|g" "config/default/manager_auth_proxy_patch.yaml"
 
 # Push the bundle image.
 .PHONY: bundle-push
@@ -159,7 +167,7 @@ generate-installer: generate manifests kustomize
 
 # Generate CSV
 csv:
-	operator-sdk generate kustomize manifests
+	operator-sdk generate kustomize manifests -q
 
 vet: generate-installer bundle
 	go vet ./...

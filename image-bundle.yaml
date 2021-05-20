@@ -39,6 +39,8 @@ labels:
     value: scorecard+v1
   - name: com.redhat.delivery.operator.bundle
     value: "true"
+  - name: com.redhat.openshift.versions
+    value: v4.6
 
 modules:
   repositories:
