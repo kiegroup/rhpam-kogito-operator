@@ -3,9 +3,9 @@ VERSION ?= 7.11.0
 # Current upstream version
 UPSTREAM_VERSION ?= master
 # Default bundle image tag
-BUNDLE_IMG ?= quay.io/kiegroup/rhpam-kogito-operator-bundle:$(VERSION)
+BUNDLE_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-bundle:$(VERSION)
 # Default catalog image tag
-CATALOG_IMG ?= quay.io/kiegroup/rhpam-kogito-operator-catalog:$(VERSION)
+CATALOG_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-catalog:$(VERSION)
 # Options for 'bundle-build'
 CHANNELS=7.x
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -17,7 +17,8 @@ BUILDER ?= podman
 CEKIT_CMD := cekit -v --redhat ${cekit_option}
 
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/kiegroup/rhpam-kogito-operator:$(VERSION)
+IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:$(VERSION)
+
 # Produce CRDs with v1 extension which is required by kubernetes v1.22+, The CRDs will stop working in kubernets <= v1.15
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
@@ -123,9 +124,9 @@ endif
 
 # Generate bundle manifests and metadata, then validate generated files.
 .PHONY: bundle
-bundle: manifests kustomize
-	operator-sdk generate kustomize manifests -q
+bundle: manifests csv kustomize
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
+	sed -i "s|containerImage.*|containerImage: $(IMG)|g" "config/manifests/bases/rhpam-kogito-operator.clusterserviceversion.yaml"
 	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	operator-sdk bundle validate ./bundle
 
@@ -159,7 +160,7 @@ generate-installer: generate manifests kustomize
 
 # Generate CSV
 csv:
-	operator-sdk generate kustomize manifests
+	operator-sdk generate kustomize manifests -q
 
 vet: generate-installer bundle
 	go vet ./...

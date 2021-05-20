@@ -46,5 +46,5 @@ teardown() {
     # [[ "${csv_file}" =~ "replaces: rhpam-kogito-operator.v${getLatestOlmReleaseVersion}" ]]
     [[ "${csv_file}" =~ "version: ${NEW_VERSION}" ]]
     [[ "${csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}" ]]
-    [[ "${csv_file}" =~ "quay.io/kiegroup/rhpam-kogito-operator:${NEW_VERSION}" ]]
+    [[ "${csv_file}" =~ "registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:${NEW_VERSION}" ]]
 }

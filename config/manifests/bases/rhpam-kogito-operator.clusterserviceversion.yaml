@@ -5,7 +5,7 @@ metadata:
     alm-examples: '[]'
     capabilities: Basic Install
     categories: Integration & Delivery
-    containerImage: quay.io/kiegroup/rhpam-kogito-operator:7.11.0
+    containerImage: registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:7.11.0
     operators.operatorframework.io/builder: operator-sdk-v1.2.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
     repository: https://github.com/kiegroup/rhpam-kogito-operator
