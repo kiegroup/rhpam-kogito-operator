@@ -116,6 +116,10 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
     testParamsMap['runtime_application_image_namespace'] = 'openshift'
     testParamsMap['runtime_application_image_version'] = "pr-\$(echo \${GIT_COMMIT} | cut -c1-7)"
 
+    // Using upstream images as a workaround until there are nightly product images available
+    testParamsMap['build_s2i_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:latest"
+    testParamsMap['build_runtime_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:latest"
+
     testParamsMap['container_engine'] = env.CONTAINER_ENGINE
 
     String testParams = testParamsMap.collect { entry -> "${entry.getKey()}=\"${entry.getValue()}\"" }.join(' ')
