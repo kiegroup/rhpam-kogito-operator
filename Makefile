@@ -1,9 +1,9 @@
 # Current Operator version
 VERSION ?= 7.11.0
 # Default bundle image tag
-BUNDLE_IMG ?= quay.io/kiegroup/rhpam-kogito-operator-bundle:$(VERSION)
+BUNDLE_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-bundle:$(VERSION)
 # Default catalog image tag
-CATALOG_IMG ?= quay.io/kiegroup/rhpam-kogito-operator-catalog:$(VERSION)
+CATALOG_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-catalog:$(VERSION)
 # Options for 'bundle-build'
 CHANNELS=7.x
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -15,10 +15,7 @@ BUILDER ?= podman
 CEKIT_CMD := cekit -v --redhat ${cekit_option}
 
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/kiegroup/rhpam-kogito-operator:$(VERSION)
-
-# Image URL for kube rbac proxy
-PROD_RBAC_PROXY_IMG ?= registry.redhat.io/openshift4/ose-kube-rbac-proxy:4.7.0
+IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:$(VERSION)
 
 # Produce CRDs with v1 extension which is required by kubernetes v1.22+, The CRDs will stop working in kubernets <= v1.15
 CRD_OPTIONS ?= "crd:crdVersions=v1"
@@ -137,12 +134,8 @@ bundle-build:
 	$(BUILDER) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
 .PHONY: bundle-prod-build
-bundle-prod-build: prod-config bundle
+bundle-prod-build: bundle
 	 $(CEKIT_CMD) --descriptor=image-bundle.yaml build $(BUILDER)
-
-.PHONY: prod-config
-prod-config:
-	sed -i "s|image.*|image: $(PROD_RBAC_PROXY_IMG)|g" "config/default/manager_auth_proxy_patch.yaml"
 
 # Push the bundle image.
 .PHONY: bundle-push

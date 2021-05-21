@@ -113,9 +113,9 @@ func installRhpamKogitoUsingYaml() error {
 		}
 
 		rhpamKogitoInternalImageTagName := fmt.Sprintf("%s/%s/%s:%s", openShiftInternalRegistryURL, rhpamKogitoNamespace, rhpamKogitoImageStreamName, config.GetOperatorImageTag())
-		yamlContent = strings.ReplaceAll(yamlContent, "quay.io/kiegroup/rhpam-kogito-operator:"+version.Version, rhpamKogitoInternalImageTagName)
+		yamlContent = strings.ReplaceAll(yamlContent, "registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:"+version.Version, rhpamKogitoInternalImageTagName)
 	} else {
-		yamlContent = strings.ReplaceAll(yamlContent, "quay.io/kiegroup/rhpam-kogito-operator:"+version.Version, framework.GetOperatorImageNameAndTag())
+		yamlContent = strings.ReplaceAll(yamlContent, "registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:"+version.Version, framework.GetOperatorImageNameAndTag())
 	}
 
 	tempFilePath, err := framework.CreateTemporaryFile("kogito-operator*.yaml", yamlContent)
