@@ -46,7 +46,7 @@ pipeline {
                 sh """
                     set +x && ${CONTAINER_ENGINE} login -u jenkins -p \$(oc whoami -t) --tls-verify=false ${OPENSHIFT_REGISTRY}
                     cd version/ && TAG_OPERATOR=\$(grep -m 1 'Version =' version.go) && TAG_OPERATOR=\$(echo \${TAG_OPERATOR#*=} | tr -d '"')
-                    ${CONTAINER_ENGINE} tag registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
+                    ${CONTAINER_ENGINE} tag registry.redhat.io/rhpam-7/rhpam-kogito-operator:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
                     ${CONTAINER_ENGINE} push --tls-verify=false ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
                 """
             }

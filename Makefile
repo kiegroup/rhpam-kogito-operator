@@ -1,9 +1,9 @@
 # Current Operator version
 VERSION ?= 7.11.0
 # Default bundle image tag
-BUNDLE_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-bundle:$(VERSION)
+BUNDLE_IMG ?= registry.redhat.io/rhpam-7/rhpam-kogito-operator-bundle:$(VERSION)
 # Default catalog image tag
-CATALOG_IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator-catalog:$(VERSION)
+CATALOG_IMG ?= registry.redhat.io/rhpam-7/rhpam-kogito-operator-catalog:$(VERSION)
 # Options for 'bundle-build'
 CHANNELS=7.x
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -15,7 +15,7 @@ BUILDER ?= podman
 CEKIT_CMD := cekit -v --redhat ${cekit_option}
 
 # Image URL to use all building/pushing image targets
-IMG ?= registry.redhat.io/rh-osbs/rhpam-7-rhpam-kogito-operator:$(VERSION)
+IMG ?= registry.redhat.io/rhpam-7/rhpam-kogito-operator:$(VERSION)
 
 # Produce CRDs with v1 extension which is required by kubernetes v1.22+, The CRDs will stop working in kubernets <= v1.15
 CRD_OPTIONS ?= "crd:crdVersions=v1"
