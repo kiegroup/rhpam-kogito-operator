@@ -52,9 +52,9 @@ osbs:
   configuration:
     container:
       operator_manifests:
-        enable_digest_pinning: false
-        enable_repo_replacements: false
-        enable_registry_replacements: false
+        enable_digest_pinning: true
+        enable_repo_replacements: true
+        enable_registry_replacements: true
         manifests_dir: "manifests"
       platforms:
         only:
