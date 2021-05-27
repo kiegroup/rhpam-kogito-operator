@@ -41,6 +41,6 @@ spec:
           - name: IMAGE_NAMESPACE
             value: rhpam-7
           - name: IMAGE_REGISTRY
-            value: registry.redhat.io
+            value: registry.stage.redhat.io
       serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10

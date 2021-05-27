@@ -4,5 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-  newName: registry.redhat.io/rhpam-7/rhpam-kogito-operator
+  newName: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator
   newTag: 7.11.0
