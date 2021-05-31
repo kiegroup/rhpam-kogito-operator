@@ -8,7 +8,7 @@ labels:
   - name: maintainer
     value: bsig-cloud@redhat.com
   - name: com.redhat.component
-    value: rhpam-operator-bundle-container
+    value: rhpam-7-kogito-rhel8-operator-bundle-container
   - name: io.k8s.description
     value: Operator Bundle for deploying RHPAM & RHDM
   - name: io.k8s.display-name
@@ -24,9 +24,9 @@ labels:
   - name: operators.operatorframework.io.bundle.package.v1
     value: rhpam-kogito-operator
   - name: operators.operatorframework.io.bundle.channels.v1
-    value: stable
+    value: 7.x
   - name: operators.operatorframework.io.bundle.channel.default.v1
-    value: stable
+    value: 7.x
   - name: operators.operatorframework.io.metrics.mediatype.v1
     value: metrics+v1
   - name: operators.operatorframework.io.metrics.builder
@@ -39,6 +39,8 @@ labels:
     value: scorecard+v1
   - name: com.redhat.delivery.operator.bundle
     value: "true"
+  - name: com.redhat.openshift.versions
+    value: v4.6,v4.7
 
 modules:
   repositories:
@@ -50,10 +52,10 @@ osbs:
   configuration:
     container:
       operator_manifests:
-        enable_digest_pinning: false
-        enable_repo_replacements: false
-        enable_registry_replacements: false
-        manifests_dir: "/manifests"
+        enable_digest_pinning: true
+        enable_repo_replacements: true
+        enable_registry_replacements: true
+        manifests_dir: "manifests"
       platforms:
         only:
           - x86_64

@@ -46,7 +46,7 @@ pipeline {
                 sh """
                     set +x && ${CONTAINER_ENGINE} login -u jenkins -p \$(oc whoami -t) --tls-verify=false ${OPENSHIFT_REGISTRY}
                     cd version/ && TAG_OPERATOR=\$(grep -m 1 'Version =' version.go) && TAG_OPERATOR=\$(echo \${TAG_OPERATOR#*=} | tr -d '"')
-                    ${CONTAINER_ENGINE} tag quay.io/kiegroup/rhpam-kogito-operator:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
+                    ${CONTAINER_ENGINE} tag registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
                     ${CONTAINER_ENGINE} push --tls-verify=false ${OPENSHIFT_REGISTRY}/openshift/rhpam-kogito-operator:pr-\$(echo \${GIT_COMMIT} | cut -c1-7)
                 """
             }
@@ -117,6 +117,9 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
     testParamsMap["runtime_application_image_registry"] = runtime_app_registry_internal ? env.OPENSHIFT_INTERNAL_REGISTRY : env.OPENSHIFT_REGISTRY
     testParamsMap["runtime_application_image_namespace"] = "openshift"
     testParamsMap["runtime_application_image_version"] = "pr-\$(echo \${GIT_COMMIT} | cut -c1-7)"
+    // Using upstream images as a workaround until there are nightly product images available
+    testParamsMap['build_s2i_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:1.5"
+    testParamsMap['build_runtime_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:1.5"
     
     testParamsMap['container_engine'] = env.CONTAINER_ENGINE
 
