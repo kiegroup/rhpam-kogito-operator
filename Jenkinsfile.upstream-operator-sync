@@ -71,7 +71,7 @@ pipeline {
                     sh """
                         set +x && ${CONTAINER_ENGINE} login -u jenkins -p \$(oc whoami -t) ${CONTAINER_TLS_OPTIONS} ${OPENSHIFT_REGISTRY}
                         source ./hack/env.sh && TAG_OPERATOR=\$(getOperatorVersion)
-                        ${CONTAINER_ENGINE} tag quay.io/kiegroup/${env.OPERATOR_IMAGE_NAME}:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}:${getOperatorVersion()}
+                        ${CONTAINER_ENGINE} tag registry.stage.redhat.io/rhpam-7/${env.OPERATOR_IMAGE_NAME}:\${TAG_OPERATOR} ${OPENSHIFT_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}:${getOperatorVersion()}
                         ${CONTAINER_ENGINE} push ${CONTAINER_TLS_OPTIONS} ${OPENSHIFT_REGISTRY}/openshift/${env.OPERATOR_IMAGE_NAME}:${getOperatorVersion()}
                     """
                 }
