@@ -74,7 +74,7 @@ void setupSyncJob(String jobFolder, KogitoJobType jobType) {
             env('JENKINS_EMAIL_CREDS_ID', "${JENKINS_EMAIL_CREDS_ID}")
 
             env('REPO_NAME', 'rhpam-kogito-operator')
-            env('OPERATOR_IMAGE_NAME', 'rhpam-kogito-operator')
+            env('OPERATOR_IMAGE_NAME', 'rhpam-kogito-rhel8-operator')
             env('CONTAINER_ENGINE', 'podman')
             env('CONTAINER_TLS_OPTIONS', '--tls-verify=false')
             env('OPENSHIFT_API_KEY', 'OPENSHIFT_API')
