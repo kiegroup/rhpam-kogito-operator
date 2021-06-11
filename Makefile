@@ -1,7 +1,7 @@
 # Current Operator version
 VERSION ?= 7.11.0
 # Current upstream version
-UPSTREAM_VERSION ?= master
+UPSTREAM_VERSION ?= main
 # Default bundle image tag
 BUNDLE_IMG ?= registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator-bundle:$(VERSION)
 # Default catalog image tag
