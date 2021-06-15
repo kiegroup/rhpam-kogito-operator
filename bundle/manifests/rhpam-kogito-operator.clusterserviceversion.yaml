@@ -32,7 +32,7 @@ metadata:
     capabilities: Basic Install
     categories: Integration & Delivery
     certified: "true"
-    containerImage: quay.io/vajain/rhpam-kogito-operator:1.0
+    containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.0
     description: RMPAM Kogito Operator for deployment and management of Kogito services.
     operators.operatorframework.io/builder: operator-sdk-v1.2.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
@@ -286,7 +286,7 @@ spec:
                   value: rhpam-7
                 - name: IMAGE_REGISTRY
                   value: registry.stage.redhat.io
-                image: quay.io/vajain/rhpam-kogito-operator:1.0
+                image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.0
                 name: manager
                 resources: {}
               serviceAccountName: rhpam-kogito-operator-controller-manager
