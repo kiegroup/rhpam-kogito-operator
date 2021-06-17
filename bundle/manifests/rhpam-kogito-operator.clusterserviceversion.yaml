@@ -58,8 +58,8 @@ spec:
   description: |-
     RHPAM Kogito Operator is designed for deployment and management of Kogito services from source (only on OpenShift) and every piece of infrastructure that the services might need:
 
-    * Builds a Kogito service from a remote git repository and creates a custom image for the given runtime: Quarkus or Springboot. [See more](https://docs.jboss.org/kogito/release/latest/html_single/#con-kogito-operator-deployment-options_kogito-deploying-on-openshift).
-    * Deploy Kogito service from user provided image.
+    * Builds a RHPAM Kogito service from a remote git repository and creates a custom image for the given runtime: Red Hat build of Quarkus or Springboot. [See more](https://docs.jboss.org/kogito/release/latest/html_single/#con-kogito-operator-deployment-options_kogito-deploying-on-openshift).
+    * Deploy RHPAM Kogito service from user provided image.
     * Setup Grafana Dashboard when Grafana Operator is available in cluster.
     * Create Prometheus monitor object when Prometheus operator is available in cluster.
 
