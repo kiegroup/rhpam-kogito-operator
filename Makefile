@@ -1,9 +1,10 @@
 # Current Operator version
 VERSION ?= 7.11.0
+BUNDLE_VERSION ?= 7.11.0-1
 # Default bundle image tag
-BUNDLE_IMG ?= registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator-bundle:$(VERSION)
+BUNDLE_IMG ?= registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator-bundle:$(BUNDLE_VERSION)
 # Default catalog image tag
-CATALOG_IMG ?= registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator-catalog:$(VERSION)
+CATALOG_IMG ?= registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator-catalog:$(BUNDLE_VERSION)
 # Options for 'bundle-build'
 CHANNELS=7.x
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -125,7 +126,7 @@ endif
 bundle: manifests csv kustomize
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	sed -i "s|containerImage.*|containerImage: $(IMG)|g" "config/manifests/bases/rhpam-kogito-operator.clusterserviceversion.yaml"
-	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
+	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(BUNDLE_VERSION) $(BUNDLE_METADATA_OPTS)
 	operator-sdk bundle validate ./bundle
 
 # Build the bundle image.
