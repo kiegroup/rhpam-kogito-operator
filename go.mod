@@ -10,13 +10,14 @@ require (
 	github.com/infinispan/infinispan-operator v0.0.0-20210106103300-03aa6d76d1b2
 	github.com/integr8ly/grafana-operator/v3 v3.4.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v1.5.1-0.20210517171620-2bbf675f8fc8
+	github.com/kiegroup/kogito-operator v1.5.1-0.20210705165202-831677a0cbf4
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
 	github.com/openshift/api v3.9.1-0.20190924102528-32369d4db2ad+incompatible
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200321030439-57b580e57e88
 	github.com/operator-framework/operator-marketplace v0.0.0-20190919183128-4ef67b2f50e9
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.48.1
 	k8s.io/api v0.20.4
 	k8s.io/apiextensions-apiserver v0.20.1
 	k8s.io/apimachinery v0.20.4
