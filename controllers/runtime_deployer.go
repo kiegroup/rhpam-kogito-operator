@@ -18,9 +18,11 @@ import (
 	"reflect"
 
 	"github.com/kiegroup/kogito-operator/api"
+	"github.com/kiegroup/kogito-operator/core/framework/util"
 	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	"github.com/kiegroup/kogito-operator/core/manager"
 	"github.com/kiegroup/kogito-operator/core/operator"
+	"github.com/kiegroup/rhpam-kogito-operator/internal"
 
 	"github.com/RHsyseng/operator-utils/pkg/resource/compare"
 	"github.com/kiegroup/kogito-operator/core/framework"
@@ -79,6 +81,8 @@ func (d *runtimeDeployerHandler) OnDeploymentCreate(deployment *v1.Deployment) e
 	}
 	// sa
 	deployment.Spec.Template.Spec.ServiceAccountName = infrastructure.RuntimeServiceAccountName
+	// metering labels for product operator
+	util.AppendToStringMap(internal.GetMeteringLabels(), deployment.Spec.Template.Labels)
 	// istio
 	if d.instance.GetRuntimeSpec().IsEnableIstio() {
 		framework.AddIstioInjectSidecarAnnotation(&deployment.Spec.Template.ObjectMeta)

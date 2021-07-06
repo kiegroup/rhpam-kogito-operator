@@ -3,13 +3,14 @@ module github.com/kiegroup/rhpam-kogito-operator
 go 1.14
 
 require (
-	github.com/RHsyseng/operator-utils v0.0.0-20200304191317-2425bf382482
+	github.com/RHsyseng/operator-utils v0.0.0-20200506183821-e3b4a2ba9c30
 	github.com/cucumber/godog v0.11.0
-	github.com/go-openapi/spec v0.19.14
-	github.com/infinispan/infinispan-operator v0.0.0-20210106103300-03aa6d76d1b2
-	github.com/integr8ly/grafana-operator/v3 v3.4.0
+	github.com/go-openapi/spec v0.19.15
+	github.com/infinispan/infinispan-operator v0.0.0-20210621093106-4662500f4ae1
+	github.com/integr8ly/grafana-operator/v3 v3.10.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v0.12.1-0.20210531140744-03fa70509895
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210707114619-6ae2f22b898a
+	github.com/kiegroup/kogito-operator/api v0.0.0-00010101000000-000000000000
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
@@ -17,11 +18,11 @@ require (
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200321030439-57b580e57e88
 	github.com/operator-framework/operator-marketplace v0.0.0-20190919183128-4ef67b2f50e9
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.46.0
-	k8s.io/api v0.20.4
+	k8s.io/api v0.21.2
 	k8s.io/apiextensions-apiserver v0.20.1
-	k8s.io/apimachinery v0.20.4
+	k8s.io/apimachinery v0.21.2
 	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
+	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	knative.dev/eventing v0.18.0
 	sigs.k8s.io/controller-runtime v0.6.3
 )
@@ -60,3 +61,10 @@ replace github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+inc
 
 // Required by Helm
 replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+
+// add kogito-operator/[api|client] modules
+replace (
+	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v0.12.1-0.20210707114619-6ae2f22b898a
+	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20210707114619-6ae2f22b898a
+	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20210707114619-6ae2f22b898a
+)
