@@ -1,4 +1,4 @@
-FROM quay.io/kiegroup/kogito-runtime-jvm:latest
+FROM registry.redhat.io/rhpam-7/rhpam-kogito-runtime-jvm-rhel8:latest
 
 ENV RUNTIME_TYPE springboot
 # How to use this image with a simple example:
