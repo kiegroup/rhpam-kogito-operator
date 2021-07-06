@@ -17,20 +17,20 @@ package internal
 import (
 	"github.com/kiegroup/kogito-operator/api"
 	"github.com/kiegroup/kogito-operator/core/client/kubernetes"
+	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 	"github.com/kiegroup/kogito-operator/core/manager"
-	"github.com/kiegroup/kogito-operator/core/operator"
 	rhpamv1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type kogitoBuildHandler struct {
-	*operator.Context
+	*kogitobuild.BuildContext
 }
 
 // NewKogitoBuildHandler ...
-func NewKogitoBuildHandler(context *operator.Context) manager.KogitoBuildHandler {
+func NewKogitoBuildHandler(buildContext *kogitobuild.BuildContext) manager.KogitoBuildHandler {
 	return &kogitoBuildHandler{
-		Context: context,
+		BuildContext: buildContext,
 	}
 }
 
