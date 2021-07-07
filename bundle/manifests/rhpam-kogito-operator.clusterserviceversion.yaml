@@ -33,14 +33,14 @@ metadata:
     capabilities: Basic Install
     categories: Integration & Delivery
     certified: "true"
-    containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.0
+    containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.1
     description: RHPAM Kogito Operator for deployment and management of Kogito services.
     operators.operatorframework.io/builder: operator-sdk-v1.2.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
     repository: https://github.com/kiegroup/rhpam-kogito-operator
     support: Red Hat
     tectonic-visibility: ocs
-  name: rhpam-kogito-operator.v7.11.0-1
+  name: rhpam-kogito-operator.v7.11.1-1
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -287,7 +287,7 @@ spec:
                   value: rhpam-7
                 - name: IMAGE_REGISTRY
                   value: registry.redhat.io
-                image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.0
+                image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:7.11.1
                 name: manager
                 resources: {}
               serviceAccountName: rhpam-kogito-operator-controller-manager
@@ -342,7 +342,7 @@ spec:
   - automation
   labels:
     alm-owner-kogito: rhpam-kogito-operator
-    operated-by: rhpam-kogito-operator.7.11.0
+    operated-by: rhpam-kogito-operator.7.11.1-1
   links:
   - name: Product Page
     url: https://kogito.kie.org/
@@ -356,5 +356,5 @@ spec:
   maturity: beta
   provider:
     name: Red Hat
-  replaces: rhpam-kogito-operator.v7.11.0
-  version: 7.11.0-1
+  replaces: rhpam-kogito-operator.v7.11.0-1
+  version: 7.11.1-1
