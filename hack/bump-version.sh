@@ -23,7 +23,7 @@ if [ -z "$new_version" ]; then
   exit 1
 fi
 
-sed -i "s/$old_version/$new_version/g" README.md version/version.go config/manager/kustomization.yaml Makefile
+sed -i "s/$old_version/$new_version/g" README.md version/version.go config/manager/kustomization.yaml Makefile image*.yaml modules/**/module.yaml
 
 make vet
 
@@ -32,8 +32,5 @@ sed -i "s|replaces: rhpam-kogito-operator.*|replaces: rhpam-kogito-operator.v$(g
 sed -i "s/$old_version/$new_version/g" "$(getCsvFile)"
 
 make bundle
-
-# rewrite test default config, all other configuration into the file will be overridden
-#./hack/update_test_config.sh
 
 echo "Version bumped from $old_version to $new_version"
