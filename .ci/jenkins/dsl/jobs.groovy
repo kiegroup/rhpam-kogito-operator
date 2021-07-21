@@ -2,6 +2,8 @@ import org.kie.jenkins.jobdsl.templates.KogitoJobTemplate
 import org.kie.jenkins.jobdsl.KogitoConstants
 import org.kie.jenkins.jobdsl.Utils
 
+JENKINSFILE_PATH = '.ci/jenkins'
+
 boolean isMainBranch() {
     return "${GIT_BRANCH}" == "${GIT_MAIN_BRANCH}"
 }
@@ -57,7 +59,7 @@ void setupPrJob(String jobFolder) {
 
 
 void setupSyncJob(String jobFolder) {
-    def jobParams = getJobParams('rhpam-kogito-operator-sync', jobFolder, 'Jenkinsfile.upstream-operator-sync', 'RHPAM Kogito Operator synchronizing with Kogito operator')
+    def jobParams = getJobParams('rhpam-kogito-operator-sync', jobFolder, "${JENKINSFILE_PATH}/Jenkinsfile.upstream-operator-sync", 'RHPAM Kogito Operator synchronizing with Kogito operator')
     jobParams.triggers = [ cron : '@midnight' ]
     KogitoJobTemplate.createPipelineJob(this, jobParams).with {
         parameters {
@@ -86,7 +88,7 @@ void setupSyncJob(String jobFolder) {
 }
 
 void setupProdUpdateVersionJob(String jobFolder) {
-    KogitoJobTemplate.createPipelineJob(this, getJobParams('rhpam-kogito-operator-update-prod-version', jobFolder, 'Jenkinsfile.update-prod-version', 'Update prod version for RHPAM Kogito Operator')).with {
+    KogitoJobTemplate.createPipelineJob(this, getJobParams('rhpam-kogito-operator-update-prod-version', jobFolder, "${JENKINSFILE_PATH}/Jenkinsfile.update-prod-version", 'Update prod version for RHPAM Kogito Operator')).with {
         parameters {
             stringParam('JIRA_NUMBER', '', 'KIECLOUD-XXX or RHPAM-YYYY or else. This will be added to the commit and PR.')
             
