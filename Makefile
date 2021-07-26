@@ -165,7 +165,9 @@ generate-installer: generate manifests kustomize
 
 # Generate CSV
 csv:
+	./hack/kogito-module-api.sh --disable
 	operator-sdk generate kustomize manifests -q
+	./hack/kogito-module-api.sh --enable
 
 vet: generate-installer bundle
 	go vet ./...
