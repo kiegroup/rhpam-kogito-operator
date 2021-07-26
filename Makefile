@@ -62,8 +62,9 @@ deploy: manifests kustomize
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
+	./hack/kogito-module-api.sh --disable
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-
+	./hack/kogito-module-api.sh --enable
 # Run go fmt against code
 fmt:
 	go mod tidy
@@ -77,6 +78,7 @@ lint:
 generate: controller-gen
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 	./hack/openapi.sh
+	./hack/client-gen.sh
 
 # Build the container image
 container-build:
@@ -125,10 +127,13 @@ endif
 # Generate bundle manifests and metadata, then validate generated files.
 .PHONY: bundle
 bundle: manifests csv kustomize
+	# the api package can't be a module for the `operator-sdk generate` command to work
+	./hack/kogito-module-api.sh --disable
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	sed -i "s|containerImage.*|containerImage: $(IMG)|g" "config/manifests/bases/rhpam-kogito-operator.clusterserviceversion.yaml"
 	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
 	operator-sdk bundle validate ./bundle
+	./hack/kogito-module-api.sh --enable
 
 # Build the bundle image.
 .PHONY: bundle-build

@@ -5,12 +5,12 @@ go 1.14
 require (
 	github.com/RHsyseng/operator-utils v0.0.0-20200506183821-e3b4a2ba9c30
 	github.com/cucumber/godog v0.11.0
-	github.com/go-openapi/spec v0.19.15
 	github.com/infinispan/infinispan-operator v0.0.0-20210621093106-4662500f4ae1
 	github.com/integr8ly/grafana-operator/v3 v3.10.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v0.12.1-0.20210707114619-6ae2f22b898a
-	github.com/kiegroup/kogito-operator/api v0.0.0-00010101000000-000000000000
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210725113612-77743fbb39d7
+	github.com/kiegroup/kogito-operator/api v0.0.0-20210725113612-77743fbb39d7
+	github.com/kiegroup/rhpam-kogito-operator/api v0.0.0-00010101000000-000000000000
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
@@ -22,10 +22,12 @@ require (
 	k8s.io/apiextensions-apiserver v0.20.1
 	k8s.io/apimachinery v0.21.2
 	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	knative.dev/eventing v0.18.0
 	sigs.k8s.io/controller-runtime v0.6.3
 )
+
+// local modules
+replace github.com/kiegroup/rhpam-kogito-operator/api => ./api
 
 replace (
 	k8s.io/api => k8s.io/api v0.20.4
