@@ -20,6 +20,16 @@ metadata:
         },
         {
           "apiVersion": "rhpam.kiegroup.org/v1",
+          "kind": "KogitoInfra",
+          "metadata": {
+            "name": "kogitoinfra-sample"
+          },
+          "spec": {
+            "foo": "bar"
+          }
+        },
+        {
+          "apiVersion": "rhpam.kiegroup.org/v1",
           "kind": "KogitoRuntime",
           "metadata": {
             "name": "process-quarkus-example"
@@ -50,6 +60,11 @@ spec:
       kind: KogitoBuild
       name: kogitobuilds.rhpam.kiegroup.org
       version: v1
+    - description: 'KogitoInfra is the resource to bind a Custom Resource (CR) not managed by Kogito Operator to a given deployed Kogito service. It holds the reference of a CR managed by another operator such as Strimzi. For example: one can create a Kafka CR via Strimzi and link this resource using KogitoInfra to a given Kogito service. Please refer to the Kogito Operator documentation (https://docs.jboss.org/kogito/release/latest/html_single/) for more information.'
+      displayName: Kogito Infra
+      kind: KogitoInfra
+      name: kogitoinfras.rhpam.kiegroup.org
+      version: v1
     - description: KogitoRuntime is a custom Kogito service.
       displayName: Kogito Runtime
       kind: KogitoRuntime
@@ -72,6 +87,34 @@ spec:
     spec:
       clusterPermissions:
       - rules:
+        - apiGroups:
+          - app.kiegroup.org
+          resources:
+          - kogitoinfras
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - app.kiegroup.org
+          resources:
+          - kogitoinfras/finalizers
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - app.kiegroup.org
+          resources:
+          - kogitoinfras/status
+          verbs:
+          - get
+          - patch
+          - update
         - apiGroups:
           - apps
           resources:
@@ -120,6 +163,25 @@ spec:
           - update
           - watch
         - apiGroups:
+          - eventing.knative.dev
+          resources:
+          - brokers
+          verbs:
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - eventing.knative.dev
+          resources:
+          - triggers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
           - image.openshift.io
           resources:
           - imagestreams
@@ -132,6 +194,16 @@ spec:
           - update
           - watch
         - apiGroups:
+          - infinispan.org
+          resources:
+          - infinispans
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
           - integreatly.org
           resources:
           - grafanadashboards
@@ -141,6 +213,37 @@ spec:
           - get
           - list
           - update
+          - watch
+        - apiGroups:
+          - kafka.strimzi.io
+          resources:
+          - kafkas
+          - kafkatopics
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - keycloak.org
+          resources:
+          - keycloaks
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - watch
+        - apiGroups:
+          - mongodb.com
+          resources:
+          - mongodb
+          verbs:
+          - create
+          - delete
+          - get
+          - list
           - watch
         - apiGroups:
           - monitoring.coreos.com
@@ -223,6 +326,17 @@ spec:
           - route.openshift.io
           resources:
           - routes
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - update
+          - watch
+        - apiGroups:
+          - sources.knative.dev
+          resources:
+          - sinkbindings
           verbs:
           - create
           - delete

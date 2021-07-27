@@ -1,0 +1,7 @@
+apiVersion: rhpam.kiegroup.org/v1
+kind: KogitoInfra
+metadata:
+  name: kogitoinfra-sample
+spec:
+  # Add fields here
+  foo: bar
