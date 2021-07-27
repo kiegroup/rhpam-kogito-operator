@@ -93,11 +93,15 @@ func (r *KogitoRuntimeReconciler) Reconcile(req ctrl.Request) (result ctrl.Resul
 		CustomService:      true,
 	}
 	infraHandler := internal.NewKogitoInfraHandler(context)
-	err = kogitoservice.NewServiceDeployer(context, definition, instance, infraHandler).Deploy()
+	requeueAfter, err := kogitoservice.NewServiceDeployer(context, definition, instance, infraHandler).Deploy()
 	if err != nil {
-		return infrastructure.NewReconciliationErrorHandler(context).GetReconcileResultFor(err)
+		return
 	}
-
+	if requeueAfter > 0 {
+		log.Info("Waiting for all resources to be created, re-scheduling.", "requeueAfter", requeueAfter)
+		result.RequeueAfter = requeueAfter
+		result.Requeue = true
+	}
 	log.Debug("Finish reconciliation", "requeue", result.Requeue, "requeueAfter", result.RequeueAfter)
 	return
 }
