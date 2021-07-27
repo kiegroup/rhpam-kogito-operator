@@ -356,7 +356,7 @@ func (k *KogitoServiceSpec) IsInsecureImageRegistry() bool { return k.InsecureIm
 func (k *KogitoServiceSpec) GetPropertiesConfigMap() string { return k.PropertiesConfigMap }
 
 // GetInfra ...
-func (k *KogitoServiceSpec) GetInfra() []string { return nil }
+func (k *KogitoServiceSpec) GetInfra() []string { return k.Infra }
 
 // AddInfra ...
 func (k *KogitoServiceSpec) AddInfra(name string) {
