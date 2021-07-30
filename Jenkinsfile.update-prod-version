@@ -23,8 +23,6 @@ pipeline {
         stage('Initialization') {
             steps {
                 script {
-                    clean()
-
                     assert getProdProjectVersion()
 
                     currentBuild.displayName = getProdProjectVersion()
@@ -48,7 +46,15 @@ pipeline {
             }
             steps {
                 script {
-                    sh "./hack/bump-version.sh ${getProdProjectVersion()}"
+                    String command = "./hack/bump-version.sh ${getProdProjectVersion()}"
+                    if(getProdBundleSuffix()) {
+                        command += "-b ${getProdBundleSuffix()}"
+                    }
+                    if(getProdReplacesVersion()) {
+                        command += "-b ${getProdReplacesVersion()}"
+                    }
+
+                    sh command
 
                     if (githubscm.isThereAnyChanges()) {
                         githubscm.commitChanges("Update prod version to ${getProdProjectVersion()}")
