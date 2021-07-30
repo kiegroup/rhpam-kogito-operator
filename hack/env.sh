@@ -14,6 +14,7 @@
 # limitations under the License.
 
 CSV_DIR="config/manifests/bases"
+BUNDLE_CSV_DIR="bundle/manifests"
 TEST_CONFIG_FILE="test/.default_config"
 
 getOperatorVersion() {
@@ -30,4 +31,8 @@ getLatestOlmReleaseVersion() {
 
 getCsvFile() {
   echo "${CSV_DIR}/rhpam-kogito-operator.clusterserviceversion.yaml"
+}
+
+getBundleCsvFile() {
+  echo "${BUNDLE_CSV_DIR}/rhpam-kogito-operator.clusterserviceversion.yaml"
 }
