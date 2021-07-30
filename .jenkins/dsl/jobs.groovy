@@ -94,7 +94,7 @@ void setupProdUpdateVersionJob(String jobFolder) {
         }
 
         environmentVariables {
-            env('REPO_NAME', 'kogito-images')
+            env('REPO_NAME', 'rhpam-kogito-operator')
 
             env('GIT_AUTHOR', "${GIT_AUTHOR_NAME}")
             env('BUILD_BRANCH_NAME', "${GIT_BRANCH}")
