@@ -48,7 +48,7 @@ var (
 	rhpamKogitoOlmNamespacedInstaller = installers.OlmNamespacedServiceInstaller{
 		SubscriptionName:                   rhpamKogitoOperatorSubscriptionName,
 		Channel:                            rhpamKogitoOperatorSubscriptionChannel,
-		Catalog:                            framework.CustomKogitoOperatorCatalog,
+		Catalog:                            framework.GetCustomKogitoOperatorCatalog,
 		InstallationTimeoutInMinutes:       5,
 		GetAllNamespacedOlmCrsInNamespace:  getRhpamKogitoCrsInNamespace,
 		CleanupNamespacedOlmCrsInNamespace: cleanupRhapmKogitoCrsInNamespace,
@@ -58,7 +58,7 @@ var (
 	rhpamKogitoOlmClusterWideInstaller = installers.OlmClusterWideServiceInstaller{
 		SubscriptionName:                    rhpamKogitoOperatorSubscriptionName,
 		Channel:                             rhpamKogitoOperatorSubscriptionChannel,
-		Catalog:                             framework.CustomKogitoOperatorCatalog,
+		Catalog:                             framework.GetCustomKogitoOperatorCatalog,
 		InstallationTimeoutInMinutes:        5,
 		GetAllClusterWideOlmCrsInNamespace:  getRhpamKogitoCrsInNamespace,
 		CleanupClusterWideOlmCrsInNamespace: cleanupRhapmKogitoCrsInNamespace,
