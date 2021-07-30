@@ -88,7 +88,7 @@ func (f *FinalizeKogitoRuntime) Reconcile(request reconcile.Request) (result rec
 	}
 
 	infraHandler := internal.NewKogitoInfraHandler(context)
-	infraFinalizer := kogitoservice.NewFinalizerHandler(context, infraHandler)
+	infraFinalizer := kogitoservice.NewInfraFinalizerHandler(context, infraHandler)
 	imageStreamFinalizer := kogitoruntime.NewImageStreamFinalizerHandler(context)
 
 	// examine DeletionTimestamp to determine if object is under deletion
