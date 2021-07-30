@@ -48,10 +48,10 @@ pipeline {
                 script {
                     String command = "./hack/bump-version.sh ${getProdProjectVersion()}"
                     if(getProdBundleSuffix()) {
-                        command += "-b ${getProdBundleSuffix()}"
+                        command += " -b ${getProdBundleSuffix()}"
                     }
                     if(getProdReplacesVersion()) {
-                        command += "-b ${getProdReplacesVersion()}"
+                        command += " -r ${getProdReplacesVersion()}"
                     }
 
                     sh command
