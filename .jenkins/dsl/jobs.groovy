@@ -88,6 +88,8 @@ void setupSyncJob(String jobFolder) {
 void setupProdUpdateVersionJob(String jobFolder) {
     KogitoJobTemplate.createPipelineJob(this, getJobParams('rhpam-kogito-operator-update-prod-version', jobFolder, 'Jenkinsfile.update-prod-version', 'Update prod version for RHPAM Kogito Operator')).with {
         parameters {
+            stringParam('JIRA_NUMBER', '', 'KIECLOUD-XXX or RHPAM-YYYY or else. This will be added to the commit and PR.')
+            
             stringParam('PROD_PROJECT_VERSION', '', 'Which version to set ?')
             stringParam('PROD_BUNDLE_SUFFIX', '', '(Optional) Bundle suffix to apply to the version ? Default is value `1`.')
             stringParam('PROD_REPLACES_VERSION', '', '(Optional) Which version does it replaces ? If not given, no replacement will be done.')
