@@ -23,7 +23,8 @@ echo "Temporary folder is ${tempfolder}"
 
 version=$(getOperatorVersion)
 
-git clone https://github.com/operator-framework/community-operators.git "${tempfolder}"
+git clone https://github.com/k8s-operatorhub/community-operators.git "${tempfolder}"
+mv "${tempfolder}/operators" "${tempfolder}/community-operators"
 mkdir -p "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
 ## copy the latest manifests
 cp -r bundle/manifests/ "${tempfolder}/community-operators/rhpam-kogito-operator/${version}/"
