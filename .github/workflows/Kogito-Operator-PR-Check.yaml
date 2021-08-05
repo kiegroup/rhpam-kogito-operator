@@ -82,5 +82,7 @@ jobs:
         run: |
           git clone https://github.com/bats-core/bats-core.git
           cd bats-core && ./install.sh $HOME
+      - name: Install Operator-sdk
+        run: ./hack/ci/install-operator-sdk.sh
       - name: Run Bats
         run: $HOME/bin/bats hack/*.bats
