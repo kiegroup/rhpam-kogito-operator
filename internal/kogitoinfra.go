@@ -28,20 +28,6 @@ func NewKogitoInfraHandler(context operator.Context) manager.KogitoInfraHandler 
 	return &kogitoInfraHandler{context}
 }
 
-// NewNoOpKogitoInfraHandler returns a new instance of manager.KogitoInfraHandler which won't try to interact with the api.KogitoInfraInterface object
-func NewNoOpKogitoInfraHandler(context operator.Context) manager.KogitoInfraHandler {
-	return &kogitoInfraHandlerNoOp{context}
-}
-
-type kogitoInfraHandlerNoOp struct {
-	operator.Context
-}
-
-func (k *kogitoInfraHandlerNoOp) FetchKogitoInfraInstance(key types.NamespacedName) (api.KogitoInfraInterface, error) {
-	k.Log.Debug("NoOp InfraHandler: Returning a blank KogitoInfra. Infra features are not enabled for this instance.", "KogitoInfra", key)
-	return &v1.KogitoInfra{}, nil
-}
-
 type kogitoInfraHandler struct {
 	operator.Context
 }

@@ -32,11 +32,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
-// newKogitoRuntimeFinalizerReconciler returns a new reconcile.Reconciler
-//func newKogitoRuntimeFinalizerReconciler(mgr manager.Manager) reconcile.Reconciler {
-//	return &FinalizeKogitoRuntime{Client: kogitocli.NewForController(mgr.GetConfig()), Scheme: mgr.GetScheme()}
-//}
-
 // FinalizeKogitoRuntime reconciles a KogitoRuntime object
 type FinalizeKogitoRuntime struct {
 	// This client, initialized using mgr.Client() above, is a split client

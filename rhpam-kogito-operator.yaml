@@ -1783,34 +1783,6 @@ metadata:
   name: rhpam-kogito-operator-manager-role
 rules:
 - apiGroups:
-  - app.kiegroup.org
-  resources:
-  - kogitoinfras
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - app.kiegroup.org
-  resources:
-  - kogitoinfras/finalizers
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - app.kiegroup.org
-  resources:
-  - kogitoinfras/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
   - apps
   resources:
   - deployments
@@ -1858,25 +1830,6 @@ rules:
   - update
   - watch
 - apiGroups:
-  - eventing.knative.dev
-  resources:
-  - brokers
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - eventing.knative.dev
-  resources:
-  - triggers
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - update
-  - watch
-- apiGroups:
   - image.openshift.io
   resources:
   - imagestreams
@@ -1887,16 +1840,6 @@ rules:
   - get
   - list
   - update
-  - watch
-- apiGroups:
-  - infinispan.org
-  resources:
-  - infinispans
-  verbs:
-  - create
-  - delete
-  - get
-  - list
   - watch
 - apiGroups:
   - integreatly.org
@@ -1914,26 +1857,6 @@ rules:
   resources:
   - kafkas
   - kafkatopics
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - watch
-- apiGroups:
-  - keycloak.org
-  resources:
-  - keycloaks
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - watch
-- apiGroups:
-  - mongodb.com
-  resources:
-  - mongodb
   verbs:
   - create
   - delete
@@ -2021,17 +1944,6 @@ rules:
   - route.openshift.io
   resources:
   - routes
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - update
-  - watch
-- apiGroups:
-  - sources.knative.dev
-  resources:
-  - sinkbindings
   verbs:
   - create
   - delete

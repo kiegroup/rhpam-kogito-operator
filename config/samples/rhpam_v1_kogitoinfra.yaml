@@ -4,4 +4,7 @@ metadata:
   name: kogitoinfra-sample
 spec:
   # Add fields here
-  foo: bar
+  resource:
+    apiVersion: kafka.strimzi.io/v1beta2
+    kind: Kafka
+    name: kogito-kafka
