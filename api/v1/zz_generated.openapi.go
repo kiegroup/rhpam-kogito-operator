@@ -30,6 +30,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/kiegroup/rhpam-kogito-operator/api/v1.GitSource":         schema_kiegroup_rhpam_kogito_operator_api_v1_GitSource(ref),
 		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuild":       schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuild(ref),
 		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraSpec":   schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraSpec(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraStatus(ref),
 		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntime":     schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntime(ref),
 		"github.com/kiegroup/rhpam-kogito-operator/api/v1.WebHookSecret":     schema_kiegroup_rhpam_kogito_operator_api_v1_WebHookSecret(ref),
 	}
@@ -316,6 +318,119 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref common.R
 		},
 		Dependencies: []string{
 			"github.com/kiegroup/rhpam-kogito-operator/api/v1.Builds", "k8s.io/apimachinery/pkg/apis/meta/v1.Condition"},
+	}
+}
+
+func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "KogitoInfraSpec defines the desired state of KogitoInfra.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Resource for the service. Example: Infinispan/Kafka/Keycloak.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.InfraResource"),
+						},
+					},
+					"infraProperties": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-map-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "Optional properties which would be needed to setup correct runtime/service configuration, based on the resource type. For example, MongoDB will require `username` and `database` as properties for a correct setup, else it will fail",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"resource"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kiegroup/rhpam-kogito-operator/api/v1.InfraResource"},
+	}
+}
+
+func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "KogitoInfraStatus defines the observed state of KogitoInfra.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"conditions": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "History of conditions for the resource",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.Condition"),
+									},
+								},
+							},
+						},
+					},
+					"runtimeProperties": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Runtime variables extracted from the linked resource that will be added to the deployed Kogito service.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.RuntimeProperties"),
+									},
+								},
+							},
+						},
+					},
+					"volumes": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "List of volumes that should be added to the services bound to this infra instance",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraVolume"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"conditions"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraVolume", "github.com/kiegroup/rhpam-kogito-operator/api/v1.RuntimeProperties", "k8s.io/apimachinery/pkg/apis/meta/v1.Condition"},
 	}
 }
 

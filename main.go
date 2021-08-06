@@ -16,13 +16,15 @@ package main
 
 import (
 	"flag"
-	"github.com/kiegroup/kogito-operator/core/client"
-	"github.com/kiegroup/kogito-operator/core/logger"
-	"github.com/kiegroup/rhpam-kogito-operator/controllers"
-	"github.com/kiegroup/rhpam-kogito-operator/meta"
-	"k8s.io/apimachinery/pkg/runtime"
 	"os"
 	"strings"
+
+	"github.com/kiegroup/kogito-operator/core/client"
+	"github.com/kiegroup/kogito-operator/core/logger"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/kiegroup/rhpam-kogito-operator/controllers"
+	"github.com/kiegroup/rhpam-kogito-operator/meta"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -79,6 +81,22 @@ func main() {
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "KogitoBuild")
+		os.Exit(1)
+	}
+	if err = (&controllers.KogitoInfraReconciler{
+		Client: kubeCli,
+		Log:    logger.GetLogger("kogitoInfra-controller"),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KogitoInfra")
+		os.Exit(1)
+	}
+	if err = (&controllers.FinalizeKogitoRuntime{
+		Client: kubeCli,
+		Log:    logger.GetLogger("KogitoRuntime-finalizer"),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KogitoRuntime-finalizer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

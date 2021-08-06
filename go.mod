@@ -9,8 +9,8 @@ require (
 	github.com/infinispan/infinispan-operator v0.0.0-20210621093106-4662500f4ae1
 	github.com/integr8ly/grafana-operator/v3 v3.10.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v0.0.0-20210729115718-ae442737b7e8
-	github.com/kiegroup/kogito-operator/api v0.0.0-20210729115718-ae442737b7e8
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210802143310-23dddb0f9024
+	github.com/kiegroup/kogito-operator/api v0.0.0
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
@@ -68,7 +68,7 @@ replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503
 
 // add kogito-operator/[api|client] modules
 replace (
-	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v0.12.1-0.20210729115718-ae442737b7e8
-	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20210729115718-ae442737b7e8
-	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20210729115718-ae442737b7e8
+	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v0.12.1-0.20210802143310-23dddb0f9024
+	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20210802143310-23dddb0f9024
+	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20210802143310-23dddb0f9024
 )
