@@ -32,6 +32,8 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
+print-%  : ; @echo $($*)
+
 all: generate manifests container-build
 
 # Run tests
