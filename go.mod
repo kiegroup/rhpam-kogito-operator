@@ -68,7 +68,7 @@ replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503
 
 // add kogito-operator/[api|client] modules
 replace (
-	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v0.12.1-0.20210802143310-23dddb0f9024
-	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20210802143310-23dddb0f9024
-	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20210802143310-23dddb0f9024
+	github.com/kiegroup/kogito-operator => /home/tradisso/projects/kiegroup/kogito-operator
+	github.com/kiegroup/kogito-operator/api => /home/tradisso/projects/kiegroup/kogito-operator/api
+	github.com/kiegroup/kogito-operator/client => /home/tradisso/projects/kiegroup/kogito-operator/client
 )
