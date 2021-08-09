@@ -16,26 +16,33 @@
 current_dir=$(pwd)
 tmp_dir=$(mktemp -d)
 kogito_operator_repo="github.com/kiegroup/kogito-operator"
+local_dep=false
 
 echo '---- Retrieving kogito-operator repo/hash from `go.mod` file ----'
-cat go.mod | grep "replace ${kogito_operator_repo}" &> /dev/null
-if [ $? = 0 ]; then
-  kogito_operator_repo=$(cat go.mod | grep "replace ${kogito_operator_repo}" | awk -F' ' '{print $4}')
-  kogito_operator_hash=$(cat go.mod | grep "replace ${kogito_operator_repo}" | awk -F'-' '{print $5}')
-else
-  kogito_operator_hash=$(cat go.mod | grep -m 1 "${kogito_operator_repo}" | awk -F'-' '{print $4}')
-fi
-echo "Got kogito-operator ${kogito_operator_repo}@${kogito_operator_hash}"
+mod_ref=$(cat go.mod | grep "${kogito_operator_repo} =>")
 
-echo '---- Retrieving kogito-operator testing file ----'
+mod_path=$(echo "${mod_ref}" | awk -F' ' '{print $3}')
+
+echo '---- Retrieving kogito-operator repository ----'
 cd ${tmp_dir}
-git clone https://${kogito_operator_repo}.git &> /dev/null
+if [[ ${mod_path} =~ ^/.* ]]; then
+  echo "Copy local reference of kogito-operator"
+  cp -r ${mod_path} .
+else
+  echo "Checkout git repository"
 
+  kogito_operator_hash=$(echo "${mod_ref}" | awk -F'-' '{print $5}')
+  echo "Got kogito-operator ${kogito_operator_repo}@${kogito_operator_hash}"
+
+  git clone https://${kogito_operator_repo}.git &> /dev/null
+
+  cd ${kogito_operator_dir}
+  git reset --hard ${kogito_operator_hash}
+fi
 kogito_operator_dir=${tmp_dir}/kogito-operator
 echo ${kogito_operator_dir}
 
-cd ${kogito_operator_dir}
-git reset --hard ${kogito_operator_hash}
+echo '---- Retrieving kogito-operator testing file(s) ----'
 
 cd ${current_dir}
 
