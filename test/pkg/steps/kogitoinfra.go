@@ -17,7 +17,6 @@ package steps
 import (
 	"github.com/cucumber/godog"
 	"github.com/cucumber/messages-go/v10"
-	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	kogitoFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	kogitoMappers "github.com/kiegroup/kogito-operator/test/pkg/steps/mappers"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
@@ -29,16 +28,15 @@ import (
 */
 
 func registerKogitoInfraSteps(ctx *godog.ScenarioContext, data *Data) {
-	ctx.Step(`^Install Kafka Kogito Infra "([^"]*)" targeting service "([^"]*)" within (\d+) (?:minute|minutes)$`, data.installKogitoInfraTargetingServiceWithinMinutes)
-	ctx.Step(`^Install Kafka Kogito Infra "([^"]*)" targeting service "([^"]*)" within (\d+) (?:minute|minutes) with configuration:$`, data.installKogitoInfraTargetingServiceWithinMinutesWithConfiguration)
+	ctx.Step(`^Install (Kafka) Kogito Infra "([^"]*)" targeting service "([^"]*)" within (\d+) (?:minute|minutes)$`, data.installKogitoInfraTargetingServiceWithinMinutes)
 }
 
-func (data *Data) installKogitoInfraTargetingServiceWithinMinutes(name, targetResourceName string, timeoutInMin int) error {
-	return data.installKogitoInfraTargetingServiceWithinMinutesWithConfiguration(name, targetResourceName, timeoutInMin, &messages.PickleStepArgument_PickleTable{})
+func (data *Data) installKogitoInfraTargetingServiceWithinMinutes(targetResourceType, name, targetResourceName string, timeoutInMin int) error {
+	return data.installKogitoInfraTargetingServiceWithinMinutesWithConfiguration(targetResourceType, name, targetResourceName, timeoutInMin, &messages.PickleStepArgument_PickleTable{})
 }
 
-func (data *Data) installKogitoInfraTargetingServiceWithinMinutesWithConfiguration(name, targetResourceName string, timeoutInMin int, table *godog.Table) error {
-	infraResource, err := framework.GetKogitoInfraResourceStub(data.Namespace, name, infrastructure.KafkaKind, targetResourceName)
+func (data *Data) installKogitoInfraTargetingServiceWithinMinutesWithConfiguration(targetResourceType, name, targetResourceName string, timeoutInMin int, table *godog.Table) error {
+	infraResource, err := framework.GetKogitoInfraResourceStub(data.Namespace, name, targetResourceType, targetResourceName)
 	if err != nil {
 		return err
 	}

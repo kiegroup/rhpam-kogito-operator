@@ -39,6 +39,7 @@ func TestMain(m *testing.M) {
 		data.RegisterAllSteps(ctx)
 		data.RegisterLogsKubernetesObjects(&imgv1.ImageStreamList{}, &v1.KogitoRuntimeList{}, &v1.KogitoBuildList{}, &olmapiv1alpha1.ClusterServiceVersionList{})
 	}
+	kogitoExecutor.DisableLogsKogitoCommunityObjects()
 
 	kogitoExecutor.ExecuteBDDTests(nil)
 }
