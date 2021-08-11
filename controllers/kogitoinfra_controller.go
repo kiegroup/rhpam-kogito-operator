@@ -15,13 +15,14 @@
 package controllers
 
 import (
+	"reflect"
+
 	"github.com/kiegroup/kogito-operator/core/kogitoinfra"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
 	"github.com/kiegroup/kogito-operator/version"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
-	"reflect"
 	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
@@ -39,6 +40,9 @@ type KogitoInfraReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras/finalizers,verbs=get;update;patch
 // +kubebuilder:rbac:groups=kafka.strimzi.io,resources=kafkas;kafkatopics,verbs=get;create;list;delete;watch
 // +kubebuilder:rbac:groups=apps,resources=deployments/finalizers,verbs=update
 // +kubebuilder:rbac:groups=integreatly.org,resources=grafanadashboards,verbs=get;create;list;watch;create;delete;update

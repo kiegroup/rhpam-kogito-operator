@@ -28,6 +28,7 @@ type Data struct {
 func (data *Data) RegisterAllSteps(ctx *godog.ScenarioContext) {
 	registerKogitoBuildSteps(ctx, data)
 	registerKogitoDeployFilesSteps(ctx, data)
+	registerKogitoInfraSteps(ctx, data)
 	registerKogitoRuntimeSteps(ctx, data)
 	registerOpenShiftSteps(ctx, data)
 	registerOperatorSteps(ctx, data)

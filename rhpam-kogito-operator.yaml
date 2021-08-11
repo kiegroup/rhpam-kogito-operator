@@ -1915,6 +1915,34 @@ rules:
 - apiGroups:
   - rhpam.kiegroup.org
   resources:
+  - kogitoinfras
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - rhpam.kiegroup.org
+  resources:
+  - kogitoinfras/finalizers
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - rhpam.kiegroup.org
+  resources:
+  - kogitoinfras/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - rhpam.kiegroup.org
+  resources:
   - kogitoruntimes
   verbs:
   - create
