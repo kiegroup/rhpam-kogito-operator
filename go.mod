@@ -5,11 +5,12 @@ go 1.14
 require (
 	github.com/RHsyseng/operator-utils v0.0.0-20200506183821-e3b4a2ba9c30
 	github.com/cucumber/godog v0.11.0
+	github.com/cucumber/messages-go/v10 v10.0.3
 	github.com/go-openapi/spec v0.19.15
 	github.com/infinispan/infinispan-operator v0.0.0-20210621093106-4662500f4ae1
 	github.com/integr8ly/grafana-operator/v3 v3.10.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v0.12.1-0.20210802143310-23dddb0f9024
+	github.com/kiegroup/kogito-operator v0.12.1-0.20210811110055-e7972d9ceb9a
 	github.com/kiegroup/kogito-operator/api v0.0.0
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
