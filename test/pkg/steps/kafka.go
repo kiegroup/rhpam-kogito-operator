@@ -1,4 +1,4 @@
-// Copyright 2021 Red Hat, Inc. and/or its affiliates
+// Copyright 2020 Red Hat, Inc. and/or its affiliates
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,21 +16,13 @@ package steps
 
 import (
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/test/pkg/steps"
+	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/installers"
 )
 
-// Data contains all data needed by Gherkin steps to run
-type Data struct {
-	*steps.Data
+func registerKafkaSteps(ctx *godog.ScenarioContext, data *Data) {
+	ctx.Step(`^Kafka Operator is deployed$`, data.kafkaOperatorIsDeployed)
 }
 
-// RegisterAllSteps register all steps available to the test suite
-func (data *Data) RegisterAllSteps(ctx *godog.ScenarioContext) {
-	registerKogitoBuildSteps(ctx, data)
-	registerKogitoDeployFilesSteps(ctx, data)
-	registerKafkaSteps(ctx, data)
-	registerKogitoInfraSteps(ctx, data)
-	registerKogitoRuntimeSteps(ctx, data)
-	registerOpenShiftSteps(ctx, data)
-	registerOperatorSteps(ctx, data)
+func (data *Data) kafkaOperatorIsDeployed() error {
+	return installers.GetAmqStreamsInstaller().Install(data.Namespace)
 }

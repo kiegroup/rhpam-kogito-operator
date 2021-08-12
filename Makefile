@@ -257,8 +257,8 @@ build-performance-examples-images: tests-prepare
 
 .PHONY: tests-prepare
 tests-prepare:
-	./hack/tests-download-files.sh
+	./hack/tests-prepare.sh
 
 .PHONY: tests-clean
 tests-clean:
-	./hack/tests-clean-files.sh
+	./hack/tests-clean.sh

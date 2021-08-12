@@ -54,16 +54,16 @@ func GetKogitoInfraResourceStub(namespace, name, targetResourceType, targetResou
 // Converts infra resource from name to InfraResource struct
 func parseKogitoInfraResource(targetResourceType string) (*v1.InfraResource, error) {
 	switch targetResourceType {
-	case infrastructure.InfinispanKind:
-		return &v1.InfraResource{APIVersion: infrastructure.InfinispanAPIVersion, Kind: infrastructure.InfinispanKind}, nil
+	// case infrastructure.InfinispanKind:
+	// 	return &v1.InfraResource{APIVersion: infrastructure.InfinispanAPIVersion, Kind: infrastructure.InfinispanKind}, nil
 	case infrastructure.KafkaKind:
 		return &v1.InfraResource{APIVersion: infrastructure.KafkaAPIVersion, Kind: infrastructure.KafkaKind}, nil
-	case infrastructure.KeycloakKind:
-		return &v1.InfraResource{APIVersion: infrastructure.KeycloakAPIVersion, Kind: infrastructure.KeycloakKind}, nil
-	case infrastructure.MongoDBKind:
-		return &v1.InfraResource{APIVersion: infrastructure.MongoDBAPIVersion, Kind: infrastructure.MongoDBKind}, nil
-	case infrastructure.KnativeEventingBrokerKind:
-		return &v1.InfraResource{APIVersion: infrastructure.KnativeEventingAPIVersion, Kind: infrastructure.KnativeEventingBrokerKind}, nil
+	// case infrastructure.KeycloakKind:
+	// 	return &v1.InfraResource{APIVersion: infrastructure.KeycloakAPIVersion, Kind: infrastructure.KeycloakKind}, nil
+	// case infrastructure.MongoDBKind:
+	// 	return &v1.InfraResource{APIVersion: infrastructure.MongoDBAPIVersion, Kind: infrastructure.MongoDBKind}, nil
+	// case infrastructure.KnativeEventingBrokerKind:
+	// 	return &v1.InfraResource{APIVersion: infrastructure.KnativeEventingAPIVersion, Kind: infrastructure.KnativeEventingBrokerKind}, nil
 	default:
 		return nil, fmt.Errorf("Unknown KogitoInfra target resource type %s", targetResourceType)
 	}
