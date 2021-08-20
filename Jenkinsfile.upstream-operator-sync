@@ -146,10 +146,12 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
     // Product operator doesn't have CLI
     testParamsMap["cr_deployment_only"] = true
 
-    if(env.MAVEN_MIRROR_REPOSITORY){
-        testParamsMap["maven_mirror"] = env.MAVEN_MIRROR_REPOSITORY
-        testParamsMap["maven_ignore_self_signed_certificate"] = true
-    }
+    // Disabled as we now use IBMCloud
+    // Follow-up issue to make it more dynamic: https://issues.redhat.com/browse/KOGITO-5739
+    // if(env.MAVEN_MIRROR_REPOSITORY){
+    //     testParamsMap["maven_mirror"] = env.MAVEN_MIRROR_REPOSITORY
+    //     testParamsMap["maven_ignore_self_signed_certificate"] = true
+    // }
     
     // runtime_application_image are already provided by nightly jobs and published to the quay
     testParamsMap["image_cache_mode"] = image_cache_mode
