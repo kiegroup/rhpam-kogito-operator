@@ -187,7 +187,7 @@ olm-tests:
 	./hack/ci/run-olm-tests.sh
 
 update-dependencies:
-	go get github.com/kiegroup/kogito-operator@${UPSTREAM_VERSION}
+	./hack/update-dependencies.sh ${UPSTREAM_VERSION}
 
 # Run this before any PR to make sure everything is updated, so CI won't fail
 before-pr: update-dependencies vet test
