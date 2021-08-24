@@ -342,7 +342,7 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraSpec(ref common.Ref
 							},
 						},
 						SchemaProps: spec.SchemaProps{
-							Description: "Optional properties which would be needed to setup correct runtime/service configuration, based on the resource type. For example, MongoDB will require `username` and `database` as properties for a correct setup, else it will fail",
+							Description: "Optional properties which would be needed to setup correct runtime/service configuration, based on the resource type.\n\nFor example, MongoDB will require `username` and `database` as properties for a correct setup, else it will fail",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
 								Allows: true,
