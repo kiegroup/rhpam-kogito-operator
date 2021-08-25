@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-source ./hack/go-path.sh
+script_dir_path=`dirname "${BASH_SOURCE[0]}"`
+source ${script_dir_path}/go-path.sh
 
 # get the openapi binary
 command -v openapi-gen >/dev/null || go build -o "${GOPATH}"/bin/openapi-gen k8s.io/kube-openapi/cmd/openapi-gen

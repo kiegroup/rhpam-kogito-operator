@@ -20,7 +20,9 @@
 # That's it all other tools will be downloaded and installed by the OLM script.
 
 set -e
-source ./hack/ci/operator-ensure-manifests.sh
+
+script_dir_path=`dirname "${BASH_SOURCE[0]}"`
+source ${script_dir_path}/operator-ensure-manifests.sh
 
 # SCRIPT_URL URL to the script used by OLM to test the operator
 SCRIPT_URL="https://raw.githubusercontent.com/redhat-openshift-ecosystem/operator-test-playbooks/master/upstream/test/test.sh"
