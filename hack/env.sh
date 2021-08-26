@@ -36,3 +36,28 @@ getCsvFile() {
 getBundleCsvFile() {
   echo "${BUNDLE_CSV_DIR}/rhpam-kogito-operator.clusterserviceversion.yaml"
 }
+
+getAllDependentCrds() {
+  for crdKey in ${DEPENDENT_CRDS_KEYS[*]}
+  do
+    for crd in $(getDependentCrds ${crdKey})
+    do
+      echo "$crd"
+    done
+  done
+
+  if [ "$1" = "all" ]
+  then
+    for crdKey in ${DEPENDENT_SENSITIVE_CRDS_KEYS[*]}
+    do
+      for crd in $(getDependentCrds ${crdKey})
+      do
+        echo "$crd"
+      done
+    done
+  fi
+}
+
+getDependentCrds() {
+  oc get crds | grep $1 | awk -F' ' '{print $1}'
+}

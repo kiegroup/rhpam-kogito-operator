@@ -48,6 +48,7 @@ cd ${current_dir}
 
 cp -r ${kogito_operator_dir}/hack/run-tests.sh hack/run-tests.sh
 cp -r ${kogito_operator_dir}/hack/clean-stuck-namespaces.sh hack/clean-stuck-namespaces.sh
+cp -r ${kogito_operator_dir}/hack/clean-crds.sh hack/clean-crds.sh
 cp -r ${kogito_operator_dir}/test/Makefile test/Makefile
 cp -r ${kogito_operator_dir}/test/features test/features
 cp -r ${kogito_operator_dir}/test/examples test/examples
