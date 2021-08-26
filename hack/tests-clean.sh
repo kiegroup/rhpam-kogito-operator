@@ -24,6 +24,7 @@ fi
 echo '---- Removing files ----'
 rm -rf hack/run-tests.sh
 rm -rf hack/clean-stuck-namespaces.sh
+rm -rf hack/clean-crds.sh
 rm -rf test/Makefile
 rm -rf test/features
 rm -rf test/scripts
