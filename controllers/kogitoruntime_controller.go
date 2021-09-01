@@ -92,7 +92,8 @@ func (r *KogitoRuntimeReconciler) Reconcile(req ctrl.Request) (result ctrl.Resul
 		OnGetComparators:   deploymentHandler.OnGetComparators,
 		CustomService:      true,
 	}
-	err = kogitoservice.NewServiceDeployer(context, definition, instance, nil).Deploy()
+	infraHandler := internal.NewKogitoInfraHandler(context)
+	err = kogitoservice.NewServiceDeployer(context, definition, instance, infraHandler).Deploy()
 	if err != nil {
 		return infrastructure.NewReconciliationErrorHandler(context).GetReconcileResultFor(err)
 	}

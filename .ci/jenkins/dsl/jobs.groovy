@@ -1,7 +1,8 @@
 import org.kie.jenkins.jobdsl.templates.KogitoJobTemplate
 import org.kie.jenkins.jobdsl.KogitoConstants
 import org.kie.jenkins.jobdsl.Utils
-import org.kie.jenkins.jobdsl.KogitoJobType
+
+JENKINSFILE_PATH = '.ci/jenkins'
 
 boolean isMainBranch() {
     return "${GIT_BRANCH}" == "${GIT_MAIN_BRANCH}"
@@ -35,16 +36,16 @@ def getJobParams(String jobName, String jobFolder, String jenkinsfileName, Strin
 
 def nightlyBranchFolder = "${KogitoConstants.KOGITO_DSL_NIGHTLY_FOLDER}/${JOB_BRANCH_FOLDER}"
 
-if (isMainBranch()) {
+// if (isMainBranch()) {
     // PR job is disabled for now as handled by another Jenkins
     // folder(KogitoConstants.KOGITO_DSL_PULLREQUEST_FOLDER)
 
     // setupPrJob(KogitoConstants.KOGITO_DSL_PULLREQUEST_FOLDER)
-}
+// }
 
-folder(KogitoConstants.KOGITO_DSL_NIGHTLY_FOLDER)
-folder(nightlyBranchFolder)
-setupSyncJob(nightlyBranchFolder, KogitoJobType.NIGHTLY)
+setupSyncJob(nightlyBranchFolder)
+
+setupProdUpdateVersionJob("${KogitoConstants.KOGITO_DSL_TOOLS_FOLDER}/${JOB_BRANCH_FOLDER}")
 
 /////////////////////////////////////////////////////////////////
 // Methods
@@ -57,8 +58,8 @@ void setupPrJob(String jobFolder) {
 }
 
 
-void setupSyncJob(String jobFolder, KogitoJobType jobType) {
-    def jobParams = getJobParams('rhpam-kogito-operator-sync', jobFolder, 'Jenkinsfile.upstream-operator-sync', 'RHPAM Kogito Operator synchronizing with Kogito operator')
+void setupSyncJob(String jobFolder) {
+    def jobParams = getJobParams('rhpam-kogito-operator-sync', jobFolder, "${JENKINSFILE_PATH}/Jenkinsfile.upstream-operator-sync", 'RHPAM Kogito Operator synchronizing with Kogito operator')
     jobParams.triggers = [ cron : '@midnight' ]
     KogitoJobTemplate.createPipelineJob(this, jobParams).with {
         parameters {
@@ -82,6 +83,30 @@ void setupSyncJob(String jobFolder, KogitoJobType jobType) {
             env('OPENSHIFT_REGISTRY_KEY', 'OPENSHIFT_REGISTRY')
 
             env('GIT_AUTHOR', "${GIT_AUTHOR_NAME}")
+        }
+    }
+}
+
+void setupProdUpdateVersionJob(String jobFolder) {
+    KogitoJobTemplate.createPipelineJob(this, getJobParams('rhpam-kogito-operator-update-prod-version', jobFolder, "${JENKINSFILE_PATH}/Jenkinsfile.update-prod-version", 'Update prod version for RHPAM Kogito Operator')).with {
+        parameters {
+            stringParam('JIRA_NUMBER', '', 'KIECLOUD-XXX or RHPAM-YYYY or else. This will be added to the commit and PR.')
+            
+            stringParam('PROD_PROJECT_VERSION', '', 'Which version to set ?')
+            stringParam('PROD_BUNDLE_SUFFIX', '', '(Optional) Bundle suffix to apply to the version ? Default is value `1`.')
+            stringParam('PROD_REPLACES_VERSION', '', '(Optional) Which version does it replaces ? If not given, no replacement will be done.')
+        }
+
+        environmentVariables {
+            env('REPO_NAME', 'rhpam-kogito-operator')
+
+            env('GIT_AUTHOR', "${GIT_AUTHOR_NAME}")
+            env('BUILD_BRANCH_NAME', "${GIT_BRANCH}")
+
+            env('AUTHOR_CREDS_ID', "${GIT_AUTHOR_CREDENTIALS_ID}")
+            env('GITHUB_TOKEN_CREDS_ID', "${GIT_AUTHOR_TOKEN_CREDENTIALS_ID}")
+            env('GIT_AUTHOR_BOT', "${GIT_BOT_AUTHOR_NAME}")
+            env('BOT_CREDENTIALS_ID', "${GIT_BOT_AUTHOR_CREDENTIALS_ID}")
         }
     }
 }

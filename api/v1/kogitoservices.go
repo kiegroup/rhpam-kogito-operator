@@ -220,6 +220,10 @@ type KogitoServiceSpec struct {
 	// If left empty, one will be created for you. Later it can be updated to add any custom properties to apply to the service.
 	PropertiesConfigMap string `json:"propertiesConfigMap,omitempty"`
 
+	// Infra provides list of dependent KogitoInfra objects.
+	// +optional
+	Infra []string `json:"infra,omitempty"`
+
 	// Create Service monitor instance to connect with Monitoring service
 	// +optional
 	Monitoring Monitoring `json:"monitoring,omitempty"`
@@ -352,11 +356,11 @@ func (k *KogitoServiceSpec) IsInsecureImageRegistry() bool { return k.InsecureIm
 func (k *KogitoServiceSpec) GetPropertiesConfigMap() string { return k.PropertiesConfigMap }
 
 // GetInfra ...
-func (k *KogitoServiceSpec) GetInfra() []string { return nil }
+func (k *KogitoServiceSpec) GetInfra() []string { return k.Infra }
 
 // AddInfra ...
 func (k *KogitoServiceSpec) AddInfra(name string) {
-	panic("Operation not supported")
+	k.Infra = append(k.Infra, name)
 }
 
 // GetMonitoring ...

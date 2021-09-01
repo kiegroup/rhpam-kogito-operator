@@ -15,12 +15,13 @@
 package controllers
 
 import (
-	"github.com/kiegroup/kogito-operator/api/v1beta1"
 	kogitocli "github.com/kiegroup/kogito-operator/core/client"
 	kogitoruntime "github.com/kiegroup/kogito-operator/core/kogitoruntime"
+	"github.com/kiegroup/kogito-operator/core/kogitoservice"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
 	"github.com/kiegroup/kogito-operator/version"
+	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -52,7 +53,7 @@ func (f *FinalizeKogitoRuntime) SetupWithManager(mgr manager.Manager) error {
 			return !e.MetaNew.GetDeletionTimestamp().IsZero()
 		},
 	}
-	b := ctrl.NewControllerManagedBy(mgr).For(&v1beta1.KogitoRuntime{}, builder.WithPredicates(pred))
+	b := ctrl.NewControllerManagedBy(mgr).For(&v1.KogitoRuntime{}, builder.WithPredicates(pred))
 	return b.Complete(f)
 }
 
@@ -81,11 +82,17 @@ func (f *FinalizeKogitoRuntime) Reconcile(request reconcile.Request) (result rec
 		return
 	}
 
+	infraHandler := internal.NewKogitoInfraHandler(context)
+	infraFinalizer := kogitoservice.NewInfraFinalizerHandler(context, infraHandler)
 	imageStreamFinalizer := kogitoruntime.NewImageStreamFinalizerHandler(context)
 
 	// examine DeletionTimestamp to determine if object is under deletion
 	if instance.GetDeletionTimestamp().IsZero() {
 		// Add finalizer for this CR
+		if err = infraFinalizer.AddFinalizer(instance); err != nil {
+			result.Requeue = true
+			return
+		}
 		if f.Client.IsOpenshift() {
 			if err = imageStreamFinalizer.AddFinalizer(instance); err != nil {
 				result.Requeue = true
@@ -97,6 +104,10 @@ func (f *FinalizeKogitoRuntime) Reconcile(request reconcile.Request) (result rec
 
 	// The object is being deleted
 	log.Info("KogitoRuntime has been deleted")
+	if err = infraFinalizer.HandleFinalization(instance); err != nil {
+		result.Requeue = true
+		return
+	}
 	if f.Client.IsOpenshift() {
 		if err = imageStreamFinalizer.HandleFinalization(instance); err != nil {
 			result.Requeue = true

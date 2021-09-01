@@ -31,8 +31,8 @@ teardown() {
     [[ "${output}" =~ "Please inform the new version. Use X.X.X" ]]
 }
 
-@test "check csv file is set correctly" {
-    export -f make
+@test "check csv file is set correctly, no option" {
+    # export -f make
 
     dir="${BATS_TMPDIR}/${BATS_TEST_NAME}"
     cd ${dir}
@@ -41,10 +41,67 @@ teardown() {
 
     # Check csv file
     [[ "${output}" =~ "Version bumped from ${CURRENT_VERSION} to ${NEW_VERSION}" ]]
+    [[ "${output}" =~ "Set version ${NEW_VERSION} with bundle suffix 1 and replacing version (if not empty) " ]]
     # fine tune results
     csv_file=$(cat $(getCsvFile))
-    # [[ "${csv_file}" =~ "replaces: rhpam-kogito-operator.v${getLatestOlmReleaseVersion}" ]]
-    [[ "${csv_file}" =~ "version: ${NEW_VERSION}" ]]
-    [[ "${csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}" ]]
-    [[ "${csv_file}" =~ "registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-1" ]]
+    [[ "${csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-1" ]]
+    [[ "${csv_file}" =~ "version: ${NEW_VERSION}-1" ]]
+    bundle_csv_file=$(cat $(getBundleCsvFile))
+    [[ "${bundle_csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-1" ]]
+    [[ "${bundle_csv_file}" =~ "image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-1" ]]
+    [[ "${bundle_csv_file}" =~ "version: ${NEW_VERSION}-1" ]]
+}
+
+@test "check csv file is set correctly with bundle suffix" {
+    # export -f make
+
+    dir="${BATS_TMPDIR}/${BATS_TEST_NAME}"
+    cd ${dir}
+    run hack/bump-version.sh ${NEW_VERSION} -b 3
+    [ "$status" -eq 0 ]
+
+    # Check csv file
+    [[ "${output}" =~ "Version bumped from ${CURRENT_VERSION} to ${NEW_VERSION}" ]]
+    [[ "${output}" =~ "Set version ${NEW_VERSION} with bundle suffix 3 and replacing version (if not empty) " ]]
+    # fine tune results
+    csv_file=$(cat $(getCsvFile))
+    [[ "${csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-3" ]]
+    [[ "${csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-3" ]]
+    [[ "${csv_file}" =~ "version: ${NEW_VERSION}-3" ]]
+    bundle_csv_file=$(cat $(getBundleCsvFile))
+    [[ "${bundle_csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-3" ]]
+    [[ "${bundle_csv_file}" =~ "image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-3" ]]
+    [[ "${bundle_csv_file}" =~ "version: ${NEW_VERSION}-3" ]]
+}
+
+@test "check csv file is set correctly with bundle suffix and replaces version" {
+    # export -f make
+
+    dir="${BATS_TMPDIR}/${BATS_TEST_NAME}"
+    cd ${dir}
+    run hack/bump-version.sh ${NEW_VERSION} -b 10 -r 7.11.1
+    [ "$status" -eq 0 ]
+
+    # Check csv file
+    [[ "${output}" =~ "Version bumped from ${CURRENT_VERSION} to ${NEW_VERSION}" ]]
+    [[ "${output}" =~ "Set version ${NEW_VERSION} with bundle suffix 10 and replacing version (if not empty) " ]]
+    # fine tune results
+    csv_file=$(cat $(getCsvFile))
+    [[ "${csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-10" ]]
+    [[ "${csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-10" ]]
+    [[ "${csv_file}" =~ "version: ${NEW_VERSION}-10" ]]
+    bundle_csv_file=$(cat $(getBundleCsvFile))
+    [[ "${bundle_csv_file}" =~ "containerImage: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "name: rhpam-kogito-operator.v${NEW_VERSION}-10" ]]
+    [[ "${bundle_csv_file}" =~ "image: registry.stage.redhat.io/rhpam-7/rhpam-kogito-rhel8-operator:${NEW_VERSION}" ]]
+    [[ "${bundle_csv_file}" =~ "operated-by: rhpam-kogito-operator.${NEW_VERSION}-10" ]]
+    [[ "${bundle_csv_file}" =~ "version: ${NEW_VERSION}-10" ]]
 }
