@@ -20,9 +20,9 @@ import (
 	"github.com/kiegroup/kogito-operator/core/kogitoservice"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	"github.com/kiegroup/kogito-operator/version"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
+	"github.com/kiegroup/rhpam-kogito-operator/version"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/builder"
@@ -85,7 +85,6 @@ func (f *FinalizeKogitoRuntime) Reconcile(request reconcile.Request) (result rec
 	infraHandler := internal.NewKogitoInfraHandler(context)
 	infraFinalizer := kogitoservice.NewInfraFinalizerHandler(context, infraHandler)
 	imageStreamFinalizer := kogitoruntime.NewImageStreamFinalizerHandler(context)
-
 	// examine DeletionTimestamp to determine if object is under deletion
 	if instance.GetDeletionTimestamp().IsZero() {
 		// Add finalizer for this CR

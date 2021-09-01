@@ -15,12 +15,12 @@
 package controllers
 
 import (
+	"github.com/kiegroup/rhpam-kogito-operator/version"
 	"reflect"
 
 	"github.com/kiegroup/kogito-operator/core/kogitoinfra"
 	"github.com/kiegroup/kogito-operator/core/logger"
 	"github.com/kiegroup/kogito-operator/core/operator"
-	"github.com/kiegroup/kogito-operator/version"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/internal"
 	"sigs.k8s.io/controller-runtime/pkg/builder"
@@ -43,9 +43,16 @@ type KogitoInfraReconciler struct {
 // +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=rhpam.kiegroup.org,resources=kogitoinfras/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments;replicasets,verbs=get;create;list;watch;create;delete;update
+// +kubebuilder:rbac:groups=infinispan.org,resources=infinispans,verbs=get;create;list;delete;watch
 // +kubebuilder:rbac:groups=kafka.strimzi.io,resources=kafkas;kafkatopics,verbs=get;create;list;delete;watch
+// +kubebuilder:rbac:groups=keycloak.org,resources=keycloaks,verbs=get;create;list;delete;watch
 // +kubebuilder:rbac:groups=apps,resources=deployments/finalizers,verbs=update
+// +kubebuilder:rbac:groups=eventing.knative.dev,resources=brokers,verbs=get;list;watch
+// +kubebuilder:rbac:groups=eventing.knative.dev,resources=triggers,verbs=get;list;watch;create;delete;update
+// +kubebuilder:rbac:groups=sources.knative.dev,resources=sinkbindings,verbs=get;list;watch;create;delete;update
 // +kubebuilder:rbac:groups=integreatly.org,resources=grafanadashboards,verbs=get;create;list;watch;create;delete;update
+// +kubebuilder:rbac:groups=mongodb.com,resources=mongodb,verbs=get;create;list;watch;delete
 
 // Reconcile reads that state of the cluster for a KogitoInfra object and makes changes based on the state read
 // and what is in the KogitoInfra.Spec
@@ -63,26 +70,59 @@ func (r *KogitoInfraReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 
 	// Fetch the KogitoInfra instance
 	infraHandler := internal.NewKogitoInfraHandler(context)
-	instance, resultErr := infraHandler.FetchKogitoInfraInstance(req.NamespacedName)
-	if resultErr != nil {
-		return reconcile.Result{}, resultErr
+	instance, err := infraHandler.FetchKogitoInfraInstance(req.NamespacedName)
+	if err != nil {
+		return reconcile.Result{}, err
 	}
 	if instance == nil {
 		log.Debug("KogitoInfra instance not found")
 		return reconcile.Result{}, nil
 	}
-
-	statusHandler := kogitoinfra.NewStatusHandler(context)
+	var resultErr error
+	statusHandler := kogitoinfra.NewStatusHandler(context, infraHandler)
 	defer statusHandler.UpdateBaseStatus(instance, &resultErr)
 
+	instance.GetStatus().SetEnvs(nil)
+	instance.GetStatus().SetConfigMapEnvFromReferences(nil)
+	instance.GetStatus().SetConfigMapVolumeReferences(nil)
+	instance.GetStatus().SetSecretEnvFromReferences(nil)
+	instance.GetStatus().SetSecretVolumeReferences(nil)
+
 	reconcilerHandler := kogitoinfra.NewReconcilerHandler(context)
-	reconciler, resultErr := reconcilerHandler.GetInfraReconciler(instance)
-	if resultErr != nil {
+	if !instance.GetSpec().IsResourceEmpty() {
+		var reconciler kogitoinfra.Reconciler
+		reconciler, resultErr = reconcilerHandler.GetInfraReconciler(instance)
+		if resultErr != nil {
+			return reconcilerHandler.GetReconcileResultFor(resultErr, false)
+		}
+
+		resultErr = reconciler.Reconcile()
+		if resultErr != nil {
+			return reconcilerHandler.GetReconcileResultFor(resultErr, false)
+		}
+	}
+
+	appConfigMapReconciler := reconcilerHandler.GetInfraPropertiesReconciler(instance)
+	if resultErr = appConfigMapReconciler.Reconcile(); resultErr != nil {
 		return reconcilerHandler.GetReconcileResultFor(resultErr, false)
 	}
 
-	requeue, resultErr := reconciler.Reconcile()
-	return reconcilerHandler.GetReconcileResultFor(resultErr, requeue)
+	// Set envs in status
+	if len(instance.GetSpec().GetEnvs()) > 0 {
+		instance.GetStatus().AddEnvs(instance.GetSpec().GetEnvs())
+	}
+
+	configMapReferenceReconciler := reconcilerHandler.GetConfigMapReferenceReconciler(instance)
+	if resultErr = configMapReferenceReconciler.Reconcile(); resultErr != nil {
+		return reconcilerHandler.GetReconcileResultFor(resultErr, false)
+	}
+
+	secretReferenceReconciler := reconcilerHandler.GetSecretReferenceReconciler(instance)
+	if resultErr = secretReferenceReconciler.Reconcile(); resultErr != nil {
+		return reconcilerHandler.GetReconcileResultFor(resultErr, false)
+	}
+
+	return reconcile.Result{}, nil
 }
 
 // SetupWithManager registers the controller with manager
@@ -95,6 +135,11 @@ func (r *KogitoInfraReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		},
 	}
 	b := ctrl.NewControllerManagedBy(mgr).For(&v1.KogitoInfra{}, builder.WithPredicates(pred))
+	b = kogitoinfra.AppendInfinispanWatchedObjects(b)
 	b = kogitoinfra.AppendKafkaWatchedObjects(b)
+	b = kogitoinfra.AppendKeycloakWatchedObjects(b)
+	b = kogitoinfra.AppendMongoDBWatchedObjects(b)
+	b = kogitoinfra.AppendConfigMapWatchedObjects(b)
+	b = kogitoinfra.AppendSecretWatchedObjects(b)
 	return b.Complete(r)
 }

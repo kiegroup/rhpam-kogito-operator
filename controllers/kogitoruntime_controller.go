@@ -28,10 +28,13 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/event"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 // KogitoRuntimeReconciler reconciles a KogitoRuntime object
@@ -118,6 +121,13 @@ func (r *KogitoRuntimeReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		For(&rhpamv1.KogitoRuntime{}, builder.WithPredicates(pred)).
 		Owns(&corev1.Service{}).Owns(&appsv1.Deployment{}).Owns(&corev1.ConfigMap{})
 
+	infraHandler := &handler.EnqueueRequestForOwner{IsController: false, OwnerType: &rhpamv1.KogitoRuntime{}}
+	infraPred := predicate.Funcs{
+		UpdateFunc: func(e event.UpdateEvent) bool {
+			return reflect.DeepEqual(e.MetaNew.GetOwnerReferences(), e.MetaOld.GetOwnerReferences())
+		},
+	}
+	b.Watches(&source.Kind{Type: &rhpamv1.KogitoInfra{}}, infraHandler, builder.WithPredicates(infraPred))
 	if r.IsOpenshift() {
 		b.Owns(&routev1.Route{}).Owns(&imagev1.ImageStream{})
 	}
