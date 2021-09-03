@@ -39,7 +39,7 @@ func GetKogitoInfraResourceStub(namespace, name, targetResourceType, targetResou
 	return &v1.KogitoInfra{
 		ObjectMeta: framework.NewObjectMetadata(namespace, name),
 		Spec: v1.KogitoInfraSpec{
-			Resource: *infraResource,
+			Resource: infraResource,
 		},
 		Status: v1.KogitoInfraStatus{
 			Conditions: &[]apiv1.Condition{

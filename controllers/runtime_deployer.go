@@ -28,7 +28,6 @@ import (
 	"github.com/kiegroup/kogito-operator/core/framework"
 	monv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	v1 "k8s.io/api/apps/v1"
-	corev1 "k8s.io/api/core/v1"
 )
 
 const (
@@ -58,12 +57,6 @@ func NewRuntimeDeployerHandler(context operator.Context, instance api.KogitoRunt
 }
 
 func (d *runtimeDeployerHandler) OnGetComparators(comparator compare.ResourceComparator) {
-	comparator.SetComparator(
-		framework.NewComparatorBuilder().
-			WithType(reflect.TypeOf(corev1.ConfigMap{})).
-			WithCustomComparator(framework.CreateConfigMapComparator()).
-			Build())
-
 	comparator.SetComparator(
 		framework.NewComparatorBuilder().
 			WithType(reflect.TypeOf(monv1.ServiceMonitor{})).
