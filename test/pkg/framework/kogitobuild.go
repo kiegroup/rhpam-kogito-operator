@@ -75,8 +75,8 @@ func SetupKogitoBuildImageStreams(kogitoBuild *v1.KogitoBuild) {
 
 // GetKogitoBuildS2IImage returns build S2I image
 func GetKogitoBuildS2IImage() string {
-	if len(config.GetBuildS2IImageStreamTag()) > 0 {
-		return config.GetBuildS2IImageStreamTag()
+	if len(config.GetBuildBuilderImageStreamTag()) > 0 {
+		return config.GetBuildBuilderImageStreamTag()
 	}
 
 	return getKogitoBuildImage(kogitobuild.GetDefaultBuilderImage())
@@ -85,12 +85,15 @@ func GetKogitoBuildS2IImage() string {
 // GetKogitoBuildRuntimeImage returns build runtime image
 func GetKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
 	var imageName string
-	if len(config.GetBuildRuntimeImageStreamTag()) > 0 {
-		return config.GetBuildRuntimeImageStreamTag()
-	}
 	if kogitoBuild.Spec.Native {
+		if len(config.GetBuildRuntimeNativeImageStreamTag()) > 0 {
+			return config.GetBuildRuntimeNativeImageStreamTag()
+		}
 		imageName = kogitobuild.GetDefaultRuntimeNativeImage()
 	} else {
+		if len(config.GetBuildRuntimeJVMImageStreamTag()) > 0 {
+			return config.GetBuildRuntimeJVMImageStreamTag()
+		}
 		imageName = kogitobuild.GetDefaultRuntimeJVMImage()
 	}
 	return getKogitoBuildImage(imageName)
@@ -99,9 +102,8 @@ func GetKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
 // getKogitoBuildImage returns a build image with defaults set
 func getKogitoBuildImage(imageName string) string {
 	image := api.Image{
-		Domain:    config.GetBuildImageRegistry(),
-		Namespace: config.GetBuildImageNamespace(),
-		Tag:       config.GetBuildImageVersion(),
+		Domain: fmt.Sprintf("%s/%s", config.GetBuildImageRegistry(), config.GetBuildImageNamespace()),
+		Tag:    config.GetBuildImageVersion(),
 	}
 
 	// Update image name with suffix if provided
