@@ -17,6 +17,9 @@ CSV_DIR="config/manifests/bases"
 BUNDLE_CSV_DIR="bundle/manifests"
 TEST_CONFIG_FILE="test/.default_config"
 
+DEPENDENT_CRDS_KEYS=(grafana hyperfoil infinispan kafka keycloak knative kogito mongodb)
+DEPENDENT_SENSITIVE_CRDS_KEYS=(prometheus)
+
 getOperatorVersion() {
   local version=$(grep -m 1 'Version =' version/version.go) && version=$(echo ${version#*=} | tr -d '"' | tr -d ' ')
   echo "${version}"
