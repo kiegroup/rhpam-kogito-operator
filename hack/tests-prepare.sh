@@ -18,6 +18,9 @@ tmp_dir=$(mktemp -d)
 kogito_operator_repo="github.com/kiegroup/kogito-operator"
 local_dep=false
 
+kogito_operator_dir=${tmp_dir}/kogito-operator
+echo "Using temp dir ${kogito_operator_dir}"
+
 echo '---- Retrieving kogito-operator repo/hash from `go.mod` file ----'
 mod_ref=$(cat go.mod | grep "${kogito_operator_repo} =>")
 
@@ -39,8 +42,6 @@ else
   cd ${kogito_operator_dir}
   git reset --hard ${kogito_operator_hash}
 fi
-kogito_operator_dir=${tmp_dir}/kogito-operator
-echo ${kogito_operator_dir}
 
 echo '---- Retrieving kogito-operator testing file(s) ----'
 
