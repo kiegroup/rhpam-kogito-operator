@@ -102,8 +102,15 @@ func GetKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
 // getKogitoBuildImage returns a build image with defaults set
 func getKogitoBuildImage(imageName string) string {
 	image := api.Image{
-		Domain: fmt.Sprintf("%s/%s", config.GetBuildImageRegistry(), config.GetBuildImageNamespace()),
-		Tag:    config.GetBuildImageVersion(),
+		Name: imageName,
+		Tag:  config.GetBuildImageVersion(),
+	}
+
+	registry := config.GetBuildImageRegistry()
+	if len(config.GetBuildImageNamespace()) > 0 {
+		image.Domain = fmt.Sprintf("%s/%s", registry, config.GetBuildImageNamespace())
+	} else {
+		image.Domain = registry
 	}
 
 	// Update image name with suffix if provided
