@@ -1,7 +1,9 @@
-tests.build-image-registry=quay.io/kiegroup
+tests.build-image-registry=quay.io
+tests.build-image-namespace=kiegroup
 tests.build-image-version=latest
 tests.build-image-name-suffix=nightly
-tests.services-image-registry=quay.io/kiegroup
+tests.services-image-registry=quay.io
+tests.services-image-namespace=kiegroup
 tests.services-image-version=latest
 tests.services-image-name-suffix=nightly
 tests.runtime-application-image-name-prefix=examples
