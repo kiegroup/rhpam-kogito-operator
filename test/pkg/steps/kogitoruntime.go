@@ -16,7 +16,7 @@ package steps
 
 import (
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 	kogitoCoreFramework "github.com/kiegroup/kogito-operator/core/framework"
 	kogitoFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	"github.com/kiegroup/kogito-operator/test/pkg/steps"

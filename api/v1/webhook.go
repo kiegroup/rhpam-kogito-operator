@@ -14,7 +14,7 @@
 
 package v1
 
-import "github.com/kiegroup/kogito-operator/api"
+import api "github.com/kiegroup/kogito-operator/apis"
 
 // WebHookSecret Secret to use for a given webHook.
 // +k8s:openapi-gen=true

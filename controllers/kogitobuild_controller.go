@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 	"github.com/kiegroup/kogito-operator/core/framework"
 	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	"github.com/kiegroup/kogito-operator/core/kogitobuild"

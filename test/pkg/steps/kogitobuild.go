@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/cucumber/godog"
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 	"github.com/kiegroup/kogito-operator/test/pkg/config"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	bddtypes "github.com/kiegroup/kogito-operator/test/pkg/types"
