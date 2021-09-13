@@ -17,7 +17,6 @@ package framework
 import (
 	"fmt"
 
-	"github.com/kiegroup/kogito-operator/core/infrastructure"
 	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 
 	"github.com/kiegroup/kogito-operator/api"
@@ -107,10 +106,7 @@ func getKogitoBuildImage(imageName string) string {
 		Tag:  config.GetBuildImageVersion(),
 	}
 
-	registry := infrastructure.GetDefaultImageRegistry()
-	if len(config.GetBuildImageRegistry()) > 0 {
-		registry = config.GetBuildImageRegistry()
-	}
+	registry := config.GetBuildImageRegistry()
 	if len(config.GetBuildImageNamespace()) > 0 {
 		image.Domain = fmt.Sprintf("%s/%s", registry, config.GetBuildImageNamespace())
 	} else {
