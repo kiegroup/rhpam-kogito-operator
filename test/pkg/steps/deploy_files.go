@@ -21,7 +21,6 @@ import (
 
 	"github.com/cucumber/godog"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
 )
 
@@ -66,7 +65,7 @@ func deploySourceFilesFromPath(namespace, runtimeType, serviceName, path string)
 		if err := makeImageStreamInsecure(namespace, framework.GetKogitoBuildS2IImage()); err != nil {
 			return err
 		}
-		if err := makeImageStreamInsecure(namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.(*v1.KogitoBuild))); err != nil {
+		if err := makeImageStreamInsecure(namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.GetSpec().IsNative())); err != nil {
 			return err
 		}
 	}
