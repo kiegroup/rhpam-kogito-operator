@@ -70,27 +70,30 @@ func GetKogitoBuildStub(namespace, runtimeType, name string) *v1.KogitoBuild {
 // SetupKogitoBuildImageStreams sets the correct images for the KogitoBuild
 func SetupKogitoBuildImageStreams(kogitoBuild *v1.KogitoBuild) {
 	kogitoBuild.Spec.BuildImage = GetKogitoBuildS2IImage()
-	kogitoBuild.Spec.RuntimeImage = GetKogitoBuildRuntimeImage(kogitoBuild)
+	kogitoBuild.Spec.RuntimeImage = GetKogitoBuildRuntimeImage(kogitoBuild.Spec.Native)
 }
 
 // GetKogitoBuildS2IImage returns build S2I image
 func GetKogitoBuildS2IImage() string {
-	if len(config.GetBuildS2IImageStreamTag()) > 0 {
-		return config.GetBuildS2IImageStreamTag()
+	if len(config.GetBuildBuilderImageStreamTag()) > 0 {
+		return config.GetBuildBuilderImageStreamTag()
 	}
 
 	return getKogitoBuildImage(kogitobuild.GetDefaultBuilderImage())
 }
 
 // GetKogitoBuildRuntimeImage returns build runtime image
-func GetKogitoBuildRuntimeImage(kogitoBuild *v1.KogitoBuild) string {
+func GetKogitoBuildRuntimeImage(native bool) string {
 	var imageName string
-	if len(config.GetBuildRuntimeImageStreamTag()) > 0 {
-		return config.GetBuildRuntimeImageStreamTag()
-	}
-	if kogitoBuild.Spec.Native {
+	if native {
+		if len(config.GetBuildRuntimeNativeImageStreamTag()) > 0 {
+			return config.GetBuildRuntimeNativeImageStreamTag()
+		}
 		imageName = kogitobuild.GetDefaultRuntimeNativeImage()
 	} else {
+		if len(config.GetBuildRuntimeJVMImageStreamTag()) > 0 {
+			return config.GetBuildRuntimeJVMImageStreamTag()
+		}
 		imageName = kogitobuild.GetDefaultRuntimeJVMImage()
 	}
 	return getKogitoBuildImage(imageName)
@@ -101,6 +104,7 @@ func getKogitoBuildImage(imageName string) string {
 	image := api.Image{
 		Domain:    config.GetBuildImageRegistry(),
 		Namespace: config.GetBuildImageNamespace(),
+		Name:      imageName,
 		Tag:       config.GetBuildImageVersion(),
 	}
 

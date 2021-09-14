@@ -25,7 +25,6 @@ import (
 	"github.com/kiegroup/kogito-operator/test/pkg/config"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	bddtypes "github.com/kiegroup/kogito-operator/test/pkg/types"
-	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/steps/mappers"
 	corev1 "k8s.io/api/core/v1"
@@ -73,7 +72,7 @@ func (data *Data) buildExampleServiceWithConfiguration(runtimeType, contextDir s
 		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildS2IImage()); err != nil {
 			return err
 		}
-		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.(*v1.KogitoBuild))); err != nil {
+		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.GetSpec().IsNative())); err != nil {
 			return err
 		}
 	}
@@ -95,7 +94,7 @@ func (data *Data) buildBinaryServiceWithConfiguration(runtimeType, serviceName s
 
 	// In case of OpenShift the ImageStream needs to be patched to allow insecure registries
 	if communityFramework.IsOpenshift() {
-		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.(*v1.KogitoBuild))); err != nil {
+		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.GetSpec().IsNative())); err != nil {
 			return err
 		}
 	}
@@ -119,7 +118,7 @@ func (data *Data) buildBinaryLocalExampleServiceFromTargetFolderWithConfiguratio
 
 	// In case of OpenShift the ImageStream needs to be patched to allow insecure registries
 	if communityFramework.IsOpenshift() {
-		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.(*v1.KogitoBuild))); err != nil {
+		if err := makeImageStreamInsecure(data.Namespace, framework.GetKogitoBuildRuntimeImage(buildHolder.KogitoBuild.GetSpec().IsNative())); err != nil {
 			return err
 		}
 	}
