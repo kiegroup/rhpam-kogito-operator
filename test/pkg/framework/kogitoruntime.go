@@ -17,7 +17,7 @@ package framework
 import (
 	"fmt"
 
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 
 	corev1 "k8s.io/api/core/v1"

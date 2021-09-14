@@ -17,7 +17,7 @@ package steps
 import (
 	"fmt"
 
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 
 	"github.com/cucumber/godog"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"

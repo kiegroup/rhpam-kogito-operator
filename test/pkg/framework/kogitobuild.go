@@ -19,7 +19,7 @@ import (
 
 	"github.com/kiegroup/kogito-operator/core/kogitobuild"
 
-	"github.com/kiegroup/kogito-operator/api"
+	api "github.com/kiegroup/kogito-operator/apis"
 	v1 "github.com/kiegroup/rhpam-kogito-operator/api/v1"
 
 	"github.com/kiegroup/kogito-operator/core/framework"
