@@ -1117,16 +1117,8 @@ github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd h1:Coekwdh0v
 github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf h1:Sfwm3zLvNUHqG8VO96dpAf+MvB4/XkzDhrVtCX+xvwo=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf/go.mod h1:8eqyE5GxbqaKEqEy1BgPAo3UaZoJDZ0O9mHv+hBN+F8=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210825124339-5939a36e20ce h1:4/hE6pE6zk+ErUh+MTa8PaCWLFAhPjCyoyjB9xTn0uw=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210825124339-5939a36e20ce/go.mod h1:zkJMEEwzu5OuiQ3dTo/Ho6czr4wFTbD4jYwZ23x1D7w=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210909143526-5914aa7279e2 h1:rQ2tGTsj4D5GX5MfxmExMhxrchh1OPHFbJq/yvoUchk=
-github.com/kiegroup/kogito-operator v0.12.1-0.20210909143526-5914aa7279e2/go.mod h1:zkJMEEwzu5OuiQ3dTo/Ho6czr4wFTbD4jYwZ23x1D7w=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210913132716-4cf3e70808de h1:beqEbXoAJxdjCWwjO2rPRNLPXsGZZUaUtYXXk1gu4DI=
 github.com/kiegroup/kogito-operator v0.12.1-0.20210913132716-4cf3e70808de/go.mod h1:zkJMEEwzu5OuiQ3dTo/Ho6czr4wFTbD4jYwZ23x1D7w=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210825124339-5939a36e20ce h1:PCesh5ZW0HPf3hvzUrf1y4TeSTKbq1zcrVfPegBWse4=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210825124339-5939a36e20ce/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210909143526-5914aa7279e2 h1:DSIzBlJWDRPIjU960Ikk5Y95TguIg+XtUtCjiRkyoiY=
-github.com/kiegroup/kogito-operator/api v0.0.0-20210909143526-5914aa7279e2/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
 github.com/kiegroup/kogito-operator/api v0.0.0-20210913132716-4cf3e70808de h1:WAyTdFYTWkPJApojtGOKif0lsj3Hflg10pAUYlACZhU=
 github.com/kiegroup/kogito-operator/api v0.0.0-20210913132716-4cf3e70808de/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
