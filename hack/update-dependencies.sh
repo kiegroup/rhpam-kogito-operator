@@ -18,6 +18,9 @@ kogito_operator_repo="github.com/kiegroup/kogito-operator"
 UPSTREAM_VERSION=$1
 
 old_version=$(cat go.mod | grep "${kogito_operator_repo}" | head -1 | awk '{print $2}' | awk -F'-' '{print $2"-"$3}' | awk -F'.' '{print $2}')
+if [ -z "$old_version" ]; then
+  old_version=$(cat go.mod | grep "${kogito_operator_repo}" | head -1 | awk '{print $2}' | awk -F'-' '{print $2"-"$3}' | awk -F'-' '{print $1"-"$2}')
+fi
 echo "old_version = ${old_version}"
 
 go get github.com/kiegroup/kogito-operator@${UPSTREAM_VERSION}
