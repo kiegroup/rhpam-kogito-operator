@@ -155,12 +155,12 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
     
     // runtime_application_image are already provided by nightly jobs and published to the quay
     testParamsMap["image_cache_mode"] = image_cache_mode
-    testParamsMap['runtime_application_image_registry'] = "quay.io"
-    testParamsMap['runtime_application_image_namespace'] = "kiegroup"
+    testParamsMap['runtime_application_image_registry'] = "quay.io/kiegroup"
 
     // Using upstream images as a workaround until there are nightly product images available
-    testParamsMap['build_s2i_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:latest"
-    testParamsMap['build_runtime_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:latest"
+    testParamsMap['build_builder_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:latest"
+    testParamsMap['build_runtime_jvm_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:latest"
+    testParamsMap['build_runtime_native_image_tag'] = "quay.io/kiegroup/kogito-runtime-native-nightly:latest"
     
     testParamsMap['container_engine'] = env.CONTAINER_ENGINE
 
