@@ -5,7 +5,12 @@ def changeBranch = env.ghprbSourceBranch ?: CHANGE_BRANCH
 def changeTarget = env.ghprbTargetBranch ?: CHANGE_TARGET
 
 pipeline {
-    agent { label 'operator-slave' }
+    agent {
+        label 'kogito-operator-node'
+    }
+    tools {
+        go 'golang-1.16'
+    }
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')
         timeout(time: 90, unit: 'MINUTES')
@@ -20,6 +25,8 @@ pipeline {
         stage('Initialize') {
             steps {
                 script {
+                    cleanGoPath()
+
                     sh ' git config --global user.email "jenkins@kie.com" '
                     sh ' git config --global user.name "kie user"'
                     githubscm.checkoutIfExists('rhpam-kogito-operator', changeAuthor, changeBranch, 'kiegroup', changeTarget, true, ['token' : 'GITHUB_TOKEN', 'usernamePassword' : 'user-kie-ci10'])
@@ -86,16 +93,23 @@ pipeline {
     }
     post {
         always {
-            cleanWs()
+            script {
+                cleanGoPath()
+                cleanWs()
+            }
         }
     }
+}
+
+void cleanGoPath() {
+    sh 'rm -rf $GOPATH/bin/*'
 }
 
 String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_internal=false) {
     testParamsMap = [:]
 
     testParamsMap['load_default_config'] = true
-    testParamsMap['ci'] = 'jenkins'
+    testParamsMap['ci'] = 'j'
     testParamsMap['load_factor'] = 3
     testParamsMap['disable_maven_native_build_container'] = true
 
