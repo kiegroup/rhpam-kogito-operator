@@ -126,7 +126,7 @@ endif
 
 # Generate bundle manifests and metadata, then validate generated files.
 .PHONY: bundle
-bundle: manifests csv kustomize
+bundle: manifests csv kustomize install-operator-sdk
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	sed -i "s|containerImage.*|containerImage: $(IMG)|g" "config/manifests/bases/rhpam-kogito-operator.clusterserviceversion.yaml"
 	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle -q --overwrite --version $(VERSION) $(BUNDLE_METADATA_OPTS)
@@ -161,7 +161,7 @@ generate-installer: generate manifests kustomize
 	$(KUSTOMIZE) build config/default > rhpam-kogito-operator.yaml
 
 # Generate CSV
-csv:
+csv: install-operator-sdk
 	operator-sdk generate kustomize manifests -q
 
 vet: generate-installer bundle
@@ -185,6 +185,12 @@ deploy-operator-on-ocp:
 
 olm-tests:
 	./hack/ci/run-olm-tests.sh
+
+install-operator-sdk:
+	./hack/ci/install-operator-sdk.sh
+
+uninstall-operator-sdk:
+	./hack/ci/uninstall-operator-sdk.sh
 
 update-dependencies:
 	./hack/update-dependencies.sh ${UPSTREAM_VERSION}
