@@ -1,5 +1,5 @@
 # Current Operator version
-VERSION ?= 7.11.0
+VERSION ?= 7.12.0
 # Current upstream version
 UPSTREAM_VERSION ?= 1.11.x
 # Default bundle image tag
