@@ -42,5 +42,5 @@ spec:
             value: rhpam-7
           - name: IMAGE_REGISTRY
             value: registry.stage.redhat.io
-      serviceAccountName: controller-manager
+      serviceAccountName: rhpam-kogito-operator-controller-manager
       terminationGracePeriodSeconds: 10
