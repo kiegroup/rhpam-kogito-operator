@@ -8,7 +8,6 @@ on:
       - "LICENSE"
       - "Makefile"
 env:
-  OPERATOR_SDK_VERSION: v1.2.0
   GO_VERSION: 1.14
 jobs:
   golint:
@@ -26,16 +25,16 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/go/pkg/mod/cache
-          key: ${{ runner.os }}-go-cache-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-go-${{ env.GO_VERSION }}-cache-${{ hashFiles('**/go.sum') }}
           restore-keys: |
-            ${{ runner.os }}-go-cache-
+            ${{ runner.os }}-go-${{ env.GO_VERSION }}-cache-
       - name: Cache the binaries
         uses: actions/cache@v1
         with:
           path: ~/go/bin/
-          key: ${{ runner.os }}-go-${{ hashFiles(format('{0}/bin', env.GOPATH)) }}
+          key: ${{ runner.os }}-go-${{ env.GO_VERSION }}-${{ hashFiles(format('{0}/bin', env.GOPATH)) }}
           restore-keys: |
-            ${{ runner.os }}-go-${{ hashFiles(format('{0}/bin', env.GOPATH)) }}
+            ${{ runner.os }}-go-${{ env.GO_VERSION }}-${{ hashFiles(format('{0}/bin', env.GOPATH)) }}
       - name: Install Operator-sdk
         run: ./hack/ci/install-operator-sdk.sh
       - name: Check Vet
