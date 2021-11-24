@@ -64,22 +64,10 @@ pipeline {
                 lock("BDD tests ${OPENSHIFT_API}")
             }
             stages {
-                stage("Build examples' images for testing") {
-                    steps {
-                        // Do not build native images for the PR checks
-                        sh "make build-smoke-examples-images tags='@rhpam' concurrent=3 ${getBDDParameters('never', false)}"
-                    }
-                    post {
-                        always {
-                            archiveArtifacts artifacts: 'test/logs/**/*.log', allowEmptyArchive: true
-                            junit testResults: 'test/logs/junit.xml', allowEmptyResults: true
-                        }
-                    }
-                }
                 stage('Running smoke tests') {
                     steps {
                         // Run just smoke tests to verify basic operator functionality
-                        sh "make run-smoke-tests tags='@rhpam' concurrent=5 ${getBDDParameters('always', true)}"
+                        sh "make run-smoke-tests tags='@rhpam' concurrent=5 ${getBDDParameters('always')}"
                     }
                     post {
                         always {
@@ -105,7 +93,7 @@ void cleanGoPath() {
     sh 'rm -rf $GOPATH/bin/*'
 }
 
-String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_internal=false) {
+String getBDDParameters(String image_cache_mode) {
     testParamsMap = [:]
 
     testParamsMap['load_default_config'] = true
@@ -126,14 +114,11 @@ String getBDDParameters(String image_cache_mode, boolean runtime_app_registry_in
 
     // runtime_application_image are built in this pipeline so we can just use Openshift registry for them
     testParamsMap['image_cache_mode'] = image_cache_mode
-    testParamsMap['runtime_application_image_registry'] = runtime_app_registry_internal ? env.OPENSHIFT_INTERNAL_REGISTRY : env.OPENSHIFT_REGISTRY
-    testParamsMap['runtime_application_image_namespace'] = 'openshift'
-    testParamsMap['runtime_application_image_version'] = "pr-\$(echo \${GIT_COMMIT} | cut -c1-7)"
 
     // Using upstream images as a workaround until there are nightly product images available
-    testParamsMap['build_builder_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:latest"
-    testParamsMap['build_runtime_jvm_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:latest"
-    testParamsMap['build_runtime_native_image_tag'] = "quay.io/kiegroup/kogito-runtime-native-nightly:latest"
+    // testParamsMap['build_builder_image_tag'] = "quay.io/kiegroup/kogito-builder-nightly:latest"
+    // testParamsMap['build_runtime_jvm_image_tag'] = "quay.io/kiegroup/kogito-runtime-jvm-nightly:latest"
+    // testParamsMap['build_runtime_native_image_tag'] = "quay.io/kiegroup/kogito-runtime-native-nightly:latest"
 
     testParamsMap['container_engine'] = env.CONTAINER_ENGINE
 
