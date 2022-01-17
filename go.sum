@@ -1116,10 +1116,10 @@ github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd h1:Coekwdh0v
 github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf h1:Sfwm3zLvNUHqG8VO96dpAf+MvB4/XkzDhrVtCX+xvwo=
 github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf/go.mod h1:8eqyE5GxbqaKEqEy1BgPAo3UaZoJDZ0O9mHv+hBN+F8=
-github.com/kiegroup/kogito-operator v1.11.2-0.20211126093505-dad54b5dba10 h1:J1dyH4CONhHQAOOVwdPfyy5R+cpZDH0uVv3liaoatQQ=
-github.com/kiegroup/kogito-operator v1.11.2-0.20211126093505-dad54b5dba10/go.mod h1:zkJMEEwzu5OuiQ3dTo/Ho6czr4wFTbD4jYwZ23x1D7w=
-github.com/kiegroup/kogito-operator/api v0.0.0-20211126093505-dad54b5dba10 h1:0d/amFGoHzNDC5SR5oElmDsBKa+4Qg0blwhOMXvw6CY=
-github.com/kiegroup/kogito-operator/api v0.0.0-20211126093505-dad54b5dba10/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
+github.com/kiegroup/kogito-operator v1.11.2-0.20220119203028-e2e4e097bdec h1:8HBleeMWAI2d+Nqixz8MvGZ2QJ6xvUoP1LX/saV3Kqc=
+github.com/kiegroup/kogito-operator v1.11.2-0.20220119203028-e2e4e097bdec/go.mod h1:zkJMEEwzu5OuiQ3dTo/Ho6czr4wFTbD4jYwZ23x1D7w=
+github.com/kiegroup/kogito-operator/api v0.0.0-20220119203028-e2e4e097bdec h1:DKFXZ4oqZHgvJHx88BTon7JwsZeiCMgPvU498/lAvUc=
+github.com/kiegroup/kogito-operator/api v0.0.0-20220119203028-e2e4e097bdec/go.mod h1:GygUILVWaLKFeAC49ulvVZifBItNT3vSDEdmP4IWi0A=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
@@ -2542,7 +2542,6 @@ k8s.io/gengo v0.0.0-20191010091904-7fa3014cb28f/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8
 k8s.io/gengo v0.0.0-20191108084044-e500ee069b5c/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8IAqLxYwwyPxAX1Pzy0ii0=
 k8s.io/gengo v0.0.0-20200114144118-36b2048a9120/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8IAqLxYwwyPxAX1Pzy0ii0=
 k8s.io/gengo v0.0.0-20200205140755-e0e292d8aa12/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8IAqLxYwwyPxAX1Pzy0ii0=
-k8s.io/gengo v0.0.0-20200413195148-3a45101e95ac h1:sAvhNk5RRuc6FNYGqe7Ygz3PSo/2wGWbulskmzRX8Vs=
 k8s.io/gengo v0.0.0-20200413195148-3a45101e95ac/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8IAqLxYwwyPxAX1Pzy0ii0=
 k8s.io/heapster v1.2.0-beta.1/go.mod h1:h1uhptVXMwC8xtZBYsPXKVi8fpdlYkTs6k949KozGrM=
 k8s.io/helm v2.16.1+incompatible/go.mod h1:LZzlS4LQBHfciFOurYBFkCMTaZ0D1l+p0teMg7TSULI=

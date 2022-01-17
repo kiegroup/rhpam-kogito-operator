@@ -35,9 +35,9 @@ else
   echo "Checkout git repository"
 
   kogito_operator_hash=$(echo "${mod_ref}" | awk -F'-' '{print $5}')
-  echo "Got kogito-operator ${kogito_operator_repo}@${kogito_operator_hash}"
+  echo "Got kogito-operator ${mod_path}@${kogito_operator_hash}"
 
-  git clone https://${kogito_operator_repo}.git &> /dev/null
+  git clone https://${mod_path}.git &> /dev/null
 
   cd ${kogito_operator_dir}
   git reset --hard ${kogito_operator_hash}
