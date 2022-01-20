@@ -20,6 +20,7 @@ import (
 	"github.com/kiegroup/kogito-operator/api"
 
 	"github.com/cucumber/godog"
+	"github.com/kiegroup/kogito-operator/test/pkg/config"
 	communityFramework "github.com/kiegroup/kogito-operator/test/pkg/framework"
 	"github.com/kiegroup/rhpam-kogito-operator/test/pkg/framework"
 )
@@ -54,6 +55,10 @@ func deploySourceFilesFromPath(namespace, runtimeType, serviceName, path string)
 
 	buildHolder.KogitoBuild.GetSpec().SetType(api.LocalSourceBuildType)
 	buildHolder.KogitoBuild.GetSpec().GetGitSource().SetURI(path)
+
+	if runtimeType == "quarkus" && len(config.GetArchetypeMavenMirrorURL()) > 0 {
+		buildHolder.KogitoBuild.GetSpec().SetMavenMirrorURL(config.GetArchetypeMavenMirrorURL())
+	}
 
 	err = framework.DeployKogitoBuild(namespace, buildHolder)
 	if err != nil {
