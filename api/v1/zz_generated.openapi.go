@@ -26,14 +26,17 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.Builds":            schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.GitSource":         schema_kiegroup_rhpam_kogito_operator_api_v1_GitSource(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuild":       schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuild(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraSpec":   schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraSpec(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraStatus(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntime":     schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntime(ref),
-		"github.com/kiegroup/rhpam-kogito-operator/api/v1.WebHookSecret":     schema_kiegroup_rhpam_kogito_operator_api_v1_WebHookSecret(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.Builds":              schema_kiegroup_rhpam_kogito_operator_api_v1_Builds(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.GitSource":           schema_kiegroup_rhpam_kogito_operator_api_v1_GitSource(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuild":         schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuild(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoBuildStatus":   schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraSpec":     schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraSpec(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoInfraStatus":   schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraStatus(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntime":       schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntime(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeSpec":   schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntimeSpec(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntimeStatus(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoServiceStatus": schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoServiceStatus(ref),
+		"github.com/kiegroup/rhpam-kogito-operator/api/v1.WebHookSecret":       schema_kiegroup_rhpam_kogito_operator_api_v1_WebHookSecret(ref),
 	}
 }
 
@@ -301,8 +304,9 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoBuildStatus(ref common.R
 					},
 					"latestBuild": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Description: "Holds information about the latest build",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 					"builds": {
@@ -379,7 +383,7 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoInfraStatus(ref common.R
 							},
 						},
 						SchemaProps: spec.SchemaProps{
-							Description: "History of conditions for the resource",
+							Description: "History of conditions for the infra resource",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -478,6 +482,313 @@ func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntime(ref common.Refer
 		},
 		Dependencies: []string{
 			"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeSpec", "github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoRuntimeStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
+func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntimeSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "KogitoRuntimeSpec defines the desired state of KogitoRuntime.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"replicas": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Number of replicas that the service will have deployed in the cluster. Default value: 1.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"env": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "Environment variables to be added to the runtime container. Keys must be a C_IDENTIFIER.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/core/v1.EnvVar"),
+									},
+								},
+							},
+						},
+					},
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image definition for the service. Example: \"quay.io/kiegroup/kogito-service:latest\". On OpenShift an ImageStream will be created in the current namespace pointing to the given image.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"insecureImageRegistry": {
+						SchemaProps: spec.SchemaProps{
+							Description: "A flag indicating that image streams created by Kogito Operator should be configured to allow pulling from insecure registries. Usable just on OpenShift. Defaults to 'false'.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"resources": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Defined compute resource requirements for the deployed service.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.ResourceRequirements"),
+						},
+					},
+					"deploymentLabels": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Additional labels to be added to the Deployment and Pods managed by the operator.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"serviceLabels": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Additional labels to be added to the Service managed by the operator.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"propertiesConfigMap": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Custom ConfigMap with application.properties file to be mounted for the Kogito service. The ConfigMap must be created in the same namespace. Use this property if you need custom properties to be mounted before the application deployment. If left empty, one will be created for you. Later it can be updated to add any custom properties to apply to the service.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"infra": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Infra provides list of dependent KogitoInfra objects.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"monitoring": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Create Service monitor instance to connect with Monitoring service",
+							Default:     map[string]interface{}{},
+							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.Monitoring"),
+						},
+					},
+					"config": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Application properties that will be set to the service. For example 'MY_VAR: my_value'.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"probes": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Configure liveness, readiness and startup probes for containers",
+							Default:     map[string]interface{}{},
+							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoProbe"),
+						},
+					},
+					"trustStoreSecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Custom JKS TrustStore that will be used by this service to make calls to TLS endpoints. It's expected that the secret has two keys: `keyStorePassword` containing the password for the KeyStore and `cacerts` containing the binary data of the given KeyStore.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"enableIstio": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Annotates the pods managed by the operator with the required metadata for Istio to setup its sidecars, enabling the mesh. Defaults to false.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"runtime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The name of the runtime used, either Quarkus or SpringBoot.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoProbe", "github.com/kiegroup/rhpam-kogito-operator/api/v1.Monitoring", "k8s.io/api/core/v1.EnvVar", "k8s.io/api/core/v1.ResourceRequirements"},
+	}
+}
+
+func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoRuntimeStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "KogitoRuntimeStatus defines the observed state of KogitoRuntime.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"conditions": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "History of conditions for the resource",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.Condition"),
+									},
+								},
+							},
+						},
+					},
+					"deploymentConditions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "General conditions for the Kogito Service deployment.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/apps/v1.DeploymentCondition"),
+									},
+								},
+							},
+						},
+					},
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image is the resolved image for this service.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalURI": {
+						SchemaProps: spec.SchemaProps{
+							Description: "URI is where the service is exposed.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"cloudEvents": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Describes the CloudEvents that this instance can consume or produce",
+							Default:     map[string]interface{}{},
+							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoCloudEventsStatus"),
+						},
+					},
+				},
+				Required: []string{"conditions"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoCloudEventsStatus", "k8s.io/api/apps/v1.DeploymentCondition", "k8s.io/apimachinery/pkg/apis/meta/v1.Condition"},
+	}
+}
+
+func schema_kiegroup_rhpam_kogito_operator_api_v1_KogitoServiceStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "KogitoServiceStatus is the basic structure for any Kogito Service status.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"conditions": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "History of conditions for the resource",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.Condition"),
+									},
+								},
+							},
+						},
+					},
+					"deploymentConditions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "General conditions for the Kogito Service deployment.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/apps/v1.DeploymentCondition"),
+									},
+								},
+							},
+						},
+					},
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image is the resolved image for this service.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalURI": {
+						SchemaProps: spec.SchemaProps{
+							Description: "URI is where the service is exposed.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"cloudEvents": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Describes the CloudEvents that this instance can consume or produce",
+							Default:     map[string]interface{}{},
+							Ref:         ref("github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoCloudEventsStatus"),
+						},
+					},
+				},
+				Required: []string{"conditions"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kiegroup/rhpam-kogito-operator/api/v1.KogitoCloudEventsStatus", "k8s.io/api/apps/v1.DeploymentCondition", "k8s.io/apimachinery/pkg/apis/meta/v1.Condition"},
 	}
 }
 

@@ -1,6 +1,6 @@
 module github.com/kiegroup/rhpam-kogito-operator
 
-go 1.14
+go 1.15
 
 require (
 	github.com/RHsyseng/operator-utils v0.0.0-20200506183821-e3b4a2ba9c30
@@ -28,7 +28,7 @@ require (
 	k8s.io/klog/v2 v2.8.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	knative.dev/eventing v0.18.0
-	sigs.k8s.io/controller-runtime v0.6.3
+	sigs.k8s.io/controller-runtime v0.6.4
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.0 // indirect
 )
 

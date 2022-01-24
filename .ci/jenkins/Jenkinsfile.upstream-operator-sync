@@ -10,7 +10,7 @@ pipeline {
     // Needed for local build
     tools {
         jdk 'kie-jdk11'
-        go 'golang-1.14'
+        go 'golang-1.15'
     }
     options {
         timeout(time: 90, unit: 'MINUTES')

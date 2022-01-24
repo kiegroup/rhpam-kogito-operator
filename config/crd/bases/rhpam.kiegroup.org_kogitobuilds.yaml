@@ -255,9 +255,10 @@ spec:
                     type: object
                 type: object
               runtime:
-                description: 'Which runtime Kogito service base image to use when
-                  building the Kogito service. If "BuildImage" is set, this value
-                  is ignored by the operator. Default value: quarkus.'
+                default: quarkus
+                description: Which runtime Kogito service base image to use when building
+                  the Kogito service. If "BuildImage" is set, this value is ignored
+                  by the operator.
                 enum:
                 - quarkus
                 - springboot
@@ -440,6 +441,7 @@ spec:
                 type: array
                 x-kubernetes-list-type: atomic
               latestBuild:
+                description: Holds information about the latest build
                 type: string
             required:
             - builds

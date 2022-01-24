@@ -6,14 +6,14 @@ on:
       - 'controllers/**.go'
       - 'internal/**.go'
 env:
-  GO_VERSION: 1.14
+  GO_VERSION: 1.15
 jobs:
   unit_test_and_coverage:
     name: Unit test and Coverage
     runs-on: ubuntu-latest
     env:
       ENVTEST_ASSETS_DIR: testbin
-      OPERATOR_SDK_VERSION: v1.2.0
+      OPERATOR_SDK_VERSION: v1.3.2
       CGO_ENABLED: 0
     steps:
       - name: Checkout Code

@@ -16,8 +16,6 @@ package v1
 
 // Artifact contains override information for building the Maven artifact.
 // + optional
-// +operator-sdk:gen-csv:customresourcedefinitions.specDescriptors=true
-// +operator-sdk:gen-csv:customresourcedefinitions.specDescriptors.displayName="Final Artifact"
 type Artifact struct {
 
 	//Indicates the unique identifier of the organization or group that created the project.

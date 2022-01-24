@@ -448,7 +448,8 @@ spec:
                     type: object
                 type: object
               runtime:
-                description: 'The name of the runtime used, either Quarkus or SpringBoot. Default value: quarkus'
+                default: quarkus
+                description: The name of the runtime used, either Quarkus or SpringBoot.
                 enum:
                 - quarkus
                 - springboot

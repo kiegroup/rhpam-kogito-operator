@@ -100,7 +100,7 @@ spec:
             description: KogitoInfraStatus defines the observed state of KogitoInfra.
             properties:
               conditions:
-                description: History of conditions for the resource
+                description: History of conditions for the infra resource
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
