@@ -11,6 +11,9 @@
       - name: org.kie.kogito.gomoddownloader
       - name: org.kie.kogito.builder
 
+  packages:
+    content_sets_file: content_sets.yaml
+
   osbs:
     configuration:
       container:
