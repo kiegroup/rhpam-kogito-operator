@@ -9,7 +9,7 @@ spec:
   #- name: MY_CUSTOM_ENV
   #  value: "my value"
   gitSource:
-    contextDir: process-quarkus-example
+    contextDir: ruleunit-quarkus-example
     uri: 'https://github.com/kiegroup/kogito-examples'
   # set your maven nexus repository
   #mavenMirrorURL: http://nexus3-nexus.apps-crc.testing/repository/maven-public/
