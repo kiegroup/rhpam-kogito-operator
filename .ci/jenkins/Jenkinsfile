@@ -40,6 +40,9 @@ pipeline {
         }
         stage('Test Kogito Operator') {
             steps {
+                // Workaround until Operator PR checks is solved
+                sh "echo '' > content_sets.yaml"
+                
                 sh 'make test'
             }
         }
