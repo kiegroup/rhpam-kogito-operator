@@ -10,7 +10,7 @@ require (
 	github.com/infinispan/infinispan-operator v0.0.0-20210621093106-4662500f4ae1
 	github.com/integr8ly/grafana-operator/v3 v3.10.0
 	github.com/keycloak/keycloak-operator v0.0.0-20200917060808-9858b19ca8bf
-	github.com/kiegroup/kogito-operator v1.11.2-0.20211126093505-dad54b5dba10
+	github.com/kiegroup/kogito-operator v1.11.2-0.20220302080240-463d40d3c20c
 	github.com/kiegroup/kogito-operator/api v0.0.0
 	github.com/mongodb/mongodb-kubernetes-operator v0.3.0
 	github.com/onsi/ginkgo v1.14.1
