@@ -18,17 +18,12 @@ metadata:
     operatorframework.io/arch.amd64: supported
     operatorframework.io/arch.ppc64le: supported
     operatorframework.io/arch.s390x: supported
-  name: rhpam-kogito-operator.v7.12.0-1
+  name: rhpam-kogito-operator.v7.12.0-2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: KogitoRuntime is a custom Kogito service.
-      displayName: Kogito Runtime
-      kind: KogitoRuntime
-      name: kogitoruntimes.rhpam.kiegroup.org
-      version: v1
     - description: KogitoBuild handles how to build a custom Kogito service in a Kubernetes/OpenShift cluster.
       displayName: Kogito Build
       kind: KogitoBuild
@@ -38,6 +33,11 @@ spec:
       displayName: Kogito Infra
       kind: KogitoInfra
       name: kogitoinfras.rhpam.kiegroup.org
+      version: v1
+    - description: KogitoRuntime is a custom Kogito service.
+      displayName: Kogito Runtime
+      kind: KogitoRuntime
+      name: kogitoruntimes.rhpam.kiegroup.org
       version: v1
   description: |-
     RHPAM Kogito Operator is designed for deployment and management of Kogito services from source (only on OpenShift) and every piece of infrastructure that the services might need:
@@ -75,7 +75,7 @@ spec:
   - automation
   labels:
     alm-owner-kogito: rhpam-kogito-operator
-    operated-by: rhpam-kogito-operator.7.12.0-1
+    operated-by: rhpam-kogito-operator.7.12.0-2
   links:
   - name: Product Page
     url: https://access.redhat.com/products/red-hat-process-automation-manager
@@ -89,4 +89,4 @@ spec:
   maturity: beta
   provider:
     name: Red Hat
-  version: 7.12.0-1
+  version: 7.12.0-2
