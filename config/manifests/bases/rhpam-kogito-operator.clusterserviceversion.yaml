@@ -17,7 +17,6 @@ metadata:
     operator-kogitocloud: "true"
     operatorframework.io/arch.amd64: supported
     operatorframework.io/arch.ppc64le: supported
-    operatorframework.io/arch.s390x: supported
   name: rhpam-kogito-operator.v7.12.0-2
   namespace: placeholder
 spec:
@@ -89,4 +88,5 @@ spec:
   maturity: beta
   provider:
     name: Red Hat
+  replaces: rhpam-kogito-operator.v7.12.0-1
   version: 7.12.0-2
