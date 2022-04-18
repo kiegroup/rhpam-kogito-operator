@@ -69,7 +69,7 @@ replace github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503
 
 // add kogito-operator/[api|client] modules
 replace (
-	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v1.11.2-0.20220124124146-336e860508fb
-	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20220124124146-336e860508fb
-	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20220124124146-336e860508fb
+	github.com/kiegroup/kogito-operator => github.com/kiegroup/kogito-operator v1.11.2-0.20220302080240-463d40d3c20c
+	github.com/kiegroup/kogito-operator/api => github.com/kiegroup/kogito-operator/api v0.0.0-20220302080240-463d40d3c20c
+	github.com/kiegroup/kogito-operator/client => github.com/kiegroup/kogito-operator/client v0.0.0-20220302080240-463d40d3c20c
 )
