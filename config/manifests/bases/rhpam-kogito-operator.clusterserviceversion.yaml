@@ -17,7 +17,7 @@ metadata:
     operator-kogitocloud: "true"
     operatorframework.io/arch.amd64: supported
     operatorframework.io/arch.ppc64le: supported
-  name: rhpam-kogito-operator.v7.12.0-3
+  name: rhpam-kogito-operator.v7.12.0-4
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -74,7 +74,7 @@ spec:
   - automation
   labels:
     alm-owner-kogito: rhpam-kogito-operator
-    operated-by: rhpam-kogito-operator.7.12.0-3
+    operated-by: rhpam-kogito-operator.7.12.0-4
   links:
   - name: Product Page
     url: https://access.redhat.com/products/red-hat-process-automation-manager
@@ -88,5 +88,5 @@ spec:
   maturity: beta
   provider:
     name: Red Hat
-  replaces: rhpam-kogito-operator.v7.12.0-2
-  version: 7.12.0-3
+  replaces: rhpam-kogito-operator.v7.12.0-3
+  version: 7.12.0-4
