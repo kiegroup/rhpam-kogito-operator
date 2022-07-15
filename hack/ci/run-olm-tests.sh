@@ -24,6 +24,8 @@ set -e
 script_dir_path=`dirname "${BASH_SOURCE[0]}"`
 source ${script_dir_path}/operator-ensure-manifests.sh
 
+echo "Test change"
+
 # SCRIPT_URL URL to the script used by OLM to test the operator
 SCRIPT_URL="https://raw.githubusercontent.com/redhat-openshift-ecosystem/operator-test-playbooks/master/upstream/test/test.sh"
 

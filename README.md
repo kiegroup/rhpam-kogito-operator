@@ -7,6 +7,7 @@ A separate `image-prod.yaml` has been prepared for Productization that **require
 
 The image can be built using the following command:
 
+Change for dummy pr
 ```bash
 $ cekit --redhat --descriptor image-prod.yaml build osbs```
 
